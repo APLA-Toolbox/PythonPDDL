@@ -1,5 +1,6 @@
 from .modules import loading_bar_handler
 
+
 loading_bar_handler(False)
 import julia
 

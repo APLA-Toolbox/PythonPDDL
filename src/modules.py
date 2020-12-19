@@ -27,8 +27,11 @@ def __loading_bar():
 
     i = 0
     print("Getting Julia ready...")
+    t = time.time()
     while not g_import_finished:
-        print(animation[i % len(animation)], end="\r")
+        if time.time() - t > 100:
+            exit("ErrorCritical: Timeout")
+        print(animation[i % len(animation)] + "\r")
         time.sleep(0.1)
         i += 1
 
