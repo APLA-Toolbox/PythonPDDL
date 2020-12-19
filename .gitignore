@@ -5,6 +5,8 @@ __pycache__/
 .vscode/*
 data/*
 !data/.gitkeep
+!data/domain.pddl
+!data/problem.pddl
 
 # C extensions
 *.so
