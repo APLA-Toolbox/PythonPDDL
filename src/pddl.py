@@ -1,11 +1,16 @@
 from .modules import loading_bar_handler
 
+UI = False
 
-loading_bar_handler(False)
+if UI:
+    loading_bar_handler(False)
 import julia
 
 _ = julia.Julia(compiled_modules=False)
-loading_bar_handler(True)
+
+if UI:
+    loading_bar_handler(True)
+    
 from julia import PDDL
 
 
