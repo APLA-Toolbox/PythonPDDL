@@ -1,4 +1,4 @@
-import src.automated_planning as plarser
+import src.automated_planer as plarser
 import argparse
 
 
@@ -11,7 +11,7 @@ def main():
     args_parser.add_argument("problem", type=str, help="PDDL problem file")
     args_parser.add_argument("-v", "--verbose", help="Increases the output's verbosity")
     args = args_parser.parse_args()
-    apla_tbx = plarser.AutomatedPlanning(args.domain, args.problem)
+    apla_tbx = plarser.AutomatedPlaner(args.domain, args.problem)
     path, time = apla_tbx.dijktra_best_first_search(time_it=True)
     print(apla_tbx.get_actions_from_path(path))
     print("Computation time: %.2f" % time)
