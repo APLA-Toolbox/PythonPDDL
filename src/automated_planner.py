@@ -16,7 +16,7 @@ if UI:
 from julia import PDDL
 from time import time as now
 
-class AutomatedPlaner:
+class AutomatedPlanner:
     def __init__(self, domain_path, problem_path):
         self.pddl = PDDL
         self.domain = self.pddl.load_domain(domain_path)
@@ -96,4 +96,4 @@ class AutomatedPlaner:
 
 
 if __name__ == "__main__":
-    ap = AutomatedPlaner("..data/domain.pddl", "..data/problem.pddl")
+    ap = AutomatedPlanner("..data/domain.pddl", "..data/problem.pddl")
