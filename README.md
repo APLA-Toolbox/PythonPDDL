@@ -32,7 +32,7 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/JuliaPy/PyCall.jl"))'
 ```
 
-- Install Python dependencies 
+- Install Python dependencies
 
 ```bash
 $ python3 -m pip install --upgrade pip
@@ -40,6 +40,10 @@ $ git clone https://github.com/APLA-Toolbox/pddl-plarser
 $ cd pddl-plarser
 $ python3 -m pip install -r requirements.txt
 ```
+
+# Usage
+
+Navigate to the root directory and you can run the tool by using : `python3 main.py "data/domain.pddl" "data/problem.pddl"`
 
 # REFL Mode
 
