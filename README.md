@@ -12,6 +12,34 @@
 
 A Python wrapper using JuliaPy for the PDDL.jl package. It implements Planners (Best-First, Breadth-First, Depth-First) as class methods. Easy to use even in REFL mode. The AutomatedPlanner class is clear and understandable, easy to contribute to.
 
+# Dependencies
+
+- Install Python (3.7.5 is the tested version)
+
+- Install Julia
+
+```bash
+$ wget https://julialang-s3.julialang.org/bin/linux/x64/1.5/julia-1.5.2-linux-x86_64.tar.gz
+$ tar -xvzf julia-1.5.2-linux-x86_64.tar.gz
+$ sudo cp -r julia-1.5.2 /opt/
+$ sudo ln -s /opt/julia-1.5.2/bin/julia /usr/local/bin/julia
+```
+
+- Install Julia dependencies
+
+```bash
+$ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/APLA-Toolbox/PDDL.jl"))'
+$ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/JuliaPy/PyCall.jl"))'
+```
+
+- Install Python dependencies 
+
+```bash
+$ python3 -m pip install --upgrade pip
+$ python3 -m pip install julia
+$ python3 -m pip install pycall
+```
+
 # REFL Mode
 
 - Clone the repository: `git clone https://github.com/APLA-Toolbox/pyjulia-pddl`
