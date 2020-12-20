@@ -1,5 +1,4 @@
 from .modules import loading_bar_handler
-from .state import State
 from .bfs import BreadthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 
@@ -35,11 +34,11 @@ class AutomatedPlanning:
     def satisfies(self, asserted_state, state):
         return PDDL.satisfy(asserted_state, state, self.domain)[0]
 
-    def __retrace_path(self, state):
+    def __retrace_path(self, node):
         path = []
-        while state.parent:
-            path.append(state)
-            state = state.parent
+        while node.parent:
+            path.append(node)
+            node = node.parent
         path.reverse()
         return path
 
@@ -48,10 +47,10 @@ class AutomatedPlanning:
             print("Path is empty, can't operate...")
             return []
         actions = []
-        for state in path:
-            actions.append((state.parent_action, state.g_cost))
+        for node in path:
+            actions.append((node.parent_action, node.g_cost))
 
-        cost = PDDL.get_value(path[-1].description, "total-cost")
+        cost = PDDL.get_value(path[-1].state, "total-cost")
         if not cost:
             return actions
         else:
@@ -62,14 +61,14 @@ class AutomatedPlanning:
             print("Path is empty, can't operate...")
             return []
         trimmed_path = []
-        for state in path:
-            trimmed_path.append(state.description)
+        for node in path:
+            trimmed_path.append(node.state)
         return trimmed_path 
 
     def breadth_first_search(self):
         bfs = BreadthFirstSearch(self, PDDL)
-        last_state = bfs.search()
-        path = self.__retrace_path(last_state)
+        last_node = bfs.search()
+        path = self.__retrace_path(last_node)
         return path
 
 

@@ -1,10 +1,10 @@
-from .state import State
+from .node import Node
 
 class BreadthFirstSearch():
     def __init__(self, automated_planning, pddl):
         self.visited = []
         self.automated_planning = automated_planning
-        self.init = State(self.automated_planning.initial_state, pddl)
+        self.init = Node(self.automated_planning.initial_state, pddl)
         self.queue = [self.init]
         self.PDDL = pddl
     
@@ -19,7 +19,7 @@ class BreadthFirstSearch():
                 
                 actions = self.automated_planning.available_actions(current_state.description)
                 for act in actions:
-                    child = State(description=self.automated_planning.transition(current_state.description, act), pddl=self.PDDL, parent_action=act, parent=current_state)
+                    child = Node(state=self.automated_planning.transition(current_state.description, act), pddl=self.PDDL, parent_action=act, parent=current_state)
                     if child in self.visited:
                         continue
                     self.queue.append(child)
