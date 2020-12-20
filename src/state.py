@@ -3,9 +3,15 @@ class State():
         self.description = description
         self.parent_action = parent_action
         self.parent = parent
-        self.g_cost = g_cost
-        self.h_cost = h_cost
-        self.f_cost = self.g_cost + self.h_cost
+        if g_cost and not h_cost:
+            self.g_cost = g_cost
+            self.h_cost = 0
+            self.f_cost = self.g_cost + self.h_cost
+        if h_cost:
+            self.g_cost = g_cost
+            self.h_cost = h_cost
+            self.f_cost = self.g_cost + self.h_cost
+    
         self.is_closed = is_closed
         self.is_open = is_open
 

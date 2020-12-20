@@ -63,7 +63,8 @@ class AutomatedPlanning:
 
     def breadth_first_search(self):
         bfs = BreadthFirstSearch(self)
-        path = bfs.search()
+        last_state = bfs.search()
+        path = self.__retrace_path(last_state)
         return path
 
 
