@@ -1,5 +1,5 @@
-![tests](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/Run%20tests/badge.svg?branch=main&event=push)
-![build](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/Build/badge.svg?branch=main&event=push)
+![tests](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/Run%20tests/badge.svg?branch=main)
+![build](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/Build/badge.svg?branch=main)
 
 
 # Pyjulia PDDL
