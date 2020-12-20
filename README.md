@@ -15,7 +15,7 @@ apl = AutomatedPlanning("data/domain.pddl", "data/problem.pddl)
 apl.initial_state
 <PyCall.jlwrap PDDL.State(Set(Julog.Term[row(r1), column(c3), row(r3), row(r2), column(c2), column(c1)]), Set(Julog.Term[white(r2, c1), white(r1, c2), white(r3, c2), white(r2, c3)]), Dict{Symbol,Any}())>
 
-apl.available_actions(apl.initial_state)
+actions = apl.available_actions(apl.initial_state)
 [<PyCall.jlwrap flip_row(r1)>, <PyCall.jlwrap flip_row(r3)>, <PyCall.jlwrap flip_row(r2)>, <PyCall.jlwrap flip_column(c3)>, <PyCall.jlwrap flip_column(c2)>, <PyCall.jlwrap flip_column(c1)>]
 
 apl.satisfies(apl.problem.goal, apl.initial_state)
