@@ -2,17 +2,10 @@ from .modules import loading_bar_handler
 from .bfs import BreadthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 
-UI = False
-
-if UI:
-    loading_bar_handler(False)
+loading_bar_handler(False)
 import julia
-
 _ = julia.Julia(compiled_modules=False)
-
-if UI:
-    loading_bar_handler(True)
-
+loading_bar_handler(True)
 from julia import PDDL
 from time import time as now
 
