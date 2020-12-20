@@ -8,7 +8,7 @@
 
 
 
-# Pyjulia PDDL
+# PyJulia PDDL Planner
 
 A Python wrapper using JuliaPy for the PDDL.jl package. It implements Planners (Best-First, Breadth-First, Depth-First) as class methods. Easy to use even in REFL mode. The AutomatedPlanner class is clear and understandable, easy to contribute to.
 
