@@ -36,19 +36,19 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 
 ```bash
 $ python3 -m pip install --upgrade pip
-$ git clone https://github.com/APLA-Toolbox/pyjulia-pddl
-$ cd pyjulia-pddl
+$ git clone https://github.com/APLA-Toolbox/pddl-plarser
+$ cd pddl-plarser
 $ python3 -m pip install -r requirements.txt
 ```
 
 # REFL Mode
 
-- Clone the repository: `git clone https://github.com/APLA-Toolbox/pyjulia-pddl`
-- Move to the repository folder: `cd pyjulia-pddl`
+- Clone the repository: `git clone https://github.com/APLA-Toolbox/pddl-plarser`
+- Move to the repository folder: `cd pddl-plarser`
 - Run `python3` in the terminal.
 - Use the AutomatedPlanner class to do what you want:
 ```python
-from src.pddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
+from src.automated_planner import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
 apl = AutomatedPlanner("data/domain.pddl", "data/problem.pddl)
 
 apl.initial_state
