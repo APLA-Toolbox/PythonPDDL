@@ -1,5 +1,7 @@
 from .modules import loading_bar_handler
 from .state import State
+from .bfs import BreadthFirstSearch
+from .dijkstra import DijkstraBestFirstSearch
 
 UI = False
 
@@ -42,39 +44,28 @@ class AutomatedPlanning:
         return path
 
     def get_actions_from_path(self, path):
+        if not path:
+            print("Path is empty, can't operate...")
+            return []
         actions = []
         for state in path:
             actions.append(state.parent_action)
         return actions
 
     def get_state_def_from_path(self, path):
+        if not path:
+            print("Path is empty, can't operate...")
+            return []
         trimmed_path = []
         for state in path:
             trimmed_path.append(state.description)
-        return trimmed_path
+        return trimmed_path 
 
     def breadth_first_search(self):
-        visited = []
-        init = State(self.initial_state)
-        queue = [init]
-        while queue:
-            current_state = queue.pop(0)
-            if current_state not in visited:
-                visited.append(current_state)
+        bfs = BreadthFirstSearch(self)
+        path = bfs.search()
+        return path
 
-                if self.satisfies(self.problem.goal, current_state.description):
-                    path = self.__retrace_path(current_state)
-                    return path
-                
-                actions = self.available_actions(current_state.description)
-                for act in actions:
-                    child = State(self.transition(current_state.description, act), act, current_state)
-                    if child in visited:
-                        continue
-                    queue.append(child)
-
-        print("-/!\- No path found -/!\-")
-        return []
 
 if __name__ == "__main__":
     ap = AutomatedPlanning("..data/domain.pddl", "..data/problem.pddl")
