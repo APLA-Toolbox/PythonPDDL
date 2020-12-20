@@ -16,6 +16,7 @@ if UI:
 from julia import PDDL
 from time import time as now
 
+
 class AutomatedPlanner:
     def __init__(self, domain_path, problem_path):
         self.pddl = PDDL
@@ -28,7 +29,7 @@ class AutomatedPlanner:
 
     def transition(self, state, action):
         return self.pddl.transition(self.domain, state, action, check=False)
-        
+
     def available_actions(self, state):
         return self.pddl.available(state, self.domain)
 
@@ -66,7 +67,7 @@ class AutomatedPlanner:
         trimmed_path = []
         for node in path:
             trimmed_path.append(node.state)
-        return trimmed_path 
+        return trimmed_path
 
     def breadth_first_search(self, time_it=False):
         if time_it:

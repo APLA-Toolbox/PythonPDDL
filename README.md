@@ -1,3 +1,7 @@
+![tests](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/Run%20tests/badge.svg?branch=main&event=push)
+![build](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/Build/badge.svg?branch=main&event=push)
+
+
 # Pyjulia PDDL
 
 A Python wrapper using JuliaPy for the PDDL.jl package. It implements Planners (Best-First, Breadth-First, Depth-First) as class methods. Easy to use even in REFL mode. The AutomatedPlanner class is clear and understandable, easy to contribute to.
