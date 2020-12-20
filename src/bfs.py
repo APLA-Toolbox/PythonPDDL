@@ -1,5 +1,5 @@
 from .node import Node
-
+import logging
 
 class BreadthFirstSearch:
     def __init__(self, automated_planner):
@@ -32,5 +32,5 @@ class BreadthFirstSearch:
                     if child in self.visited:
                         continue
                     self.queue.append(child)
-        print("!!! No path found !!!")
+        logging.warning("!!! No path found !!!")
         return None
