@@ -1,5 +1,6 @@
 ![tests](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/tests/badge.svg?branch=main)
 ![build](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/build/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/APLA-Toolbox/pyjulia-pddl/branch/main/graph/badge.svg?token=63GHA9JUND)](https://codecov.io/gh/APLA-Toolbox/pyjulia-pddl)
 
 
 # Pyjulia PDDL
