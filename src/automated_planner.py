@@ -1,11 +1,19 @@
 from .modules import loading_bar_handler
 from .bfs import BreadthFirstSearch
+from .dfs import DepthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 
-loading_bar_handler(False)
+UI = False
+
+if UI:
+    loading_bar_handler(False)
 import julia
+
 _ = julia.Julia(compiled_modules=False)
-loading_bar_handler(True)
+
+if UI:
+    loading_bar_handler(True)
+
 from julia import PDDL
 from time import time as now
 
@@ -67,6 +75,19 @@ class AutomatedPlanner:
             start_time = now()
         bfs = BreadthFirstSearch(self)
         last_node = bfs.search()
+        if time_it:
+            total_time = now() - start_time
+        path = self.__retrace_path(last_node)
+        if time_it:
+            return path, total_time
+        else:
+            return path, None
+
+    def depth_first_search(self, time_it=False):
+        if time_it:
+            start_time = now()
+        dfs = DepthFirstSearch(self)
+        last_node = dfs.search()
         if time_it:
             total_time = now() - start_time
         path = self.__retrace_path(last_node)
