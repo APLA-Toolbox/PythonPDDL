@@ -36,8 +36,9 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 
 ```bash
 $ python3 -m pip install --upgrade pip
-$ python3 -m pip install julia
-$ python3 -m pip install pycall
+$ git clone https://github.com/APLA-Toolbox/pyjulia-pddl
+$ cd pyjulia-pddl
+$ python3 -m pip install -r requirements.txt
 ```
 
 # REFL Mode
