@@ -2,6 +2,7 @@ from .modules import loading_bar_handler
 from .bfs import BreadthFirstSearch
 from .dfs import DepthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
+import logging
 
 UI = False
 
@@ -49,7 +50,7 @@ class AutomatedPlanner:
 
     def get_actions_from_path(self, path):
         if not path:
-            print("Path is empty, can't operate...")
+            logging.warning("Path is empty, can't operate...")
             return []
         actions = []
         for node in path:
@@ -63,7 +64,7 @@ class AutomatedPlanner:
 
     def get_state_def_from_path(self, path):
         if not path:
-            print("Path is empty, can't operate...")
+            logging.warning("Path is empty, can't operate...")
             return []
         trimmed_path = []
         for node in path:

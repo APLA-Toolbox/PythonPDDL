@@ -1,6 +1,7 @@
-from .node import Node
-import math
 from .heuristics import zero_heuristic
+from .node import Node
+import logging
+import math
 
 
 class DijkstraBestFirstSearch:
@@ -64,5 +65,5 @@ class DijkstraBestFirstSearch:
                 else:
                     self.nodes[child_hash] = child
                     self.open_nodes_n += 1
-        print("!!! No path found !!!")
+        logging.warning("!!! No path found !!!")
         return None

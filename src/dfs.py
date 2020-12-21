@@ -1,4 +1,6 @@
 from .node import Node
+import logging
+
 
 class DepthFirstSearch:
     def __init__(self, automated_planner):
@@ -31,5 +33,5 @@ class DepthFirstSearch:
                     if child in self.visited:
                         continue
                     self.stack.append(child)
-        print("!!! No path found !!!")
+        logging.warning("!!! No path found !!!")
         return None
