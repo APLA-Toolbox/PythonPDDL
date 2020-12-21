@@ -1,6 +1,7 @@
 from .node import Node
 import logging
 
+
 class BreadthFirstSearch:
     def __init__(self, automated_planner):
         self.visited = []
