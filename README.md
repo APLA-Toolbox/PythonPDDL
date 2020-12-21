@@ -1,6 +1,6 @@
 ![tests](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/tests/badge.svg?branch=main)
 ![build](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/build/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/APLA-Toolbox/pyjulia-pddl/branch/main/graph/badge.svg?token=63GHA9JUND)](https://codecov.io/gh/APLA-Toolbox/pyjulia-pddl)
+[![codecov](https://codecov.io/gh/APLA-Toolbox/pddl-plarser/branch/main/graph/badge.svg?token=63GHA9JUND)](https://codecov.io/gh/APLA-Toolbox/pddl-plarser)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/APLA-Toolbox/pyjulia-pddl/graphs/commit-activity)
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/APLA-Toolbox/pyjulia-pddl.svg)](http://isitmaintained.com/project/APLA-Toolbox/pyjulia-pddl "Percentage of issues still open")
 [![GitHub license](https://img.shields.io/github/license/Apla-Toolbox/pyjulia-pddl.svg)](https://github.com/Apla-Toolbox/pyjulia-pddl/blob/master/LICENSE)
