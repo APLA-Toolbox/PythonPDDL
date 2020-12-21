@@ -1,10 +1,10 @@
-![tests](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/tests/badge.svg?branch=main)
-![build](https://github.com/APLA-Toolbox/pyjulia-pddl/workflows/build/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/APLA-Toolbox/pddl-plarser/branch/main/graph/badge.svg?token=63GHA9JUND)](https://codecov.io/gh/APLA-Toolbox/pddl-plarser)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/APLA-Toolbox/pyjulia-pddl/graphs/commit-activity)
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/APLA-Toolbox/pyjulia-pddl.svg)](http://isitmaintained.com/project/APLA-Toolbox/pyjulia-pddl "Percentage of issues still open")
-[![GitHub license](https://img.shields.io/github/license/Apla-Toolbox/pyjulia-pddl.svg)](https://github.com/Apla-Toolbox/pyjulia-pddl/blob/master/LICENSE)
-[![GitHub contributors](https://img.shields.io/github/contributors/Apla-Toolbox/pyjulia-pddl.svg)](https://GitHub.com/Apla-Toolbox/pyjulia-pddl/graphs/contributors/)
+![tests](https://github.com/APLA-Toolbox/PythonPDDL/workflows/tests/badge.svg?branch=main)
+![build](https://github.com/APLA-Toolbox/PythonPDDL/workflows/build/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/APLA-Toolbox/PythonPDDL/branch/main/graph/badge.svg?token=63GHA9JUND)](https://codecov.io/gh/APLA-Toolbox/PythonPDDL)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/APLA-Toolbox/PythonPDDL/graphs/commit-activity)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/APLA-Toolbox/PythonPDDL.svg)](http://isitmaintained.com/project/APLA-Toolbox/PythonPDDL "Percentage of issues still open")
+[![GitHub license](https://img.shields.io/github/license/Apla-Toolbox/PythonPDDL.svg)](https://github.com/Apla-Toolbox/PythonPDDL/blob/master/LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/Apla-Toolbox/PythonPDDL.svg)](https://GitHub.com/Apla-Toolbox/PythonPDDL/graphs/contributors/)
 
 
 
@@ -36,8 +36,8 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 
 ```bash
 $ python3 -m pip install --upgrade pip
-$ git clone https://github.com/APLA-Toolbox/pddl-plarser
-$ cd pddl-plarser
+$ git clone https://github.com/APLA-Toolbox/PythonPDDL
+$ cd PythonPDDL
 $ python3 -m pip install -r requirements.txt
 ```
 
@@ -47,8 +47,8 @@ Navigate to the root directory and you can run the tool by using : `python3 main
 
 # REFL Mode
 
-- Clone the repository: `git clone https://github.com/APLA-Toolbox/pddl-plarser`
-- Move to the repository folder: `cd pddl-plarser`
+- Clone the repository: `git clone https://github.com/APLA-Toolbox/PythonPDDL`
+- Move to the repository folder: `cd PythonPDDL`
 - Run `python3` in the terminal.
 - Use the AutomatedPlanner class to do what you want:
 ```python
