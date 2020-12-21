@@ -1,4 +1,5 @@
 from .node import Node
+import logging
 
 
 class BreadthFirstSearch:
@@ -32,5 +33,5 @@ class BreadthFirstSearch:
                     if child in self.visited:
                         continue
                     self.queue.append(child)
-        print("!!! No path found !!!")
+        logging.warning("!!! No path found !!!")
         return None
