@@ -25,19 +25,46 @@ class AutomatedPlanner:
         self.domain = self.pddl.load_domain(domain_path)
         self.problem = self.pddl.load_problem(problem_path)
         self.initial_state = self.pddl.initialize(self.problem)
+        self.goals = self.__flatten_goal()
 
-    def __execute_action(self, action, state):
-        return self.pddl.execute(action, state)
-
+    """
+    Transition from one state to the next using an action
+    """
     def transition(self, state, action):
         return self.pddl.transition(self.domain, state, action, check=False)
 
+    """
+    Returns all available actions from the given state 
+    """
     def available_actions(self, state):
         return self.pddl.available(state, self.domain)
 
+    """ 
+    Check if a vector of terms is satisfied by the given state
+    """
     def satisfies(self, asserted_state, state):
         return self.pddl.satisfy(asserted_state, state, self.domain)[0]
 
+    """
+    Check if the term is satisfied by the state
+    To do: compare if it's faster to compute the check on a vector of terms in julia or python 
+    """
+    def state_has_term(self, state, term):
+        if self.pddl.has_term_in_state(self.domain, state, term):
+            return True
+        else:
+            return False
+
+    """
+    Flatten the goal to a vector of terms
+    To do: check if we can iterate over the jl vector 
+    """
+    def __flatten_goal(self):
+        return self.pddl.flatten_goal(self.problem)
+
+    """
+    Retrieves the linked list path 
+    """
     def __retrace_path(self, node):
         if not node:
             return []
@@ -48,6 +75,9 @@ class AutomatedPlanner:
         path.reverse()
         return path
 
+    """
+    Returns all the actions operated to reach the goal 
+    """
     def get_actions_from_path(self, path):
         if not path:
             logging.warning("Path is empty, can't operate...")
@@ -62,6 +92,9 @@ class AutomatedPlanner:
         else:
             return (actions, cost)
 
+    """
+    Returns all the states that should be opened from start to goal 
+    """
     def get_state_def_from_path(self, path):
         if not path:
             logging.warning("Path is empty, can't operate...")
@@ -71,6 +104,9 @@ class AutomatedPlanner:
             trimmed_path.append(node.state)
         return trimmed_path
 
+    """
+    Runs the BFS algorithm on the loaded domain/problem 
+    """
     def breadth_first_search(self, time_it=False):
         if time_it:
             start_time = now()
@@ -84,6 +120,9 @@ class AutomatedPlanner:
         else:
             return path, None
 
+    """
+    Runs the DFS algorithm on the domain/problem 
+    """
     def depth_first_search(self, time_it=False):
         if time_it:
             start_time = now()
@@ -97,6 +136,9 @@ class AutomatedPlanner:
         else:
             return path, None
 
+    """
+    Runs the Dijkstra algorithm on the domain/problem 
+    """
     def dijktra_best_first_search(self, time_it=False):
         if time_it:
             start_time = now()
@@ -109,7 +151,3 @@ class AutomatedPlanner:
             return path, total_time
         else:
             return path, None
-
-
-if __name__ == "__main__":
-    ap = AutomatedPlanner("..data/domain.pddl", "..data/problem.pddl")
