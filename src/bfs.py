@@ -1,5 +1,6 @@
 from .node import Node
-import logging
+from time import time as now
+from datetime import datetime as timestamp
 
 
 class BreadthFirstSearch:
@@ -10,6 +11,10 @@ class BreadthFirstSearch:
         self.queue = [self.init]
 
     def search(self):
+        time_start = now()
+        self.automated_planner.logger.debug(
+            "Search started at: " + str(timestamp.now())
+        )
         while self.queue:
             current_node = self.queue.pop(0)
             if current_node not in self.visited:
@@ -18,7 +23,11 @@ class BreadthFirstSearch:
                 if self.automated_planner.satisfies(
                     self.automated_planner.problem.goal, current_node.state
                 ):
-                    return current_node
+                    computation_time = now() - time_start
+                    self.automated_planner.logger.debug(
+                        "Search finished at: " + str(timestamp.now())
+                    )
+                    return current_node, computation_time
 
                 actions = self.automated_planner.available_actions(current_node.state)
                 for act in actions:
@@ -33,5 +42,6 @@ class BreadthFirstSearch:
                     if child in self.visited:
                         continue
                     self.queue.append(child)
-        logging.warning("!!! No path found !!!")
-        return None
+        computation_time = now() - time_start
+        self.automated_planner.logger.warning("!!! No path found !!!")
+        return None, computation_time

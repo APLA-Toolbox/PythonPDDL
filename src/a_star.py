@@ -2,20 +2,21 @@ from .heuristics import zero_heuristic
 from .node import Node
 import logging
 import math
-from datetime import datetime as timestamp
 from time import time as now
+from datetime import datetime as timestamp
 
 
-class DijkstraBestFirstSearch:
-    def __init__(self, automated_planner):
+class AStarBestFirstSearch:
+    def __init__(self, automated_planner, heuristic_function):
         self.automated_planner = automated_planner
         self.init = Node(
             self.automated_planner.initial_state,
             automated_planner,
             is_closed=False,
             is_open=True,
-            heuristic=zero_heuristic,
+            heuristic=heuristic_function,
         )
+        self.heuristic_function = heuristic_function
         self.open_nodes_n = 1
         self.nodes = dict()
         self.nodes[self.__hash(self.init)] = self.init
@@ -26,10 +27,10 @@ class DijkstraBestFirstSearch:
         return string.split(sep, 1)[0] + ")"
 
     def search(self):
+        time_start = now()
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
         )
-        time_start = now()
         while self.open_nodes_n > 0:
             current_key = min(
                 [n for n in self.nodes if self.nodes[n].is_open],
@@ -57,7 +58,7 @@ class DijkstraBestFirstSearch:
                     automated_planner=self.automated_planner,
                     parent_action=act,
                     parent=current_node,
-                    heuristic=zero_heuristic,
+                    heuristic=self.heuristic_function,
                     is_closed=False,
                     is_open=True,
                 )

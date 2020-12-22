@@ -1,3 +1,6 @@
+import logging
+
+
 class Node:
     def __init__(
         self,
@@ -22,10 +25,16 @@ class Node:
                 self.h_cost = 0
             self.f_cost = self.g_cost + self.h_cost
         else:
-            self.g_cost = 1
+            if parent:
+                self.g_cost = 1 + parent.g_cost
+            else:
+                self.g_cost = g_cost
             if heuristic:
                 self.h_cost = heuristic(state, automated_planner)
             else:
+                automated_planner.logger.warning(
+                    "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
+                )
                 self.h_cost = 0
             self.f_cost = self.g_cost + self.h_cost
 
