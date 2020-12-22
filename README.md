@@ -10,7 +10,16 @@
 
 # PyJulia PDDL Planner
 
-A Python wrapper using JuliaPy for the PDDL.jl package. It implements Planners (Best-First, Breadth-First, Depth-First) as class methods. Easy to use even in REFL mode. The AutomatedPlanner class is clear and understandable, easy to contribute to.
+A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing its own planners.
+
+# Features
+
+- Easy to use API for exploring new states
+- Depth First Search
+- Breadth First Search
+- Dijkstra
+- A*
+    - Goal Count Heuristic
 
 # Dependencies
 
