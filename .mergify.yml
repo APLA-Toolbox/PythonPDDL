@@ -4,6 +4,7 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - check-success=tests
       - check-success=build
+      - check-success=CodeFactor
       - base=master
     actions:
       merge:
