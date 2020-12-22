@@ -1,4 +1,9 @@
 pull_request_rules:
+  - name: Assign Guilyx as reviewer
+    actions:
+      request_reviews:
+        users:
+          - guilyx
   - name: Automatic merge on approval
     conditions:
       - "#approved-reviews-by>=1"
