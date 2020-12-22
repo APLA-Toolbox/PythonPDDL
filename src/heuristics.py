@@ -1,6 +1,7 @@
 def zero_heuristic(state, automated_planner):
     return 0
 
+
 def goal_count_heuristic(state, automated_planner):
     count = 0
     for goal in automated_planner.goals:
