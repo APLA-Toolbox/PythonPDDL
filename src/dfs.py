@@ -1,6 +1,6 @@
 from .node import Node
-import logging
-
+from datetime import datetime as timestamp
+from time import time as now
 
 class DepthFirstSearch:
     def __init__(self, automated_planner):
@@ -10,6 +10,8 @@ class DepthFirstSearch:
         self.stack = [self.init]
 
     def search(self):
+        time_start = now()
+        self.automated_planner.logger.debug("Search started at: " + str(timestamp.now()))
         while self.stack:
             current_node = self.stack.pop(0)
             if current_node not in self.visited:
@@ -18,7 +20,9 @@ class DepthFirstSearch:
                 if self.automated_planner.satisfies(
                     self.automated_planner.problem.goal, current_node.state
                 ):
-                    return current_node
+                    computation_time = now() - time_start
+                    self.automated_planner.logger.debug("Search finished at: " + str(timestamp.now()))
+                    return current_node, computation_time
 
                 actions = self.automated_planner.available_actions(current_node.state)
                 for act in actions:
@@ -33,5 +37,6 @@ class DepthFirstSearch:
                     if child in self.visited:
                         continue
                     self.stack.append(child)
-        logging.warning("!!! No path found !!!")
-        return None
+        computation_time = now() - time_start
+        self.automated_planner.logger.warning("!!! No path found !!!")
+        return None, computation_time

@@ -1,6 +1,5 @@
-import src.automated_planner as parser
+from src.automated_planner import AutomatedPlanner
 import argparse
-import logging
 import os
 
 
@@ -13,23 +12,15 @@ def main():
     args_parser.add_argument("problem", type=str, help="PDDL problem file")
     args_parser.add_argument("-v", "--verbose", help="Increases the output's verbosity")
     args = args_parser.parse_args()
-    logging.basicConfig(
-        filename="logs/main.log",
-        format="%(levelname)s:%(message)s",
-        filemode="w",
-        level=logging.INFO,
-    )  # Creates the log file
-    apla_tbx = parser.AutomatedPlanner(args.domain, args.problem)
-    logging.info("Starting the tool")
-    path, time = apla_tbx.depth_first_search(time_it=True)
-    logging.info(apla_tbx.get_actions_from_path(path))
-    logging.info("Computation time: %.2f seconds" % time)
-    logging.info("Tool finished")
-    # Output the log (to show something in the output screen)
-    logfile = open("logs/main.log", "r")
-    print(logfile.read())
-    logfile.close()
+    apla_tbx = AutomatedPlanner(args.domain, args.problem)
+    apla_tbx.logger.info("Starting the planning script")
+    apla_tbx.logger.debug("Available heuristics: " + str(apla_tbx.available_heuristics.keys()))
 
+    path, computation_time = apla_tbx.dijktra_best_first_search(time_it=True)
+    apla_tbx.logger.debug(apla_tbx.get_actions_from_path(path))
+
+    apla_tbx.logger.debug("Computation time: %.2f seconds" % computation_time)
+    apla_tbx.logger.info("Terminate with grace...")
 
 if __name__ == "__main__":
     main()
