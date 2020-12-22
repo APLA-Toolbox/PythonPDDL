@@ -1,11 +1,11 @@
 import setuptools
 
-with open('requirements.txt') as f:
+with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
-    
+
 
 setuptools.setup(
     name="jupyddl",  # Replace with your own username
