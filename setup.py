@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pythonpddl-guilyx", # Replace with your own username
+    name="pythonpddl-guilyx",  # Replace with your own username
     version="0.2.0",
     author="Erwin Lejeune",
     author_email="erwinlejeune.pro@gmail.com",
@@ -16,6 +16,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
-        "Operating System :: OS Independent",
+        "Operating System :: Ubuntu, MacOS",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
+)
