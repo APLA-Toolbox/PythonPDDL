@@ -14,13 +14,16 @@ def main():
     args = args_parser.parse_args()
     apla_tbx = AutomatedPlanner(args.domain, args.problem)
     apla_tbx.logger.info("Starting the planning script")
-    apla_tbx.logger.debug("Available heuristics: " + str(apla_tbx.available_heuristics.keys()))
+    apla_tbx.logger.debug(
+        "Available heuristics: " + str(apla_tbx.available_heuristics.keys())
+    )
 
     path, computation_time = apla_tbx.dijktra_best_first_search(time_it=True)
     apla_tbx.logger.debug(apla_tbx.get_actions_from_path(path))
 
     apla_tbx.logger.debug("Computation time: %.2f seconds" % computation_time)
     apla_tbx.logger.info("Terminate with grace...")
+
 
 if __name__ == "__main__":
     main()

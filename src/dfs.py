@@ -2,6 +2,7 @@ from .node import Node
 from datetime import datetime as timestamp
 from time import time as now
 
+
 class DepthFirstSearch:
     def __init__(self, automated_planner):
         self.visited = []
@@ -11,7 +12,9 @@ class DepthFirstSearch:
 
     def search(self):
         time_start = now()
-        self.automated_planner.logger.debug("Search started at: " + str(timestamp.now()))
+        self.automated_planner.logger.debug(
+            "Search started at: " + str(timestamp.now())
+        )
         while self.stack:
             current_node = self.stack.pop(0)
             if current_node not in self.visited:
@@ -21,7 +24,9 @@ class DepthFirstSearch:
                     self.automated_planner.problem.goal, current_node.state
                 ):
                     computation_time = now() - time_start
-                    self.automated_planner.logger.debug("Search finished at: " + str(timestamp.now()))
+                    self.automated_planner.logger.debug(
+                        "Search finished at: " + str(timestamp.now())
+                    )
                     return current_node, computation_time
 
                 actions = self.automated_planner.available_actions(current_node.state)

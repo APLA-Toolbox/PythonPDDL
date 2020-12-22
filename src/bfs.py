@@ -12,7 +12,9 @@ class BreadthFirstSearch:
 
     def search(self):
         time_start = now()
-        self.automated_planner.logger.debug("Search started at: " + str(timestamp.now()))
+        self.automated_planner.logger.debug(
+            "Search started at: " + str(timestamp.now())
+        )
         while self.queue:
             current_node = self.queue.pop(0)
             if current_node not in self.visited:
@@ -22,7 +24,9 @@ class BreadthFirstSearch:
                     self.automated_planner.problem.goal, current_node.state
                 ):
                     computation_time = now() - time_start
-                    self.automated_planner.logger.debug("Search finished at: " + str(timestamp.now()))
+                    self.automated_planner.logger.debug(
+                        "Search finished at: " + str(timestamp.now())
+                    )
                     return current_node, computation_time
 
                 actions = self.automated_planner.available_actions(current_node.state)
