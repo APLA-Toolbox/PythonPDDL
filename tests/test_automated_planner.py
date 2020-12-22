@@ -17,16 +17,19 @@ def test_available_actions():
     actions = apla.available_actions(apla.initial_state)
     assert len(actions) > 0
 
+
 def test_execute_action():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     actions = apla.available_actions(apla.initial_state)
     new_state = apla.transition(apla.initial_state, actions[0])
     assert str(new_state) != str(apla.initial_state)
 
+
 def test_state_has_term():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     is_goal = apla.state_has_term(apla.initial_state, apla.goals[0])
     assert is_goal == False
+
 
 def test_state_assertion():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")

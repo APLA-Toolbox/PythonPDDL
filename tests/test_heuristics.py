@@ -13,10 +13,12 @@ To do:
     - Run search algorithms and test value of h when at goal
 """
 
+
 def test_zero_heuristic():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     heuristic = hs.zero_heuristic(apla.initial_state, apla)
     assert heuristic == 0
+
 
 def test_goal_count_heuristic():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
