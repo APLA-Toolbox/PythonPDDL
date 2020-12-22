@@ -2,6 +2,20 @@ pull_request_rules:
   - name: Automatic merge on approval
     conditions:
       - "#approved-reviews-by>=1"
+      - check-success=tests
+      - check-success=build
+      - base=master
     actions:
       merge:
         method: merge
+  - name: Delete head branch after merge
+    conditions:
+      - merged
+    actions:
+      delete_head_branch: {}
+  - name: Ask to resolve conflict
+    conditions:
+      - conflict
+    actions:
+        comment:
+          message: This pull request is now in conflicts. Could you fix it @{{author}}? 🙏
