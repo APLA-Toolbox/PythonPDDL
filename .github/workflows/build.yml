@@ -12,7 +12,7 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-    - uses: actions/checkout@v1.0.0
+    - uses: actions/checkout@v1.2.0
     - uses: julia-actions/setup-julia@v1
       with:
         version: '1.4.1'
