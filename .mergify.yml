@@ -1,5 +1,9 @@
 pull_request_rules:
   - name: Assign Guilyx as reviewer
+    conditions:
+      - check-success=tests
+      - check-success=build
+      - check-success=CodeFactor
     actions:
       request_reviews:
         users:
