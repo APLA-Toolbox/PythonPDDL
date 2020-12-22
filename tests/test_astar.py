@@ -11,12 +11,16 @@ from src.a_star import AStarBestFirstSearch
 def test_astar_init():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     astar = AStarBestFirstSearch(apla, apla.available_heuristics["goal_count"])
-    assert astar.init.h_cost == apla.available_heuristics["goal_count"](apla.initial_state, apla)
+    assert astar.init.h_cost == apla.available_heuristics["goal_count"](
+        apla.initial_state, apla
+    )
+
 
 def test_astar_goal():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     path, _ = apla.astar_best_first_search()
     assert apla.available_heuristics["goal_count"](path[-1], apla) == 0
+
 
 def test_astar_path_length():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")

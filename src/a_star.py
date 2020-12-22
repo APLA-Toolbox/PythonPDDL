@@ -28,7 +28,9 @@ class AStarBestFirstSearch:
 
     def search(self):
         time_start = now()
-        self.automated_planner.logger.debug("Search started at: " + str(timestamp.now()))
+        self.automated_planner.logger.debug(
+            "Search started at: " + str(timestamp.now())
+        )
         while self.open_nodes_n > 0:
             current_key = min(
                 [n for n in self.nodes if self.nodes[n].is_open],
@@ -40,7 +42,9 @@ class AStarBestFirstSearch:
                 self.automated_planner.problem.goal, current_node.state
             ):
                 computation_time = now() - time_start
-                self.automated_planner.logger.debug("Search finished at: " + str(timestamp.now()))
+                self.automated_planner.logger.debug(
+                    "Search finished at: " + str(timestamp.now())
+                )
                 return current_node, computation_time
 
             current_node.is_closed = True

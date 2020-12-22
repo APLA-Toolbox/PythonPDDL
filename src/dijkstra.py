@@ -5,6 +5,7 @@ import math
 from datetime import datetime as timestamp
 from time import time as now
 
+
 class DijkstraBestFirstSearch:
     def __init__(self, automated_planner):
         self.automated_planner = automated_planner
@@ -13,7 +14,7 @@ class DijkstraBestFirstSearch:
             automated_planner,
             is_closed=False,
             is_open=True,
-            heuristic=zero_heuristic
+            heuristic=zero_heuristic,
         )
         self.open_nodes_n = 1
         self.nodes = dict()
@@ -25,7 +26,9 @@ class DijkstraBestFirstSearch:
         return string.split(sep, 1)[0] + ")"
 
     def search(self):
-        self.automated_planner.logger.debug("Search started at: " + str(timestamp.now()))
+        self.automated_planner.logger.debug(
+            "Search started at: " + str(timestamp.now())
+        )
         time_start = now()
         while self.open_nodes_n > 0:
             current_key = min(
@@ -38,7 +41,9 @@ class DijkstraBestFirstSearch:
                 self.automated_planner.problem.goal, current_node.state
             ):
                 computation_time = now() - time_start
-                self.automated_planner.logger.debug("Search finished at: " + str(timestamp.now()))
+                self.automated_planner.logger.debug(
+                    "Search finished at: " + str(timestamp.now())
+                )
                 return current_node, computation_time
 
             current_node.is_closed = True

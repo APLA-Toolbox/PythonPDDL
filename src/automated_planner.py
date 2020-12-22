@@ -5,10 +5,14 @@ from .a_star import AStarBestFirstSearch
 from .heuristics import goal_count_heuristic, zero_heuristic
 import coloredlogs, logging
 import julia
+
 _ = julia.Julia(compiled_modules=False, debug=False)
 from julia import PDDL
 from time import time as now
+
 logging.getLogger("julia").setLevel(logging.WARNING)
+
+
 class AutomatedPlanner:
     def __init__(self, domain_path, problem_path, log_level="DEBUG"):
         # Planning Tool
