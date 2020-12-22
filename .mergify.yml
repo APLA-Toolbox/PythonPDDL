@@ -1,13 +1,13 @@
 pull_request_rules:
-  - name: Assign the reviewers team
+  - name: Assign the main reviewers
     conditions:
       - check-success=tests
       - check-success=build
       - check-success=CodeFactor
     actions:
       request_reviews:
-        users:
-          - APLA-Toolbox/reviewers
+        teams:
+          - "@APLA-Toolbox/reviewers"
   - name: Automatic merge on approval
     conditions:
       - "#approved-reviews-by>=1"
