@@ -47,8 +47,8 @@ jobs:
           version: '1.4.1'
       - name: Install Julia dependencies
         run: |
-          julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/APLA-Toolbox/PDDL.jl"))'
           julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/JuliaPy/PyCall.jl"))'
+          julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/APLA-Toolbox/PDDL.jl"))'
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
