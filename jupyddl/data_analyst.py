@@ -8,6 +8,7 @@ else:
     mpl.use("TkAgg")
 mpl.set_loglevel("WARNING")
 import matplotlib.pyplot as plt
+
 plt.style.use("ggplot")
 from .automated_planner import AutomatedPlanner
 from os import path
