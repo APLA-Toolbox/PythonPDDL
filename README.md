@@ -45,23 +45,15 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 
 ```bash
 $ python3 -m pip install --upgrade pip
-$ git clone https://github.com/APLA-Toolbox/PythonPDDL
-$ cd PythonPDDL
-$ python3 -m pip install -r requirements.txt
+$ python3 -m pip install jupyddl
 ```
-
-# Usage
-
-Navigate to the root directory and you can run the tool by using : `python3 main.py "data/domain.pddl" "data/problem.pddl"`
 
 # REFL Mode
 
-- Clone the repository: `git clone https://github.com/APLA-Toolbox/PythonPDDL`
-- Move to the repository folder: `cd PythonPDDL`
 - Run `python3` in the terminal.
 - Use the AutomatedPlanner class to do what you want:
 ```python
-from src.automated_planner import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
+from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
 apl = AutomatedPlanner("data/domain.pddl", "data/problem.pddl)
 
 apl.initial_state
@@ -85,15 +77,11 @@ print(apl.get_actions_from_path(path))
 [<PyCall.jlwrap flip_row(r1)>, <PyCall.jlwrap flip_row(r3)>, <PyCall.jlwrap flip_column(c2)>]
 ```
 
-# Script mode
-
-UC
-
 # Contribute
 
 Open an issue to state clearly the contribution you want to make. Upon aproval send in a PR with the Issue referenced. (Implement Issue #No / Fix Issue #No).
 
-# Contributors
+# Maintainers
 
 - Erwin Lejeune
 - Sampreet Sarkar
