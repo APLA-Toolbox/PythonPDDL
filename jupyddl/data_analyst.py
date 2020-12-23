@@ -2,8 +2,10 @@ import os
 import glob
 import matplotlib as mpl
 import logging
-
-mpl.use("TkAgg")
+if 'DISPLAY' not in os.environ: 
+    mpl.use('agg')
+else:
+    mpl.use("TkAgg")
 mpl.set_loglevel("WARNING")
 import matplotlib.pyplot as plt
 plt.style.use("ggplot")
@@ -13,18 +15,8 @@ import json
 
 
 class DataAnalyst:
-    def __init__(self, is_headless=False):
+    def __init__(self):
         logging.info("Instantiating data analyst...")
-        self.is_headless = is_headless
-        if is_headless:
-            mpl.set_loglevel("WARNING")
-            import matplotlib.pyplot as plt
-            plt.style.use("ggplot")
-        else:
-            mpl.use("TkAgg")
-            mpl.set_loglevel("WARNING")
-            import matplotlib.pyplot as plt
-            plt.style.use("ggplot")
 
     def __get_all_pddl_from_data(self):
         tested_files = []
