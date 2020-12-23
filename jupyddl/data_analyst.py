@@ -57,7 +57,7 @@ class DataAnalyst:
         self, domain_path="", problem_path="", heuristic_key="goal_count"
     ):
         has_multiple_files_tested = True
-        if not domain_path or not problem_path::
+        if not domain_path or not problem_path:
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
@@ -149,7 +149,7 @@ class DataAnalyst:
 
     def __gather_data_dfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
-        if not domain_path or not problem_path::
+        if not domain_path or not problem_path:
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
@@ -187,7 +187,7 @@ class DataAnalyst:
 
     def __gather_data_dijkstra(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
-        if not domain_path or not problem_path::
+        if not domain_path or not problem_path:
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
