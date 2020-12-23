@@ -4,8 +4,8 @@ import sys
 from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-from src.automated_planner import AutomatedPlanner
-from src.a_star import AStarBestFirstSearch
+from jupyddl.automated_planner import AutomatedPlanner
+from jupyddl.a_star import AStarBestFirstSearch
 
 
 def test_astar_init():

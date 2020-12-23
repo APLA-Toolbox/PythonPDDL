@@ -1,4 +1,4 @@
-from src.automated_planner import AutomatedPlanner
+from jupyddl.automated_planner import AutomatedPlanner
 import argparse
 import os
 

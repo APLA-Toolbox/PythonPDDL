@@ -4,8 +4,8 @@ import sys
 from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-from src.automated_planner import AutomatedPlanner
-import src.heuristics as hs
+from jupyddl.automated_planner import AutomatedPlanner
+import jupyddl.heuristics as hs
 
 """
 Testing the heuristics in different situations
