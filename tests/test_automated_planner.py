@@ -28,9 +28,9 @@ def test_execute_action():
 def test_state_has_term():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     is_goal = apla.state_has_term(apla.initial_state, apla.goals[0])
-    assert is_goal == False
+    assert not is_goal
 
 
 def test_state_assertion():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
-    assert apla.satisfies(apla.problem.goal, apla.initial_state) == False
+    assert not apla.satisfies(apla.problem.goal, apla.initial_state)
