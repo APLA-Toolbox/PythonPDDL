@@ -47,8 +47,7 @@ class AutomatedPlanner:
     def state_has_term(self, state, term):
         if self.pddl.has_term_in_state(self.domain, state, term):
             return True
-        else:
-            return False
+        return False
 
     def __flatten_goal(self):
         return self.pddl.flatten_goal(self.problem)
@@ -74,8 +73,7 @@ class AutomatedPlanner:
         cost = self.pddl.get_value(path[-1].state, "total-cost")
         if not cost:
             return actions
-        else:
-            return (actions, cost)
+        return (actions, cost)
 
     def get_state_def_from_path(self, path):
         if not path:
@@ -92,8 +90,7 @@ class AutomatedPlanner:
         path = self.__retrace_path(last_node)
         if time_it:
             return path, total_time
-        else:
-            return path, None
+        return path, None
 
     def depth_first_search(self, time_it=False):
         dfs = DepthFirstSearch(self)
@@ -101,8 +98,7 @@ class AutomatedPlanner:
         path = self.__retrace_path(last_node)
         if time_it:
             return path, total_time
-        else:
-            return path, None
+        return path, None
 
     def dijktra_best_first_search(self, time_it=False):
         dijkstra = DijkstraBestFirstSearch(self)
@@ -110,8 +106,7 @@ class AutomatedPlanner:
         path = self.__retrace_path(last_node)
         if time_it:
             return path, total_time
-        else:
-            return path, None
+        return path, None
 
     def astar_best_first_search(self, time_it=False, heuristic=goal_count_heuristic):
         astar = AStarBestFirstSearch(self, heuristic)
@@ -119,5 +114,4 @@ class AutomatedPlanner:
         path = self.__retrace_path(last_node)
         if time_it:
             return path, total_time
-        else:
-            return path, None
+        return path, None
