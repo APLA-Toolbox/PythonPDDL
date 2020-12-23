@@ -2,8 +2,9 @@ import os
 import glob
 import matplotlib as mpl
 import logging
-if 'DISPLAY' not in os.environ: 
-    mpl.use('agg')
+
+if "DISPLAY" not in os.environ:
+    mpl.use("agg")
 else:
     mpl.use("TkAgg")
 mpl.set_loglevel("WARNING")
