@@ -6,6 +6,7 @@ from .heuristics import goal_count_heuristic, zero_heuristic
 import coloredlogs
 import logging
 import julia
+
 _ = julia.Julia(compiled_modules=False, debug=False)
 from julia import PDDL
 from time import time as now
@@ -29,11 +30,12 @@ class AutomatedPlanner:
         self.__init_logger(log_level)
         self.logger = logging.getLogger("automated_planning")
         coloredlogs.install(level=log_level)
-    
+
     def __init_logger(self, log_level):
         import os
-        if not os.path.exists('logs'):
-            os.makedirs('logs')
+
+        if not os.path.exists("logs"):
+            os.makedirs("logs")
         logging.basicConfig(
             filename="logs/main.log",
             format="%(levelname)s:%(message)s",
