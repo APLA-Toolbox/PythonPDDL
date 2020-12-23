@@ -6,7 +6,6 @@ import logging
 mpl.use("TkAgg")
 mpl.set_loglevel("WARNING")
 import matplotlib.pyplot as plt
-
 plt.style.use("ggplot")
 from .automated_planner import AutomatedPlanner
 from os import path
@@ -14,8 +13,18 @@ import json
 
 
 class DataAnalyst:
-    def __init__(self):
+    def __init__(self, is_headless=False):
         logging.info("Instantiating data analyst...")
+        self.is_headless = is_headless
+        if is_headless:
+            mpl.set_loglevel("WARNING")
+            import matplotlib.pyplot as plt
+            plt.style.use("ggplot")
+        else:
+            mpl.use("TkAgg")
+            mpl.set_loglevel("WARNING")
+            import matplotlib.pyplot as plt
+            plt.style.use("ggplot")
 
     def __get_all_pddl_from_data(self):
         tested_files = []
