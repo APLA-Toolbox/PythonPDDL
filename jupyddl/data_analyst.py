@@ -57,7 +57,7 @@ class DataAnalyst:
         self, domain_path="", problem_path="", heuristic_key="goal_count"
     ):
         has_multiple_files_tested = True
-        if not domain_path and not problem_path:
+        if not domain_path or not problem_path::
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
@@ -92,7 +92,7 @@ class DataAnalyst:
                 "Heuristic is not implemented! (Key not found in registered heuristics dict)"
             )
             return [0], [0], has_multiple_files_tested
-        return [total_time], [total_nodes], has_multiple_files_tested
+        return [total_time], [opened_nodes], has_multiple_files_tested
 
     def plot_astar_data(self, heuristic_key="goal_count", domain="", problem=""):
         if bool(not problem) != bool(not domain):
@@ -111,7 +111,7 @@ class DataAnalyst:
 
     def __gather_data_bfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
-        if not domain_path and not problem_path:
+        if not domain_path or not problem_path:
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
@@ -130,7 +130,7 @@ class DataAnalyst:
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
         _, total_time, opened_nodes = apla.breadth_first_search()
-        return [total_time], [total_nodes], has_multiple_files_tested
+        return [total_time], [opened_nodes], has_multiple_files_tested
 
     def plot_bfs(self, domain="", problem=""):
         title = "BFS Statistics"
@@ -149,7 +149,7 @@ class DataAnalyst:
 
     def __gather_data_dfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
-        if not domain_path and not problem_path:
+        if not domain_path or not problem_path::
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
@@ -168,7 +168,7 @@ class DataAnalyst:
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
         _, total_time, opened_nodes = apla.depth_first_search()
-        return [total_time], [total_nodes], has_multiple_files_tested
+        return [total_time], [opened_nodes], has_multiple_files_tested
 
     def plot_dfs(self, problem="", domain=""):
         title = "DFS Statistics"
@@ -187,7 +187,7 @@ class DataAnalyst:
 
     def __gather_data_dijkstra(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
-        if not domain_path and not problem_path:
+        if not domain_path or not problem_path::
             has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
@@ -206,7 +206,7 @@ class DataAnalyst:
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
         _, total_time, opened_nodes = apla.dijktra_best_first_search()
-        return [total_time], [total_nodes], has_multiple_files_tested
+        return [total_time], [opened_nodes], has_multiple_files_tested
 
     def plot_dijkstra(self, problem="", domain=""):
         title = "Dijkstra Statistics"
