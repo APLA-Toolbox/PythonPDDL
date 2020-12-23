@@ -34,7 +34,7 @@ class DataAnalyst:
                         domains_problems.append((tested_files[i - 1], tested_files[i]))
                     i += 1
             return domains_problems
-        return [('data/problem.pddl', 'data/domain.pddl')]
+        return [("data/problem.pddl", "data/domain.pddl")]
 
     def __plot_data(self, times, total_nodes, plot_title):
         plt.plot(total_nodes, times, "b:o")
