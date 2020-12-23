@@ -29,8 +29,8 @@ def plot_data(times, total_nodes, plot_title):
     plt.xlabel("Number of opened nodes")
     plt.ylabel("Planning computation time")
     plt.title(plot_title)
-    plt.xscale('symlog')
-    plt.yscale('log')
+    plt.xscale("symlog")
+    plt.yscale("log")
     plt.grid(True)
     plt.show()
 
@@ -40,8 +40,8 @@ def scatter_data(times, total_nodes, plot_title):
     plt.xlabel("Number of opened nodes")
     plt.ylabel("Planning computation time")
     plt.title(plot_title)
-    plt.xscale('symlog')
-    plt.yscale('log')
+    plt.xscale("symlog")
+    plt.yscale("log")
     plt.grid(True)
     plt.show()
 

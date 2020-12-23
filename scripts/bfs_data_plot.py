@@ -48,4 +48,4 @@ def plot_bfs(domain="", problem=""):
 
 
 if __name__ == "__main__":
-   plot_bfs()
+    plot_bfs()

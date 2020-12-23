@@ -20,7 +20,7 @@ def gather_data(
     gatherers = []
     xdata = dict()
     ydata = dict()
-    
+
     if bfs:
         gatherers.append(("BFS", gather_data_bfs))
     if dfs:
@@ -30,7 +30,9 @@ def gather_data(
     if astar:
         gatherers.append(("A*", gather_data_astar))
 
-    _, _, _ = gather_data_bfs(domain_path=domain, problem_path=problem) # Dummy line to do first parsing and get rid of static loading
+    _, _, _ = gather_data_bfs(
+        domain_path=domain, problem_path=problem
+    )  # Dummy line to do first parsing and get rid of static loading
     for name, g in gatherers:
         if g == gather_data_astar:
             times, nodes, _ = gather_data_astar(
@@ -97,12 +99,15 @@ def comparative_data_plot(
     plt.ylabel("Planning computation time (s)")
     for planner in json_dict["xdata"].keys():
         ax.plot(
-            sorted(json_dict["xdata"][planner]), sorted(json_dict["ydata"][planner]), '-o', label=planner
+            sorted(json_dict["xdata"][planner]),
+            sorted(json_dict["ydata"][planner]),
+            "-o",
+            label=planner,
         )
     plt.title("Planners complexity comparison")
     plt.legend(loc="upper left")
-    plt.xscale('symlog')
-    plt.yscale('log')
+    plt.xscale("symlog")
+    plt.yscale("log")
     plt.grid(True)
     plt.show()
 

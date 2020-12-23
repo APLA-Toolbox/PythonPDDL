@@ -2,18 +2,20 @@ import os
 import glob
 import matplotlib as mpl
 import logging
+
 mpl.use("TkAgg")
 mpl.set_loglevel("WARNING")
 import matplotlib.pyplot as plt
+
 plt.style.use("ggplot")
 from .automated_planner import AutomatedPlanner
 from os import path
 import json
 
+
 class DataAnalyst:
     def __init__(self):
         logging.info("Instantiating data analyst...")
-
 
     def __get_all_pddl_from_data(self):
         tested_files = []
@@ -29,29 +31,29 @@ class DataAnalyst:
                 i += 1
         return domains_problems
 
-
     def __plot_data(self, times, total_nodes, plot_title):
         plt.plot(total_nodes, times, "b:o")
         plt.xlabel("Number of opened nodes")
         plt.ylabel("Planning computation time")
         plt.title(plot_title)
-        plt.xscale('symlog')
-        plt.yscale('log')
+        plt.xscale("symlog")
+        plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
-
 
     def __scatter_data(self, times, total_nodes, plot_title):
         plt.scatter(total_nodes, times)
         plt.xlabel("Number of opened nodes")
         plt.ylabel("Planning computation time")
         plt.title(plot_title)
-        plt.xscale('symlog')
-        plt.yscale('log')
+        plt.xscale("symlog")
+        plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
 
-    def __gather_data_astar(self, domain_path="", problem_path="", heuristic_key="goal_count"):
+    def __gather_data_astar(
+        self, domain_path="", problem_path="", heuristic_key="goal_count"
+    ):
         has_multiple_files_tested = True
         if not domain_path and not problem_path:
             has_multiple_files_tested = False
@@ -90,7 +92,6 @@ class DataAnalyst:
             return [0], [0], has_multiple_files_tested
         return [total_time], [total_nodes], has_multiple_files_tested
 
-
     def plot_astar_data(self, heuristic_key="goal_count", domain="", problem=""):
         if bool(not problem) != bool(not domain):
             logging.warning(
@@ -105,7 +106,6 @@ class DataAnalyst:
             self.__plot_data(times, total_nodes, title)
         else:
             self.__scatter_data(times, total_nodes, title)
-
 
     def __gather_data_bfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
@@ -130,7 +130,6 @@ class DataAnalyst:
         _, total_time, opened_nodes = apla.breadth_first_search()
         return [total_time], [total_nodes], has_multiple_files_tested
 
-
     def plot_bfs(self, domain="", problem=""):
         title = "BFS Statistics"
         if bool(not problem) != bool(not domain):
@@ -145,7 +144,6 @@ class DataAnalyst:
             self.__plot_data(times, total_nodes, title)
         else:
             self.__scatter_data(times, total_nodes, title)
-
 
     def __gather_data_dfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
@@ -169,7 +167,6 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         _, total_time, opened_nodes = apla.depth_first_search()
         return [total_time], [total_nodes], has_multiple_files_tested
-
 
     def plot_dfs(self, problem="", domain=""):
         title = "DFS Statistics"
@@ -209,7 +206,6 @@ class DataAnalyst:
         _, total_time, opened_nodes = apla.dijktra_best_first_search()
         return [total_time], [total_nodes], has_multiple_files_tested
 
-
     def plot_dijkstra(self, problem="", domain=""):
         title = "Dijkstra Statistics"
         if bool(not problem) != bool(not domain):
@@ -225,7 +221,6 @@ class DataAnalyst:
         else:
             self.__scatter_data(times, total_nodes, title)
 
-
     def __gather_data(
         self,
         heuristic_key="goal_count",
@@ -239,7 +234,7 @@ class DataAnalyst:
         gatherers = []
         xdata = dict()
         ydata = dict()
-        
+
         if bfs:
             gatherers.append(("BFS", self.__gather_data_bfs))
         if dfs:
@@ -249,18 +244,21 @@ class DataAnalyst:
         if astar:
             gatherers.append(("A*", self.__gather_data_astar))
 
-        _, _, _ = self.__gather_data_bfs(domain_path=domain, problem_path=problem) # Dummy line to do first parsing and get rid of static loading
+        _, _, _ = self.__gather_data_bfs(
+            domain_path=domain, problem_path=problem
+        )  # Dummy line to do first parsing and get rid of static loading
         for name, g in gatherers:
             if g == self.__gather_data_astar:
                 times, nodes, _ = self.__gather_data_astar(
-                    domain_path=domain, problem_path=problem, heuristic_key=heuristic_key
+                    domain_path=domain,
+                    problem_path=problem,
+                    heuristic_key=heuristic_key,
                 )
             else:
                 times, nodes, _ = g(domain_path=domain, problem_path=problem)
             ydata[name] = times
             xdata[name] = nodes
         return xdata, ydata
-
 
     def comparative_data_plot(
         self,
@@ -317,11 +315,14 @@ class DataAnalyst:
         plt.ylabel("Planning computation time (s)")
         for planner in json_dict["xdata"].keys():
             ax.plot(
-                sorted(json_dict["xdata"][planner]), sorted(json_dict["ydata"][planner]), '-o', label=planner
+                sorted(json_dict["xdata"][planner]),
+                sorted(json_dict["ydata"][planner]),
+                "-o",
+                label=planner,
             )
         plt.title("Planners complexity comparison")
         plt.legend(loc="upper left")
-        plt.xscale('symlog')
-        plt.yscale('log')
+        plt.xscale("symlog")
+        plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
