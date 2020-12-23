@@ -6,6 +6,7 @@ import logging
 mpl.use("TkAgg")
 mpl.set_loglevel("WARNING")
 import matplotlib.pyplot as plt
+
 plt.style.use("ggplot")
 from .automated_planner import AutomatedPlanner
 from os import path
@@ -19,11 +20,13 @@ class DataAnalyst:
         if is_headless:
             mpl.set_loglevel("WARNING")
             import matplotlib.pyplot as plt
+
             plt.style.use("ggplot")
         else:
             mpl.use("TkAgg")
             mpl.set_loglevel("WARNING")
             import matplotlib.pyplot as plt
+
             plt.style.use("ggplot")
 
     def __get_all_pddl_from_data(self):
