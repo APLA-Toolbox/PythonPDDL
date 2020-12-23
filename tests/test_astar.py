@@ -18,11 +18,11 @@ def test_astar_init():
 
 def test_astar_goal():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
-    path, _ = apla.astar_best_first_search()
+    path, _, _ = apla.astar_best_first_search()
     assert apla.available_heuristics["goal_count"](path[-1].state, apla) == 0
 
 
 def test_astar_path_length():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
-    path, _ = apla.astar_best_first_search()
+    path, _, _ = apla.astar_best_first_search()
     assert len(path) > 0

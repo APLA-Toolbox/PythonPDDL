@@ -41,7 +41,10 @@ class AutomatedPlanner:
             format="%(levelname)s:%(message)s",
             filemode="w",
             level=log_level,
-        )  # Creates the log file
+        )
+
+    def display_available_heuristics(self):
+        print(list(self.available_heuristics.keys()))
 
     def transition(self, state, action):
         return self.pddl.transition(self.domain, state, action, check=False)
@@ -92,34 +95,30 @@ class AutomatedPlanner:
             trimmed_path.append(node.state)
         return trimmed_path
 
-    def breadth_first_search(self, time_it=False):
+    def breadth_first_search(self):
         bfs = BreadthFirstSearch(self)
-        last_node, total_time = bfs.search()
+        last_node, total_time, opened_nodes = bfs.search()
         path = self.__retrace_path(last_node)
-        if time_it:
-            return path, total_time
-        return path, None
 
-    def depth_first_search(self, time_it=False):
+        return path, total_time, opened_nodes
+
+    def depth_first_search(self):
         dfs = DepthFirstSearch(self)
-        last_node, total_time = dfs.search()
+        last_node, total_time, opened_nodes = dfs.search()
         path = self.__retrace_path(last_node)
-        if time_it:
-            return path, total_time
-        return path, None
 
-    def dijktra_best_first_search(self, time_it=False):
+        return path, total_time, opened_nodes
+
+    def dijktra_best_first_search(self):
         dijkstra = DijkstraBestFirstSearch(self)
-        last_node, total_time = dijkstra.search()
+        last_node, total_time, opened_nodes = dijkstra.search()
         path = self.__retrace_path(last_node)
-        if time_it:
-            return path, total_time
-        return path, None
 
-    def astar_best_first_search(self, time_it=False, heuristic=goal_count_heuristic):
+        return path, total_time, opened_nodes
+
+    def astar_best_first_search(self, heuristic=goal_count_heuristic):
         astar = AStarBestFirstSearch(self, heuristic)
-        last_node, total_time = astar.search()
+        last_node, total_time, opened_nodes = astar.search()
         path = self.__retrace_path(last_node)
-        if time_it:
-            return path, total_time
-        return path, None
+
+        return path, total_time, opened_nodes
