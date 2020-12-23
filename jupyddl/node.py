@@ -12,6 +12,7 @@ class Node:
         parent=None,
         g_cost=0,
         heuristic=None,
+        heuristic_based=False,
     ):
         self.state = state
         self.parent_action = parent_action
@@ -19,8 +20,14 @@ class Node:
         temp_cost = automated_planner.pddl.get_value(state, "total-cost")
         if temp_cost:
             self.g_cost = temp_cost
-            if heuristic:
-                self.h_cost = heuristic(state, automated_planner)
+            if heuristic_based:
+                if heuristic:
+                    self.h_cost = heuristic(state, automated_planner)
+                else:
+                    automated_planner.logger.warning(
+                        "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
+                    )
+                    self.h_cost = 0
             else:
                 self.h_cost = 0
             self.f_cost = self.g_cost + self.h_cost
@@ -29,12 +36,15 @@ class Node:
                 self.g_cost = 1 + parent.g_cost
             else:
                 self.g_cost = g_cost
-            if heuristic:
-                self.h_cost = heuristic(state, automated_planner)
+            if heuristic_based:
+                if heuristic:
+                    self.h_cost = heuristic(state, automated_planner)
+                else:
+                    automated_planner.logger.warning(
+                        "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
+                    )
+                    self.h_cost = 0
             else:
-                automated_planner.logger.warning(
-                    "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
-                )
                 self.h_cost = 0
             self.f_cost = self.g_cost + self.h_cost
 

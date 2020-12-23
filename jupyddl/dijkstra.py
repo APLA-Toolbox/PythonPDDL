@@ -26,6 +26,7 @@ class DijkstraBestFirstSearch:
         return string.split(sep, 1)[0] + ")"
 
     def search(self):
+        opened_nodes = 0
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
         )
@@ -44,7 +45,7 @@ class DijkstraBestFirstSearch:
                 self.automated_planner.logger.debug(
                     "Search finished at: " + str(timestamp.now())
                 )
-                return current_node, computation_time
+                return current_node, computation_time, opened_nodes
 
             current_node.is_closed = True
             current_node.is_open = False
@@ -61,6 +62,7 @@ class DijkstraBestFirstSearch:
                     is_closed=False,
                     is_open=True,
                 )
+                opened_nodes += 1
                 child_hash = self.__hash(child)
                 if child_hash in self.nodes:
                     if self.nodes[child_hash].is_closed:
@@ -78,4 +80,4 @@ class DijkstraBestFirstSearch:
                     self.open_nodes_n += 1
         computation_time = now() - time_start
         self.automated_planner.logger.warning("!!! No path found !!!")
-        return None, computation_time
+        return None, computation_time, opened_nodes

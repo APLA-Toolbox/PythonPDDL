@@ -11,6 +11,7 @@ class BreadthFirstSearch:
         self.queue = [self.init]
 
     def search(self):
+        opened_nodes = 0
         time_start = now()
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
@@ -27,7 +28,7 @@ class BreadthFirstSearch:
                     self.automated_planner.logger.debug(
                         "Search finished at: " + str(timestamp.now())
                     )
-                    return current_node, computation_time
+                    return current_node, computation_time, opened_nodes
 
                 actions = self.automated_planner.available_actions(current_node.state)
                 for act in actions:
@@ -39,9 +40,10 @@ class BreadthFirstSearch:
                         parent_action=act,
                         parent=current_node,
                     )
+                    opened_nodes += 1
                     if child in self.visited:
                         continue
                     self.queue.append(child)
         computation_time = now() - time_start
         self.automated_planner.logger.warning("!!! No path found !!!")
-        return None, computation_time
+        return None, computation_time, opened_nodes

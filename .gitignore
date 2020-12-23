@@ -136,3 +136,4 @@ dmypy.json
 # Logs
 logs/*
 !logs/.gitkeep
+data.json
