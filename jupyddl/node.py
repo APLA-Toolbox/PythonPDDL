@@ -53,5 +53,3 @@ class Node:
 
     def __lt__(self, other):
         return self.f_cost <= other.f_cost
-
-    
