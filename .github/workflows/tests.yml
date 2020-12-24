@@ -42,7 +42,7 @@ jobs:
     - name: Checkout reposistory
       uses: actions/checkout@master
     - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
+      uses: snickerbockers/submodules-init@v4
 
   test:
     runs-on: ${{ matrix.os }}
@@ -81,7 +81,7 @@ jobs:
       - name: Checkout reposistory
         uses: actions/checkout@master
       - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
+        uses: snickerbockers/submodules-init@v4
       - name: Test with pytest
         run: |
           pip install pytest

@@ -41,5 +41,5 @@ jobs:
     - name: Checkout reposistory
       uses: actions/checkout@master
     - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
+      uses: snickerbockers/submodules-init@v4
 
