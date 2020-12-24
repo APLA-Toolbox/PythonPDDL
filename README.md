@@ -51,7 +51,9 @@ $ python3 -m pip install jupyddl
 # REFL Mode
 
 - Run `python3` in the terminal.
-- Use the AutomatedPlanner class to do what you want:
+
+## [AutomatedPlanner]
+
 ```python
 from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
 apl = AutomatedPlanner("data/domain.pddl", "data/problem.pddl)
@@ -76,6 +78,32 @@ print(apl.get_state_def_from_path(path))
 print(apl.get_actions_from_path(path))
 [<PyCall.jlwrap flip_row(r1)>, <PyCall.jlwrap flip_row(r3)>, <PyCall.jlwrap flip_column(c2)>]
 ```
+
+## [Data Analyst]
+
+Make sure you have a data folder where you run your environment that contains independent folders with "domain.pddl" and "problem.pddl" files, with those standard names.
+
+```python
+from jupyddl import DataAnalyst
+
+da = DataAnalyst()
+da.plot_astar_data() # plots complexity statistics for all the problem.pddl/domain.pddl couples in the data/ folder
+
+da.plot_astar_data(problem="data/flip/problem.pddl", domain="data/flip/domain.pddl") # scatter complexity statistics for the provided pddl
+
+da.plot_astar_data(heuristic_key="zero") # use h=0 instead of goal_count for your computation
+
+da.plot_dfs() # same as astar
+
+da.comparative_data_plot() # Run all planners on the data folder and plots them on the same figure, data is stored in a data.json file 
+
+da.comparative_data_plot(astar=False) # Exclude astar from the comparative plot
+
+da.comparative_data_plot(heuristic_key="zero") # use zero heuristic for h based planners
+
+da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the data
+```
+
 
 # Contribute
 
