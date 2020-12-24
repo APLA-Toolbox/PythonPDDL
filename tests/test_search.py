@@ -7,14 +7,16 @@ from os import path
 import coloredlogs
 import sys
 
+
 def test_searchDFS():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     dfs = DepthFirstSearch(apla)
-    _,ct = dfs.search()
+    _, ct = dfs.search()
     assert ct != 0
+
 
 def test_searchBFS():
     apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
     bfs = BreadthFirstSearch(apla)
-    _,ct = bfs.search()
+    _, ct = bfs.search()
     assert ct != 0
