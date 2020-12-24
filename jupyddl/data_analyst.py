@@ -27,15 +27,17 @@ class DataAnalyst:
         if "DISPLAY" in os.environ:
             for root, _, files in os.walk("pddl-examples/", topdown=False):
                 for name in files:
-                    #if ".gitkeep" in name:
+                    # if ".gitkeep" in name:
                     #    continue
                     tested_files.append(os.getcwd() + "/" + os.path.join(root, name))
                     if i % 2 != 0:
                         domains_problems.append((tested_files[i - 1], tested_files[i]))
                     i += 1
             return domains_problems
-        return [("pddl-examples/flip/problem.pddl", "pddl-examples/flip/domain.pddl"),
-                ("pddl-examples/dinner/problem.pddl", "pddl-examples/dinner/domain.pddl")]
+        return [
+            ("pddl-examples/flip/problem.pddl", "pddl-examples/flip/domain.pddl"),
+            ("pddl-examples/dinner/problem.pddl", "pddl-examples/dinner/domain.pddl"),
+        ]
 
     def __plot_data(self, times, total_nodes, plot_title):
         data = dict()
