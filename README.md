@@ -41,22 +41,35 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/JuliaPy/PyCall.jl"))'
 ```
 
-- Install Python dependencies
+- Package installation
 
 ```bash
 $ python3 -m pip install --upgrade pip
 $ python3 -m pip install jupyddl
 ```
 
-# REFL Mode
+# Usage
 
-- Run `python3` in the terminal.
+If using the jupyddl pip package:
+
+- If you want to use the data analysis tool, create a pddl-examples folder with pddl instances subfolders containing "problem.pddl" and "domain.pddl". (refer to APLA-Toolbox/pddl-examples)
+
+If you want to use it by cloning the project:
+
+```shell
+$ git clone https://github.com/APLA-Toolbox/PythonPDDL
+$ cd PythonPDDL
+$ git submodule init
+$ git submodule update
+```
+
+You should have a `pddl-examples` folder containing PDDL instances.
 
 ## [AutomatedPlanner]
 
 ```python
 from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
-apl = AutomatedPlanner("data/domain.pddl", "data/problem.pddl)
+apl = AutomatedPlanner("pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl)
 
 apl.initial_state
 <PyCall.jlwrap PDDL.State(Set(Julog.Term[row(r1), column(c3), row(r3), row(r2), column(c2), column(c1)]), Set(Julog.Term[white(r2, c1), white(r1, c2), white(r3, c2), white(r2, c3)]), Dict{Symbol,Any}())>
@@ -81,21 +94,21 @@ print(apl.get_actions_from_path(path))
 
 ## [Data Analyst]
 
-Make sure you have a data folder where you run your environment that contains independent folders with "domain.pddl" and "problem.pddl" files, with those standard names.
+Make sure you have a pddl-examples folder where you run your environment that contains independent folders with "domain.pddl" and "problem.pddl" files, with those standard names. ( if you didn't generate with git submodule update )
 
 ```python
 from jupyddl import DataAnalyst
 
 da = DataAnalyst()
-da.plot_astar_data() # plots complexity statistics for all the problem.pddl/domain.pddl couples in the data/ folder
+da.plot_astar_data() # plots complexity statistics for all the problem.pddl/domain.pddl couples in the pddl-examples/ folder
 
-da.plot_astar_data(problem="data/flip/problem.pddl", domain="data/flip/domain.pddl") # scatter complexity statistics for the provided pddl
+da.plot_astar_data(problem="pddl-examples/flip/problem.pddl", domain="pddl-examples/flip/domain.pddl") # scatter complexity statistics for the provided pddl
 
 da.plot_astar_data(heuristic_key="zero") # use h=0 instead of goal_count for your computation
 
 da.plot_dfs() # same as astar
 
-da.comparative_data_plot() # Run all planners on the data folder and plots them on the same figure, data is stored in a data.json file 
+da.comparative_data_plot() # Run all planners on the pddl-examples folder and plots them on the same figure, data is stored in a data.json file 
 
 da.comparative_data_plot(astar=False) # Exclude astar from the comparative plot
 
