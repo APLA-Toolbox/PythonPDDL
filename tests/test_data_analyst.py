@@ -11,13 +11,19 @@ def test_data_analyst_constructor():
     _ = DataAnalyst()
     assert True
 
+
 def test_heuristics_comparer():
     da = DataAnalyst()
     da.comparative_astar_heuristic_plot()
 
+
 def test_heuristics_comparer_single():
     da = DataAnalyst()
-    da.comparative_astar_heuristic_plot(domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl")
+    da.comparative_astar_heuristic_plot(
+        domain="pddl-examples/flip/domain.pddl",
+        problem="pddl-examples/flip/problem.pddl",
+    )
+
 
 def test_data_analyst_plot_dfs_one_pddl():
     da = DataAnalyst()
@@ -48,7 +54,10 @@ def test_data_analyst_plot_dijkstra_one_pddl():
 
 def test_data_analyst_plot_astar_h_goal_count_one_pddl():
     da = DataAnalyst()
-    da.plot_astar(domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl")
+    da.plot_astar(
+        domain="pddl-examples/flip/domain.pddl",
+        problem="pddl-examples/flip/problem.pddl",
+    )
     assert True
 
 

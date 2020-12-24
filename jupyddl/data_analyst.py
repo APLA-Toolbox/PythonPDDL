@@ -300,7 +300,9 @@ class DataAnalyst:
         plt.ylabel("Planning computation time (s)")
 
         for h in self.available_heuristics:
-            times, nodes, _ = self.__gather_data_astar(domain_path=domain, problem_path=problem, heuristic_key=h)
+            times, nodes, _ = self.__gather_data_astar(
+                domain_path=domain, problem_path=problem, heuristic_key=h
+            )
             data = dict()
             for i, val in enumerate(nodes):
                 data[val] = times[i]
@@ -315,7 +317,7 @@ class DataAnalyst:
                 "-o",
                 label=h,
             )
-        
+
         plt.title("A* heuristics complexity comparison")
         plt.legend(loc="upper left")
         plt.xscale("symlog")
