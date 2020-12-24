@@ -19,6 +19,7 @@ import json
 class DataAnalyst:
     def __init__(self):
         logging.info("Instantiating data analyst...")
+        self.available_heuristics = ["goal_count", "zero"]
 
     def __get_all_pddl_from_data(self):
         tested_files = []
@@ -49,7 +50,7 @@ class DataAnalyst:
             times_y.append(data[node_opened])
         plt.plot(nodes_sorted, times_y, "r:o")
         plt.xlabel("Number of opened nodes")
-        plt.ylabel("Planning computation time")
+        plt.ylabel("Planning computation time (s)")
         plt.xscale("symlog")
         plt.title(plot_title)
         plt.grid(True)
@@ -58,7 +59,7 @@ class DataAnalyst:
     def __scatter_data(self, times, total_nodes, plot_title):
         plt.scatter(total_nodes, times)
         plt.xlabel("Number of opened nodes")
-        plt.ylabel("Planning computation time")
+        plt.ylabel("Planning computation time (s)")
         plt.xscale("symlog")
         plt.title(plot_title)
         plt.grid(True)
@@ -110,7 +111,7 @@ class DataAnalyst:
             return [total_time], [opened_nodes], has_multiple_files_tested
         return [0], [0], has_multiple_files_tested
 
-    def plot_astar_data(self, heuristic_key="goal_count", domain="", problem=""):
+    def plot_astar(self, heuristic_key="goal_count", domain="", problem=""):
         if bool(not problem) != bool(not domain):
             logging.warning(
                 "Either problem or domain wasn't provided, testing all files in data folder"
@@ -293,6 +294,34 @@ class DataAnalyst:
             xdata[name] = nodes
         return xdata, ydata
 
+    def comparative_astar_heuristic_plot(self, domain="", problem=""):
+        _, ax = plt.subplots()
+        plt.xlabel("Number of opened nodes")
+        plt.ylabel("Planning computation time (s)")
+
+        for h in self.available_heuristics:
+            times, nodes, _ = self.__gather_data_astar(domain_path=domain, problem_path=problem, heuristic_key=h)
+            data = dict()
+            for i, val in enumerate(nodes):
+                data[val] = times[i]
+            nodes_sorted = sorted(list(data.keys()))
+            times_y = []
+            for node_opened in nodes_sorted:
+                times_y.append(data[node_opened])
+
+            ax.plot(
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=h,
+            )
+        
+        plt.title("A* heuristics complexity comparison")
+        plt.legend(loc="upper left")
+        plt.xscale("symlog")
+        plt.grid(True)
+        plt.show(block=False)
+
     def comparative_data_plot(
         self,
         astar=True,
@@ -341,15 +370,20 @@ class DataAnalyst:
                 with open("data.json") as fp:
                     json_dict = json.load(fp)
 
-        fig, ax = plt.subplots()
-        fig.set_figwidth(12)
-        fig.set_figheight(6)
+        _, ax = plt.subplots()
         plt.xlabel("Number of opened nodes")
         plt.ylabel("Planning computation time (s)")
         for planner in json_dict["xdata"].keys():
+            data = dict()
+            for i, val in enumerate(json_dict["xdata"][planner]):
+                data[val] = json_dict["ydata"][planner][i]
+            nodes_sorted = sorted(list(data.keys()))
+            times_y = []
+            for node_opened in nodes_sorted:
+                times_y.append(data[node_opened])
             ax.plot(
-                sorted(json_dict["xdata"][planner]),
-                sorted(json_dict["ydata"][planner]),
+                nodes_sorted,
+                times_y,
                 "-o",
                 label=planner,
             )

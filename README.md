@@ -100,11 +100,11 @@ Make sure you have a pddl-examples folder where you run your environment that co
 from jupyddl import DataAnalyst
 
 da = DataAnalyst()
-da.plot_astar_data() # plots complexity statistics for all the problem.pddl/domain.pddl couples in the pddl-examples/ folder
+da.plot_astar() # plots complexity statistics for all the problem.pddl/domain.pddl couples in the pddl-examples/ folder
 
-da.plot_astar_data(problem="pddl-examples/flip/problem.pddl", domain="pddl-examples/flip/domain.pddl") # scatter complexity statistics for the provided pddl
+da.plot_astar(problem="pddl-examples/flip/problem.pddl", domain="pddl-examples/flip/domain.pddl") # scatter complexity statistics for the provided pddl
 
-da.plot_astar_data(heuristic_key="zero") # use h=0 instead of goal_count for your computation
+da.plot_astar(heuristic_key="zero") # use h=0 instead of goal_count for your computation
 
 da.plot_dfs() # same as astar
 
