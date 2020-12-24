@@ -38,8 +38,8 @@ class DataAnalyst:
 
     def __plot_data(self, times, total_nodes, plot_title):
         data = dict()
-        for i in range(len(total_nodes)):
-            data[total_nodes[i]] = times[i]
+        for i, val in enumerate(total_nodes):
+            data[val] = times[i]
         nodes_sorted = sorted(list(data.keys()))
         times_y = []
         for node_opened in nodes_sorted:
@@ -105,8 +105,7 @@ class DataAnalyst:
             return [0], [0], has_multiple_files_tested
         if path:
             return [total_time], [opened_nodes], has_multiple_files_tested
-        else:
-            return [0], [0], has_multiple_files_tested
+        return [0], [0], has_multiple_files_tested
 
     def plot_astar_data(self, heuristic_key="goal_count", domain="", problem=""):
         if bool(not problem) != bool(not domain):
@@ -149,8 +148,7 @@ class DataAnalyst:
         path, total_time, opened_nodes = apla.breadth_first_search()
         if path:
             return [total_time], [opened_nodes], has_multiple_files_tested
-        else:
-            return [0], [0], has_multiple_files_tested
+        return [0], [0], has_multiple_files_tested
 
     def plot_bfs(self, domain="", problem=""):
         title = "BFS Statistics"
@@ -193,8 +191,7 @@ class DataAnalyst:
         path, total_time, opened_nodes = apla.depth_first_search()
         if path:
             return [total_time], [opened_nodes], has_multiple_files_tested
-        else:
-            return [0], [0], has_multiple_files_tested
+        return [0], [0], has_multiple_files_tested
 
     def plot_dfs(self, problem="", domain=""):
         title = "DFS Statistics"
@@ -237,8 +234,7 @@ class DataAnalyst:
         path, total_time, opened_nodes = apla.dijktra_best_first_search()
         if path:
             return [total_time], [opened_nodes], has_multiple_files_tested
-        else:
-            return [0], [0], has_multiple_files_tested
+        return [0], [0], has_multiple_files_tested
 
     def plot_dijkstra(self, problem="", domain=""):
         title = "Dijkstra Statistics"
