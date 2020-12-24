@@ -11,6 +11,29 @@ def test_data_analyst_constructor():
     _ = DataAnalyst()
     assert True
 
+def test_data_analyst_plot_dfs_one_pddl():
+    da = DataAnalyst()
+    da.plot_dfs(domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl")
+    assert True
+
+
+def test_data_analyst_plot_bfs_one_pddl():
+    da = DataAnalyst()
+    da.plot_bfs(domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl")
+    assert True
+
+
+def test_data_analyst_plot_dijkstra_one_pddl():
+    da = DataAnalyst()
+    da.plot_dijkstra(domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl")
+    assert True
+
+
+def test_data_analyst_plot_astar_h_goal_count_one_pddl():
+    da = DataAnalyst()
+    da.plot_astar_data(domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl")
+    assert True
+
 
 def test_data_analyst_plot_dfs():
     da = DataAnalyst()
