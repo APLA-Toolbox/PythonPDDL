@@ -12,12 +12,13 @@ apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
 
 def test_searchDFS():
     dfs = DepthFirstSearch(apla)
-    _,ct = dfs.search()
+    _, ct = dfs.search()
     assert ct != 0
+
 
 def test_searchBFS():
     bfs = BreadthFirstSearch(apla)
-    _,ct = bfs.search()
+    _, ct = bfs.search()
     assert ct != 0
 
 def test_searchDijkstra():
