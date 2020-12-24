@@ -15,12 +15,12 @@ To do:
 
 
 def test_zero_heuristic():
-    apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
+    apla = AutomatedPlanner("pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl")
     heuristic = hs.zero_heuristic(apla.initial_state, apla)
     assert heuristic == 0
 
 
 def test_goal_count_heuristic():
-    apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
+    apla = AutomatedPlanner("pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl")
     heuristic = hs.goal_count_heuristic(apla.initial_state, apla)
     assert heuristic == 1

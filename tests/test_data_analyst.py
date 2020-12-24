@@ -75,7 +75,7 @@ def test_comparative_no_dfs():
 def test_comparative_one_pddl():
     da = DataAnalyst()
     da.comparative_data_plot(
-        dfs=False, bfs=False, domain="data/domain.pddl", problem="data/problem.pddl"
+        dfs=False, bfs=False, domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl"
     )
     assert True
 
@@ -83,7 +83,7 @@ def test_comparative_one_pddl():
 def test_comparative_use_data_json():
     da = DataAnalyst()
     da.comparative_data_plot(
-        domain="data/domain.pddl", problem="data/problem.pddl", collect_new_data=False
+        domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl", collect_new_data=False
     )
     assert True
 
@@ -91,6 +91,6 @@ def test_comparative_use_data_json():
 def test_comparative_zero_h():
     da = DataAnalyst()
     da.comparative_data_plot(
-        domain="data/domain.pddl", problem="data/problem.pddl", heuristic_key="zero"
+        domain="pddl-examples/flip/domain.pddl", problem="pddl-examples/flip/problem.pddl", heuristic_key="zero"
     )
     assert True

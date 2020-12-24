@@ -3,10 +3,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 .vscode/*
-data/*
-!data/.gitkeep
-!data/domain.pddl
-!data/problem.pddl
 
 # C extensions
 *.so
