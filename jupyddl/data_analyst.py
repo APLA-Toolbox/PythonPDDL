@@ -37,12 +37,18 @@ class DataAnalyst:
         return [("data/problem.pddl", "data/domain.pddl")]
 
     def __plot_data(self, times, total_nodes, plot_title):
-        plt.plot(total_nodes, times, "b:o")
+        data = dict()
+        for i in range(len(total_nodes)):
+            data[total_nodes[i]] = times[i]
+        nodes_sorted = sorted(list(data.keys()))
+        times_y = []
+        for node_opened in nodes_sorted:
+            times_y.append(data[node_opened])
+        plt.plot(nodes_sorted, times_y, "r:o")
         plt.xlabel("Number of opened nodes")
         plt.ylabel("Planning computation time")
+        plt.xscale('symlog')
         plt.title(plot_title)
-        plt.xscale("symlog")
-        plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
 
@@ -50,9 +56,8 @@ class DataAnalyst:
         plt.scatter(total_nodes, times)
         plt.xlabel("Number of opened nodes")
         plt.ylabel("Planning computation time")
+        plt.xscale('symlog')
         plt.title(plot_title)
-        plt.xscale("symlog")
-        plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
 
@@ -61,7 +66,6 @@ class DataAnalyst:
     ):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
-            has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
                 logging.debug("Loading new PDDL instance planned with A*...")
@@ -69,7 +73,7 @@ class DataAnalyst:
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
                 if heuristic_key in apla.available_heuristics:
-                    _, total_time, opened_nodes = apla.astar_best_first_search(
+                    path, total_time, opened_nodes = apla.astar_best_first_search(
                         heuristic=apla.available_heuristics[heuristic_key]
                     )
                 else:
@@ -77,17 +81,21 @@ class DataAnalyst:
                         "Heuristic is not implemented! (Key not found in registered heuristics dict)"
                     )
                     return [0], [0], has_multiple_files_tested
-                metrics[total_time] = opened_nodes
+                if path:
+                    metrics[total_time] = opened_nodes
+                else:
+                    metrics[0] = 0
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
             return times, total_nodes, has_multiple_files_tested
+        has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
         if heuristic_key in apla.available_heuristics:
-            _, total_time, opened_nodes = apla.astar_best_first_search(
+            path, total_time, opened_nodes = apla.astar_best_first_search(
                 heuristic=apla.available_heuristics[heuristic_key]
             )
         else:
@@ -95,7 +103,10 @@ class DataAnalyst:
                 "Heuristic is not implemented! (Key not found in registered heuristics dict)"
             )
             return [0], [0], has_multiple_files_tested
-        return [total_time], [opened_nodes], has_multiple_files_tested
+        if path:
+            return [total_time], [opened_nodes], has_multiple_files_tested
+        else:
+            return [0], [0], has_multiple_files_tested
 
     def plot_astar_data(self, heuristic_key="goal_count", domain="", problem=""):
         if bool(not problem) != bool(not domain):
@@ -115,25 +126,31 @@ class DataAnalyst:
     def __gather_data_bfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
-            has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
                 logging.debug("Loading new PDDL instance planned with BFS...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
-                _, total_time, opened_nodes = apla.breadth_first_search()
-                metrics[total_time] = opened_nodes
+                path, total_time, opened_nodes = apla.breadth_first_search()
+                if path:
+                    metrics[total_time] = opened_nodes
+                else:
+                    metrics[0] = 0
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
             return times, total_nodes, has_multiple_files_tested
+        has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
-        _, total_time, opened_nodes = apla.breadth_first_search()
-        return [total_time], [opened_nodes], has_multiple_files_tested
+        path, total_time, opened_nodes = apla.breadth_first_search()
+        if path:
+            return [total_time], [opened_nodes], has_multiple_files_tested
+        else:
+            return [0], [0], has_multiple_files_tested
 
     def plot_bfs(self, domain="", problem=""):
         title = "BFS Statistics"
@@ -153,25 +170,31 @@ class DataAnalyst:
     def __gather_data_dfs(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
-            has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
                 logging.debug("Loading new PDDL instance planned with DFS...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
-                _, total_time, opened_nodes = apla.depth_first_search()
-                metrics[total_time] = opened_nodes
+                path, total_time, opened_nodes = apla.depth_first_search()
+                if path:
+                    metrics[total_time] = opened_nodes
+                else:
+                    metrics[0] = 0
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
             return times, total_nodes, has_multiple_files_tested
+        has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
-        _, total_time, opened_nodes = apla.depth_first_search()
-        return [total_time], [opened_nodes], has_multiple_files_tested
+        path, total_time, opened_nodes = apla.depth_first_search()
+        if path:
+            return [total_time], [opened_nodes], has_multiple_files_tested
+        else:
+            return [0], [0], has_multiple_files_tested
 
     def plot_dfs(self, problem="", domain=""):
         title = "DFS Statistics"
@@ -191,25 +214,31 @@ class DataAnalyst:
     def __gather_data_dijkstra(self, domain_path="", problem_path=""):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
-            has_multiple_files_tested = False
             metrics = dict()
             for problem, domain in self.__get_all_pddl_from_data():
                 logging.debug("Loading new PDDL instance planned with Dijkstra...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
-                _, total_time, opened_nodes = apla.dijktra_best_first_search()
-                metrics[total_time] = opened_nodes
+                path, total_time, opened_nodes = apla.dijktra_best_first_search()
+                if path:
+                    metrics[total_time] = opened_nodes
+                else:
+                    metrics[0] = 0
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
             return times, total_nodes, has_multiple_files_tested
+        has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
-        _, total_time, opened_nodes = apla.dijktra_best_first_search()
-        return [total_time], [opened_nodes], has_multiple_files_tested
+        path, total_time, opened_nodes = apla.dijktra_best_first_search()
+        if path:
+            return [total_time], [opened_nodes], has_multiple_files_tested
+        else:
+            return [0], [0], has_multiple_files_tested
 
     def plot_dijkstra(self, problem="", domain=""):
         title = "Dijkstra Statistics"
