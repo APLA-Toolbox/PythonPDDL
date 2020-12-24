@@ -31,6 +31,15 @@ class AutomatedPlanner:
         self.logger = logging.getLogger("automated_planning")
         coloredlogs.install(level=log_level)
 
+        # Running external Julia functions once to create the routes
+        self.__run_julia_once()
+
+    def __run_julia_once(self):
+        self.satisfies(self.problem.goal, self.initial_state)
+        self.state_has_term(self.initial_state, self.goals[0])
+        actions = self.available_actions(self.initial_state)
+        self.transition(self.initial_state, actions[0])
+
     def __init_logger(self, log_level):
         import os
 
