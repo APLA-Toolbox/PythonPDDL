@@ -1,0 +1,3 @@
+[submodule "pddl-examples"]
+	path = pddl-examples
+	url = https://github.com/APLA-Toolbox/pddl-examples
