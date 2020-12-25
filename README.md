@@ -59,6 +59,7 @@ If you want to use it by cloning the project:
 ```shell
 $ git clone https://github.com/APLA-Toolbox/PythonPDDL
 $ cd PythonPDDL
+$ python3 -m pip install -r requirements.txt
 $ git submodule init
 $ git submodule update
 ```
