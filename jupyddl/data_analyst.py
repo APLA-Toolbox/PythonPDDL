@@ -246,7 +246,7 @@ class DataAnalyst:
             return [total_time], [opened_nodes], has_multiple_files_tested
         return [0], [0], has_multiple_files_tested
 
-    def plot_dijkstra(self, problem="", domain=""):
+    def plot_dijkstra(self, problem="", domain="", max_pddl_instances=-1):
         title = "Dijkstra Statistics"
         if bool(not problem) != bool(not domain):
             logging.warning(
@@ -294,21 +294,22 @@ class DataAnalyst:
                     domain_path=domain,
                     problem_path=problem,
                     heuristic_key=heuristic_key,
+                    max_pddl_instances=max_pddl_instances
                 )
             else:
-                times, nodes, _ = g(domain_path=domain, problem_path=problem)
+                times, nodes, _ = g(domain_path=domain, problem_path=problem, max_pddl_instances=max_pddl_instances)
             ydata[name] = times
             xdata[name] = nodes
         return xdata, ydata
 
-    def comparative_astar_heuristic_plot(self, domain="", problem=""):
+    def comparative_astar_heuristic_plot(self, domain="", problem="", max_pddl_instances=-1):
         _, ax = plt.subplots()
         plt.xlabel("Number of opened nodes")
         plt.ylabel("Planning computation time (s)")
 
         for h in self.available_heuristics:
             times, nodes, _ = self.__gather_data_astar(
-                domain_path=domain, problem_path=problem, heuristic_key=h
+                domain_path=domain, problem_path=problem, heuristic_key=h, max_pddl_instances=max_pddl_instances
             )
             data = dict()
             for i, val in enumerate(nodes):
