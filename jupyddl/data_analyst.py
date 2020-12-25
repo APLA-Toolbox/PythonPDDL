@@ -21,19 +21,25 @@ class DataAnalyst:
         logging.info("Instantiating data analyst...")
         self.available_heuristics = ["goal_count", "zero"]
 
-    def __get_all_pddl_from_data(self):
+    def __get_all_pddl_from_data(self, max_pddl_instances=-1):
         tested_files = []
         domains_problems = []
         i = 0
         if "DISPLAY" in os.environ:
             for root, _, files in os.walk("pddl-examples/", topdown=False):
                 for name in files:
-                    # if ".gitkeep" in name:
+                    # if "README" in name:
+                    #    continue
+                    # if "LICENSE" in name:
+                    #    continue
+                    # if ".gitignore" in name:
                     #    continue
                     tested_files.append(os.getcwd() + "/" + os.path.join(root, name))
                     if i % 2 != 0:
                         domains_problems.append((tested_files[i - 1], tested_files[i]))
                     i += 1
+                    if max_pddl_instances != -1 and i >= max_pddl_instances*2:
+                        return domains_problems
             return domains_problems
         return [
             ("pddl-examples/flip/problem.pddl", "pddl-examples/flip/domain.pddl"),
@@ -66,12 +72,12 @@ class DataAnalyst:
         plt.show(block=False)
 
     def __gather_data_astar(
-        self, domain_path="", problem_path="", heuristic_key="goal_count"
+        self, domain_path="", problem_path="", heuristic_key="goal_count", max_pddl_instances=-1
     ):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
-            for problem, domain in self.__get_all_pddl_from_data():
+            for problem, domain in self.__get_all_pddl_from_data(max_pddl_instances=max_pddl_instances):
                 logging.debug("Loading new PDDL instance planned with A*...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
@@ -111,14 +117,14 @@ class DataAnalyst:
             return [total_time], [opened_nodes], has_multiple_files_tested
         return [0], [0], has_multiple_files_tested
 
-    def plot_astar(self, heuristic_key="goal_count", domain="", problem=""):
+    def plot_astar(self, heuristic_key="goal_count", domain="", problem="", max_pddl_instances=-1):
         if bool(not problem) != bool(not domain):
             logging.warning(
                 "Either problem or domain wasn't provided, testing all files in data folder"
             )
             problem = domain = ""
         times, total_nodes, has_multiple_files_tested = self.__gather_data_astar(
-            heuristic_key=heuristic_key, problem_path=problem, domain_path=domain
+            heuristic_key=heuristic_key, problem_path=problem, domain_path=domain, max_pddl_instances=max_pddl_instances
         )
         title = "A* Statistics" + "[Heuristic: " + heuristic_key + "]"
         if has_multiple_files_tested:
@@ -126,11 +132,11 @@ class DataAnalyst:
         else:
             self.__scatter_data(times, total_nodes, title)
 
-    def __gather_data_bfs(self, domain_path="", problem_path=""):
+    def __gather_data_bfs(self, domain_path="", problem_path="", max_pddl_instances=-1):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
-            for problem, domain in self.__get_all_pddl_from_data():
+            for problem, domain in self.__get_all_pddl_from_data(max_pddl_instances=max_pddl_instances):
                 logging.debug("Loading new PDDL instance planned with BFS...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
@@ -154,7 +160,7 @@ class DataAnalyst:
             return [total_time], [opened_nodes], has_multiple_files_tested
         return [0], [0], has_multiple_files_tested
 
-    def plot_bfs(self, domain="", problem=""):
+    def plot_bfs(self, domain="", problem="", max_pddl_instances=-1):
         title = "BFS Statistics"
         if bool(not problem) != bool(not domain):
             logging.warning(
@@ -162,18 +168,18 @@ class DataAnalyst:
             )
             problem = domain = ""
         times, total_nodes, has_multiple_files_tested = self.__gather_data_bfs(
-            problem_path=problem, domain_path=domain
+            problem_path=problem, domain_path=domain, max_pddl_instances=max_pddl_instances
         )
         if has_multiple_files_tested:
             self.__plot_data(times, total_nodes, title)
         else:
             self.__scatter_data(times, total_nodes, title)
 
-    def __gather_data_dfs(self, domain_path="", problem_path=""):
+    def __gather_data_dfs(self, domain_path="", problem_path="", max_pddl_instances=-1):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
-            for problem, domain in self.__get_all_pddl_from_data():
+            for problem, domain in self.__get_all_pddl_from_data(max_pddl_instances=max_pddl_instances):
                 logging.debug("Loading new PDDL instance planned with DFS...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
@@ -197,7 +203,7 @@ class DataAnalyst:
             return [total_time], [opened_nodes], has_multiple_files_tested
         return [0], [0], has_multiple_files_tested
 
-    def plot_dfs(self, problem="", domain=""):
+    def plot_dfs(self, problem="", domain="", max_pddl_instances=-1):
         title = "DFS Statistics"
         if bool(not problem) != bool(not domain):
             logging.warning(
@@ -205,18 +211,18 @@ class DataAnalyst:
             )
             problem = domain = ""
         times, total_nodes, has_multiple_files_tested = self.__gather_data_dfs(
-            problem_path=problem, domain_path=domain
+            problem_path=problem, domain_path=domain, max_pddl_instances=max_pddl_instances
         )
         if has_multiple_files_tested:
             self.__plot_data(times, total_nodes, title)
         else:
             self.__scatter_data(times, total_nodes, title)
 
-    def __gather_data_dijkstra(self, domain_path="", problem_path=""):
+    def __gather_data_dijkstra(self, domain_path="", problem_path="", max_pddl_instances=-1):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
-            for problem, domain in self.__get_all_pddl_from_data():
+            for problem, domain in self.__get_all_pddl_from_data(max_pddl_instances=max_pddl_instances):
                 logging.debug("Loading new PDDL instance planned with Dijkstra...")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
@@ -248,7 +254,7 @@ class DataAnalyst:
             )
             problem = domain = ""
         times, total_nodes, has_multiple_files_tested = self.__gather_data_dijkstra(
-            problem_path=problem, domain_path=domain
+            problem_path=problem, domain_path=domain, max_pddl_instances=max_pddl_instances
         )
         if has_multiple_files_tested:
             self.__plot_data(times, total_nodes, title)
@@ -264,6 +270,7 @@ class DataAnalyst:
         dijkstra=True,
         domain="",
         problem="",
+        max_pddl_instances=-1
     ):
         gatherers = []
         xdata = dict()
@@ -334,6 +341,7 @@ class DataAnalyst:
         problem="",
         heuristic_key="goal_count",
         collect_new_data=True,
+        max_pddl_instances=-1
     ):
         json_dict = {}
         if collect_new_data:
@@ -345,6 +353,7 @@ class DataAnalyst:
                 dijkstra=dijkstra,
                 domain=domain,
                 problem=problem,
+                max_pddl_instances=max_pddl_instances
             )
             json_dict["xdata"] = xdata
             json_dict["ydata"] = ydata
@@ -363,6 +372,7 @@ class DataAnalyst:
                     dijkstra=dijkstra,
                     domain=domain,
                     problem=problem,
+                    max_pddl_instances=max_pddl_instances
                 )
                 json_dict["xdata"] = xdata
                 json_dict["ydata"] = ydata
