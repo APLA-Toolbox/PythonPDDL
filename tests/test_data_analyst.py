@@ -84,6 +84,7 @@ def test_data_analyst_plot_astar_h_goal_count():
     da.plot_astar()
     assert True
 
+
 def test_data_analyst_plot_dfs_restricted():
     da = DataAnalyst()
     da.plot_dfs(max_pddl_instances=2)
