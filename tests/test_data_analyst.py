@@ -84,6 +84,29 @@ def test_data_analyst_plot_astar_h_goal_count():
     da.plot_astar()
     assert True
 
+def test_data_analyst_plot_dfs_restricted():
+    da = DataAnalyst()
+    da.plot_dfs(max_pddl_instances=2)
+    assert True
+
+
+def test_data_analyst_plot_bfs_restricted():
+    da = DataAnalyst()
+    da.plot_bfs(max_pddl_instances=2)
+    assert True
+
+
+def test_data_analyst_plot_dijkstra_restricted():
+    da = DataAnalyst()
+    da.plot_dijkstra(max_pddl_instances=2)
+    assert True
+
+
+def test_data_analyst_plot_astar_h_goal_count_restricted():
+    da = DataAnalyst()
+    da.plot_astar(max_pddl_instances=2)
+    assert True
+
 
 def test_data_analyst_plot_astar_h_zero():
     da = DataAnalyst()
