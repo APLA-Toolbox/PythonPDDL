@@ -26,12 +26,12 @@ def test_searchBFS():
 def test_searchDijkstra():
     dijk = DijkstraBestFirstSearch(apla)
     res = dijk.search()             # Goal, computation_time, opened_nodes(in this order)
-    assert res[1] != 0
-    #assert res[-1] >= 1
+    assert res[1] != 0              # Assert that it took some time to compute
+    assert res[-1] > 0              # Assert that it visited some nodes
 
 
 def test_searchAStar():
     astar = AStarBestFirstSearch(apla, apla.available_heuristics["goal_count"])
     res = astar.search()            # Goal, computation_time, opened_nodes(in this order)
-    assert res[1] != 0
-    #assert res[-1] >= 1
+    assert res[1] != 0              # Assert that it took time to compute
+    assert res[-1] > 0              # Assert that it visited at least one node
