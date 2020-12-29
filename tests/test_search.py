@@ -10,21 +10,27 @@ import sys
 
 
 def test_searchDFS():
-    apla = AutomatedPlanner("pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl")
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
     dfs = DepthFirstSearch(apla)
     res = dfs.search()
     assert res[1] != 0  # Path, computation time, opened nodes
 
 
 def test_searchBFS():
-    apla = AutomatedPlanner("pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl")
+    apla = AutomatedPlanner(
+        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+    )
     bfs = BreadthFirstSearch(apla)
     res = bfs.search()  # Path, computation time, opened nodes
     assert res[1] != 0
 
 
 def test_searchDijkstra():
-    apla = AutomatedPlanner("pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl")
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
     dijk = DijkstraBestFirstSearch(apla)
     res = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
     assert res[1] != 0  # Assert that it took some time to compute
@@ -32,7 +38,9 @@ def test_searchDijkstra():
 
 
 def test_searchAStar():
-    apla = AutomatedPlanner("pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl")
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
     astar = AStarBestFirstSearch(apla, apla.available_heuristics["goal_count"])
     res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
     assert res[1] != 0  # Assert that it took time to compute
