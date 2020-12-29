@@ -8,7 +8,7 @@ from os import path
 import coloredlogs
 import sys
 
-apla = AutomatedPlanner("data/domain.pddl", "data/problem.pddl")
+apla = AutomatedPlanner("pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl")
 
 
 def test_searchDFS():
