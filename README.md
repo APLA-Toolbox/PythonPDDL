@@ -104,7 +104,7 @@ da.plot_astar() # plots complexity statistics for all the problem.pddl/domain.pd
 
 da.plot_astar(problem="pddl-examples/flip/problem.pddl", domain="pddl-examples/flip/domain.pddl") # scatter complexity statistics for the provided pddl
 
-da.plot_astar(heuristic_key="zero") # use h=0 instead of goal_count for your computation
+da.plot_astar(heuristic_key="basic/zero") # use h=0 instead of goal_count for your computation
 
 da.plot_dfs() # same as astar
 
@@ -112,7 +112,7 @@ da.comparative_data_plot() # Run all planners on the pddl-examples folder and pl
 
 da.comparative_data_plot(astar=False) # Exclude astar from the comparative plot
 
-da.comparative_data_plot(heuristic_key="zero") # use zero heuristic for h based planners
+da.comparative_data_plot(heuristic_key="basic/zero") # use zero heuristic for h based planners
 
 da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the data
 ```

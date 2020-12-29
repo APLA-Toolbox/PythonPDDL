@@ -1,11 +1,11 @@
-from .heuristics import zero_heuristic
 from .node import Node
 import logging
 import math
 from datetime import datetime as timestamp
 from time import time as now
 
-
+def zero_heuristic():
+    return 0
 class DijkstraBestFirstSearch:
     def __init__(self, automated_planner):
         self.automated_planner = automated_planner

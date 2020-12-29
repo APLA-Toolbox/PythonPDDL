@@ -1,4 +1,3 @@
-from jupyddl.heuristics import goal_count_heuristic, zero_heuristic
 from jupyddl.automated_planner import AutomatedPlanner
 from jupyddl.dijkstra import DijkstraBestFirstSearch
 from jupyddl.a_star import AStarBestFirstSearch
@@ -41,7 +40,7 @@ def test_searchAStar():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
-    astar = AStarBestFirstSearch(apla, apla.available_heuristics["goal_count"])
+    astar = AStarBestFirstSearch(apla, apla.available_heuristics["basic/goal_count"])
     res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
     assert res[1] != 0  # Assert that it took time to compute
     assert res[-1] > 0  # Assert that it visited at least one node

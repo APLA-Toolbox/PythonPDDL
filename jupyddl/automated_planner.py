@@ -2,7 +2,7 @@ from .bfs import BreadthFirstSearch
 from .dfs import DepthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 from .a_star import AStarBestFirstSearch
-from .heuristics import goal_count_heuristic, zero_heuristic
+from .heuristics import BasicHeuristic
 import coloredlogs
 import logging
 import julia
@@ -22,9 +22,10 @@ class AutomatedPlanner:
         self.problem = self.pddl.load_problem(problem_path)
         self.initial_state = self.pddl.initialize(self.problem)
         self.goals = self.__flatten_goal()
-        self.available_heuristics = dict()
-        self.available_heuristics["goal_count"] = goal_count_heuristic
-        self.available_heuristics["zero"] = zero_heuristic
+        self.available_heuristics = [
+            "basic/zero",
+            "basic/goal_count"
+        ]
 
         # Logger
         self.__init_logger(log_level)
@@ -40,6 +41,8 @@ class AutomatedPlanner:
         actions = self.available_actions(self.initial_state)
         self.transition(self.initial_state, actions[0])
 
+    def __rela
+
     def __init_logger(self, log_level):
         import os
 
@@ -53,7 +56,7 @@ class AutomatedPlanner:
         )
 
     def display_available_heuristics(self):
-        print(list(self.available_heuristics.keys()))
+        print(self.available_heuristics)
 
     def transition(self, state, action):
         return self.pddl.transition(self.domain, state, action, check=False)
@@ -125,8 +128,13 @@ class AutomatedPlanner:
 
         return path, total_time, opened_nodes
 
-    def astar_best_first_search(self, heuristic=goal_count_heuristic):
-        astar = AStarBestFirstSearch(self, heuristic)
+    def astar_best_first_search(self, heuristic_key="basic/goal_count"):
+        if "basic" in heuristic_key:
+            heuristic = BasicHeuristic(self, heuristic_key)
+        else: 
+            logging.fatal("Not yet implemented")
+            exit()
+        astar = AStarBestFirstSearch(self, heuristic.compute)
         last_node, total_time, opened_nodes = astar.search()
         path = self.__retrace_path(last_node)
 
