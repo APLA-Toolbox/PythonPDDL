@@ -13,11 +13,12 @@ from time import time as now
 
 logging.getLogger("julia").setLevel(logging.WARNING)
 
-
 class AutomatedPlanner:
     def __init__(self, domain_path, problem_path, log_level="DEBUG"):
         # Planning Tool
         self.pddl = PDDL
+        self.domain_path = domain_path
+        self.problem_path = problem_path
         self.domain = self.pddl.load_domain(domain_path)
         self.problem = self.pddl.load_problem(problem_path)
         self.initial_state = self.pddl.initialize(self.problem)
@@ -41,7 +42,6 @@ class AutomatedPlanner:
         actions = self.available_actions(self.initial_state)
         self.transition(self.initial_state, actions[0])
 
-    def __rela
 
     def __init_logger(self, log_level):
         import os
