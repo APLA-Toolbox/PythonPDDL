@@ -16,7 +16,7 @@ To do:
 
 def test_zero_heuristic():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     heuristic = hs.BasicHeuristic(apla, "basic/zero")
     h = heuristic.compute(apla.initial_state)

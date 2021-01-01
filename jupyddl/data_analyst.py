@@ -42,7 +42,7 @@ class DataAnalyst:
                         return domains_problems
             return domains_problems
         return [
-            ("pddl-examples/flip/problem.pddl", "pddl-examples/flip/domain.pddl"),
+            ("pddl-examples/dinner/problem.pddl", "pddl-examples/dinner/domain.pddl"),
             ("pddl-examples/dinner/problem.pddl", "pddl-examples/dinner/domain.pddl"),
         ]
 

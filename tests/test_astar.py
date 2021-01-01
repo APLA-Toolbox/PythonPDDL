@@ -10,7 +10,7 @@ from jupyddl.heuristics import DeleteRelaxationHeuristic, BasicHeuristic
 
 def test_astar_basic():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
@@ -18,7 +18,7 @@ def test_astar_basic():
 
 def test_astar_delete_relaxation():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     heuristic = DeleteRelaxationHeuristic(apla, "delete_relaxation/h_max")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
@@ -26,7 +26,7 @@ def test_astar_delete_relaxation():
 
 def test_astar_goal():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
@@ -36,7 +36,7 @@ def test_astar_goal():
 
 def test_astar_path_length():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     path, _, _ = apla.astar_best_first_search()
     assert len(path) > 0

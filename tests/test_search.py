@@ -20,7 +20,7 @@ def test_search_dfs():
 
 def test_search_bfs():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     bfs = BreadthFirstSearch(apla)
     res = bfs.search()  # Path, computation time, opened nodes

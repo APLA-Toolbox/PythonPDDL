@@ -69,7 +69,7 @@ You should have a `pddl-examples` folder containing PDDL instances.
 
 ```python
 from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
-apl = AutomatedPlanner("pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl)
+apl = AutomatedPlanner("pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl)
 
 apl.initial_state
 <PyCall.jlwrap PDDL.State(Set(Julog.Term[row(r1), column(c3), row(r3), row(r2), column(c2), column(c1)]), Set(Julog.Term[white(r2, c1), white(r1, c2), white(r3, c2), white(r2, c3)]), Dict{Symbol,Any}())>
@@ -102,7 +102,7 @@ from jupyddl import DataAnalyst
 da = DataAnalyst()
 da.plot_astar() # plots complexity statistics for all the problem.pddl/domain.pddl couples in the pddl-examples/ folder
 
-da.plot_astar(problem="pddl-examples/flip/problem.pddl", domain="pddl-examples/flip/domain.pddl") # scatter complexity statistics for the provided pddl
+da.plot_astar(problem="pddl-examples/dinner/problem.pddl", domain="pddl-examples/dinner/domain.pddl") # scatter complexity statistics for the provided pddl
 
 da.plot_astar(heuristic_key="basic/zero") # use h=0 instead of goal_count for your computation
 
