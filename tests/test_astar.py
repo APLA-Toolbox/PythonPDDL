@@ -33,8 +33,8 @@ def test_astar_goal():
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
-    path, _, _ = astar.search()
-    assert heuristic.compute(path[-1].state) == 0
+    lastnode, _, _ = astar.search()
+    assert lastnode and lastnode.parent
 
 
 def test_astar_path_length():
