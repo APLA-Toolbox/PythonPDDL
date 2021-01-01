@@ -58,24 +58,29 @@ class DeleteRelaxationHeuristic:
         goals = self.automated_planner.goals
         types = state.types 
         facts = state.facts 
-
         fact_costs = self.automated_planner.pddl.init_facts_costs(facts)
         while not(len(fact_costs) == self.automated_planner.pddl.length(facts) and self.__facts_eq(fact_costs, facts)):
             facts, state = self.automated_planner.pddl.get_facts_and_state(fact_costs, types)
             if self.automated_planner.satisfies(goals, state):
-                costs = [fact_costs[g] for g in goals]
+                costs = []
+                fact_costs_str = dict( [(str(k), val) for k, val in fact_costs.items()] )
+                for g in goals:
+                    if str(g) in fact_costs_str:
+                        costs.append(fact_costs_str[str(g)])
                 costs.insert(0, 0)
                 return self.heuristic_keys[self.current_h](costs)
             
             for ax in self.cache.axioms:
-                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivatiion(
+                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivation(
                     facts, fact_costs, ax, self.current_h
                 )
             
             actions = self.automated_planner.available_actions(state)
+            if not actions:
+                break
             for act in actions:
                 fact_costs = self.automated_planner.pddl.compute_cost_action_effect(
-                    fact_costs, act, domain, self.cache.preconds, self.cache.additions, self.current_h
+                    fact_costs, act, domain, self.cache.additions, self.current_h
                 )
         return float("inf")
 
@@ -84,14 +89,13 @@ class DeleteRelaxationHeuristic:
             return
         domain = self.automated_planner.domain
         domain, axioms = self.automated_planner.pddl.compute_hsp_axioms(domain)
-        preconditions = dict()
+        # preconditions = dict()
         additions = dict()
+        self.automated_planner.pddl.cache_global_preconditions(domain)
         for name, definition in domain.actions.items():
-            precond = self.automated_planner.pddl.filter_negative_preconds(definition)
-            preconditions[name] = precond
             additions[name] = self.automated_planner.pddl.effect_diff(definition.effect).add
         self.cache.additions = additions
-        self.cache.preconds = preconditions
+        self.cache.preconds = self.automated_planner.pddl.g_preconditions
         self.cache.domain = domain
         self.cache.axioms = axioms
         self.has_been_precomputed = True

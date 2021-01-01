@@ -19,7 +19,7 @@ import json
 class DataAnalyst:
     def __init__(self):
         logging.info("Instantiating data analyst...")
-        self.available_heuristics = ["basic/goal_count", "basic/zero"]
+        self.available_heuristics = ["basic/goal_count", "basic/zero", "delete_relaxation/h_add", "delete_relaxation/h_max"]
 
     def __get_all_pddl_from_data(self, max_pddl_instances=-1):
         tested_files = []
@@ -84,7 +84,7 @@ class DataAnalyst:
             for problem, domain in self.__get_all_pddl_from_data(
                 max_pddl_instances=max_pddl_instances
             ):
-                logging.debug("Loading new PDDL instance planned with A*...")
+                logging.debug("Loading new PDDL instance planned with A* [ " + heuristic_key + " ]")
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
