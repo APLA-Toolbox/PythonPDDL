@@ -19,7 +19,12 @@ import json
 class DataAnalyst:
     def __init__(self):
         logging.info("Instantiating data analyst...")
-        self.available_heuristics = ["goal_count", "zero"]
+        self.available_heuristics = [
+            "basic/goal_count",
+            "basic/zero",
+            "delete_relaxation/h_add",
+            "delete_relaxation/h_max",
+        ]
 
     def __get_all_pddl_from_data(self, max_pddl_instances=-1):
         tested_files = []
@@ -42,7 +47,7 @@ class DataAnalyst:
                         return domains_problems
             return domains_problems
         return [
-            ("pddl-examples/flip/problem.pddl", "pddl-examples/flip/domain.pddl"),
+            ("pddl-examples/dinner/problem.pddl", "pddl-examples/dinner/domain.pddl"),
             ("pddl-examples/dinner/problem.pddl", "pddl-examples/dinner/domain.pddl"),
         ]
 
@@ -75,7 +80,7 @@ class DataAnalyst:
         self,
         domain_path="",
         problem_path="",
-        heuristic_key="goal_count",
+        heuristic_key="basic/goal_count",
         max_pddl_instances=-1,
     ):
         has_multiple_files_tested = True
@@ -84,13 +89,17 @@ class DataAnalyst:
             for problem, domain in self.__get_all_pddl_from_data(
                 max_pddl_instances=max_pddl_instances
             ):
-                logging.debug("Loading new PDDL instance planned with A*...")
+                logging.debug(
+                    "Loading new PDDL instance planned with A* [ "
+                    + heuristic_key
+                    + " ]"
+                )
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
                 if heuristic_key in apla.available_heuristics:
                     path, total_time, opened_nodes = apla.astar_best_first_search(
-                        heuristic=apla.available_heuristics[heuristic_key]
+                        heuristic_key=heuristic_key
                     )
                 else:
                     logging.critical(
@@ -112,7 +121,7 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         if heuristic_key in apla.available_heuristics:
             path, total_time, opened_nodes = apla.astar_best_first_search(
-                heuristic=apla.available_heuristics[heuristic_key]
+                heuristic_key=heuristic_key
             )
         else:
             logging.critical(
@@ -124,7 +133,11 @@ class DataAnalyst:
         return [0], [0], has_multiple_files_tested
 
     def plot_astar(
-        self, heuristic_key="goal_count", domain="", problem="", max_pddl_instances=-1
+        self,
+        heuristic_key="basic/goal_count",
+        domain="",
+        problem="",
+        max_pddl_instances=-1,
     ):
         if bool(not problem) != bool(not domain):
             logging.warning(
@@ -288,7 +301,7 @@ class DataAnalyst:
 
     def __gather_data(
         self,
-        heuristic_key="goal_count",
+        heuristic_key="basic/goal_count",
         astar=True,
         bfs=True,
         dfs=True,
@@ -354,10 +367,7 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=h,
+                nodes_sorted, times_y, "-o", label=h,
             )
 
         plt.title("A* heuristics complexity comparison")
@@ -374,7 +384,7 @@ class DataAnalyst:
         dijkstra=True,
         domain="",
         problem="",
-        heuristic_key="goal_count",
+        heuristic_key="basic/goal_count",
         collect_new_data=True,
         max_pddl_instances=-1,
     ):
@@ -429,10 +439,7 @@ class DataAnalyst:
             for node_opened in nodes_sorted:
                 times_y.append(data[node_opened])
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=planner,
+                nodes_sorted, times_y, "-o", label=planner,
             )
         plt.title("Planners complexity comparison")
         plt.legend(loc="upper left")

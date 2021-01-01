@@ -16,15 +16,26 @@ To do:
 
 def test_zero_heuristic():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
-    heuristic = hs.zero_heuristic(apla.initial_state, apla)
-    assert heuristic == 0
+    heuristic = hs.BasicHeuristic(apla, "basic/zero")
+    h = heuristic.compute(apla.initial_state)
+    assert h == 0
 
 
 def test_goal_count_heuristic():
     apla = AutomatedPlanner(
-        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
-    heuristic = hs.goal_count_heuristic(apla.initial_state, apla)
-    assert heuristic == 1
+    heuristic = hs.BasicHeuristic(apla, "basic/goal_count")
+    h = heuristic.compute(apla.initial_state)
+    assert h != 0
+
+
+def test_delete_relaxation_add_heuristic():
+    apla = AutomatedPlanner(
+        "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
+    )
+    heuristic = hs.DeleteRelaxationHeuristic(apla, "delete_relaxation/h_max")
+    h = heuristic.compute(apla.initial_state)
+    assert h != 0

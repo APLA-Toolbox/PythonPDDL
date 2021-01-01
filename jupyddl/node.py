@@ -22,7 +22,7 @@ class Node:
             self.g_cost = temp_cost
             if heuristic_based:
                 if heuristic:
-                    self.h_cost = heuristic(state, automated_planner)
+                    self.h_cost = heuristic(state)
                 else:
                     automated_planner.logger.warning(
                         "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
@@ -38,7 +38,7 @@ class Node:
                 self.g_cost = g_cost
             if heuristic_based:
                 if heuristic:
-                    self.h_cost = heuristic(state, automated_planner)
+                    self.h_cost = heuristic(state)
                 else:
                     automated_planner.logger.warning(
                         "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
