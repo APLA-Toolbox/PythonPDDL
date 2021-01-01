@@ -31,6 +31,7 @@ def test_goal_count_heuristic():
     h = heuristic.compute(apla.initial_state)
     assert h != 0
 
+
 def test_delete_relaxation_add_heuristic():
     apla = AutomatedPlanner(
         "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"

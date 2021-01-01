@@ -13,6 +13,7 @@ from time import time as now
 
 logging.getLogger("julia").setLevel(logging.WARNING)
 
+
 class AutomatedPlanner:
     def __init__(self, domain_path, problem_path, log_level="DEBUG"):
         # Planning Tool
@@ -27,7 +28,7 @@ class AutomatedPlanner:
             "basic/zero",
             "basic/goal_count",
             "delete_relaxation/h_add",
-            "delete_relaxation/h_max"
+            "delete_relaxation/h_max",
         ]
 
         # Logger
@@ -43,7 +44,6 @@ class AutomatedPlanner:
         self.state_has_term(self.initial_state, self.goals[0])
         actions = self.available_actions(self.initial_state)
         self.transition(self.initial_state, actions[0])
-
 
     def __init_logger(self, log_level):
         import os
@@ -133,7 +133,7 @@ class AutomatedPlanner:
     def astar_best_first_search(self, heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
             heuristic = BasicHeuristic(self, heuristic_key)
-        elif "delete_relaxation" in heuristic_key: 
+        elif "delete_relaxation" in heuristic_key:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
         else:
             logging.fatal("Not yet implemented")

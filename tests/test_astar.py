@@ -8,6 +8,7 @@ from jupyddl.automated_planner import AutomatedPlanner
 from jupyddl.a_star import AStarBestFirstSearch
 from jupyddl.heuristics import DeleteRelaxationHeuristic, BasicHeuristic
 
+
 def test_astar_basic():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
@@ -16,6 +17,7 @@ def test_astar_basic():
     astar = AStarBestFirstSearch(apla, heuristic.compute)
     assert astar.init.h_cost == heuristic.compute(apla.initial_state)
 
+
 def test_astar_delete_relaxation():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
@@ -23,6 +25,7 @@ def test_astar_delete_relaxation():
     heuristic = DeleteRelaxationHeuristic(apla, "delete_relaxation/h_max")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
     assert astar.init.h_cost == heuristic.compute(apla.initial_state)
+
 
 def test_astar_goal():
     apla = AutomatedPlanner(

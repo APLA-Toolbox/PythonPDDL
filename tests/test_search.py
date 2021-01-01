@@ -47,6 +47,7 @@ def test_search_astar_basic():
     assert res[1] != 0  # Assert that it took time to compute
     assert res[-1] > 0  # Assert that it visited at least one node
 
+
 def test_search_astar_delete_relaxation():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
@@ -56,4 +57,3 @@ def test_search_astar_delete_relaxation():
     res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
     assert res[1] != 0  # Assert that it took time to compute
     assert res[-1] > 0  # Assert that it visited at least one node
-
