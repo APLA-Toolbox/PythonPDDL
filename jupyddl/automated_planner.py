@@ -2,7 +2,7 @@ from .bfs import BreadthFirstSearch
 from .dfs import DepthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 from .a_star import AStarBestFirstSearch
-from .heuristics import BasicHeuristic
+from .heuristics import BasicHeuristic, DeleteRelaxationHeuristic
 import coloredlogs
 import logging
 import julia
@@ -25,7 +25,9 @@ class AutomatedPlanner:
         self.goals = self.__flatten_goal()
         self.available_heuristics = [
             "basic/zero",
-            "basic/goal_count"
+            "basic/goal_count",
+            "delete_relaxation/h_add",
+            "delete_relaxation/h_max"
         ]
 
         # Logger
@@ -131,7 +133,9 @@ class AutomatedPlanner:
     def astar_best_first_search(self, heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
             heuristic = BasicHeuristic(self, heuristic_key)
-        else: 
+        elif "delete_relaxation" in heuristic_key: 
+            heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
+        else:
             logging.fatal("Not yet implemented")
             exit()
         astar = AStarBestFirstSearch(self, heuristic.compute)

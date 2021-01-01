@@ -51,7 +51,7 @@ class DeleteRelaxationHeuristic:
         self.__pre_compute()
         # return self.heuristic_keys[self.current_h](state)
 
-    def compute(self, state, goals):
+    def compute(self, state):
         if not self.has_been_precomputed:
             self.__pre_compute()
         domain = self.cache.domain
@@ -59,17 +59,25 @@ class DeleteRelaxationHeuristic:
         types = state.types 
         facts = state.facts 
 
-        fact_costs = dict([(f, 0) for f in facts])
-        while not(len(fact_costs) == len(facts) and self.__facts_eq(fact_costs, facts)):
-            facts_set = self.automated_planner.pddl.Set(self.automated_planner.pddl.keys(fact_costs))
-            state = self.automated_planner.pddl.create_state(types, facts_set)
+        fact_costs = self.automated_planner.pddl.init_facts_costs(facts)
+        while not(len(fact_costs) == self.automated_planner.pddl.length(facts) and self.__facts_eq(fact_costs, facts)):
+            facts, state = self.automated_planner.pddl.get_facts_and_state(fact_costs, types)
             if self.automated_planner.satisfies(goals, state):
                 costs = [fact_costs[g] for g in goals]
                 costs.insert(0, 0)
                 return self.heuristic_keys[self.current_h](costs)
             
             for ax in self.cache.axioms:
-                pass
+                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivatiion(
+                    facts, fact_costs, ax, self.current_h
+                )
+            
+            actions = self.automated_planner.available_actions(state)
+            for act in actions:
+                fact_costs = self.automated_planner.pddl.compute_cost_action_effect(
+                    fact_costs, act, domain, self.cache.preconds, self.cache.additions, self.current_h
+                )
+        return float("inf")
 
     def __pre_compute(self):
         if self.has_been_precomputed:
@@ -86,6 +94,7 @@ class DeleteRelaxationHeuristic:
         self.cache.preconds = preconditions
         self.cache.domain = domain
         self.cache.axioms = axioms
+        self.has_been_precomputed = True
         
 
     def __h_add(self, costs):
