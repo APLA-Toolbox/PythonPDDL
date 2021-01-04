@@ -67,7 +67,10 @@ class AutomatedPlanner:
         try:
             return self.pddl.available(state, self.domain)
         except (RuntimeError, TypeError, NameError):
-            self.logger.warning("Runtime, Type or Name error occured when fetching available action from state" + str(state))
+            self.logger.warning(
+                "Runtime, Type or Name error occured when fetching available action from state"
+                + str(state)
+            )
             return []
 
     def satisfies(self, asserted_state, state):
