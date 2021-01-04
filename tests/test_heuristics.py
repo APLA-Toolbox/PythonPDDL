@@ -18,6 +18,7 @@ def test_zero_heuristic():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
+    apla.display_available_heuristics()
     heuristic = hs.BasicHeuristic(apla, "basic/zero")
     h = heuristic.compute(apla.initial_state)
     assert h == 0
@@ -27,6 +28,7 @@ def test_goal_count_heuristic():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
+    apla.display_available_heuristics()
     heuristic = hs.BasicHeuristic(apla, "basic/goal_count")
     h = heuristic.compute(apla.initial_state)
     assert h != 0
@@ -36,6 +38,7 @@ def test_delete_relaxation_add_heuristic():
     apla = AutomatedPlanner(
         "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
     )
+    apla.display_available_heuristics()
     heuristic = hs.DeleteRelaxationHeuristic(apla, "delete_relaxation/h_max")
     h = heuristic.compute(apla.initial_state)
     assert h != 0

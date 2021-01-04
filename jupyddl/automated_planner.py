@@ -64,7 +64,14 @@ class AutomatedPlanner:
         return self.pddl.transition(self.domain, state, action, check=False)
 
     def available_actions(self, state):
-        return self.pddl.available(state, self.domain)
+        try:
+            return self.pddl.available(state, self.domain)
+        except (RuntimeError, TypeError, NameError):
+            self.logger.warning(
+                "Runtime, Type or Name error occured when fetching available action from state"
+                + str(state)
+            )
+            return []
 
     def satisfies(self, asserted_state, state):
         return self.pddl.satisfy(asserted_state, state, self.domain)[0]
@@ -137,7 +144,7 @@ class AutomatedPlanner:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
         else:
             logging.fatal("Not yet implemented")
-            exit()
+            return [], 0, 0
         astar = AStarBestFirstSearch(self, heuristic.compute)
         last_node, total_time, opened_nodes = astar.search()
         path = self.__retrace_path(last_node)

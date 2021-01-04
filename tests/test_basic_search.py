@@ -1,5 +1,5 @@
 from jupyddl.automated_planner import AutomatedPlanner
-from jupyddl.dijkstra import DijkstraBestFirstSearch
+from jupyddl.dijkstra import DijkstraBestFirstSearch, zero_heuristic
 from jupyddl.a_star import AStarBestFirstSearch
 from jupyddl.bfs import BreadthFirstSearch
 from jupyddl.heuristics import BasicHeuristic, DeleteRelaxationHeuristic
@@ -37,6 +37,33 @@ def test_search_dijkstra():
     assert res[-1] > 0  # Assert that it visited some nodes
 
 
+def test_search_dijkstra_no_path():
+    apla = AutomatedPlanner(
+        "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
+    )
+    dijk = DijkstraBestFirstSearch(apla)
+    res = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not res[0]
+
+
+def test_search_dfs_no_path():
+    apla = AutomatedPlanner(
+        "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
+    )
+    dfs = DepthFirstSearch(apla)
+    res = dfs.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not res[0]
+
+
+def test_search_bfs_no_path():
+    apla = AutomatedPlanner(
+        "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
+    )
+    bfs = BreadthFirstSearch(apla)
+    res = bfs.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not res[0]
+
+
 def test_search_astar_basic():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
@@ -48,12 +75,16 @@ def test_search_astar_basic():
     assert res[-1] > 0  # Assert that it visited at least one node
 
 
-def test_search_astar_delete_relaxation():
+def test_search_astar_basic_no_path():
     apla = AutomatedPlanner(
-        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+        "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
-    heuristic = DeleteRelaxationHeuristic(apla, "delete_relaxation/h_max")
+    heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
     res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert res[1] != 0  # Assert that it took time to compute
-    assert res[-1] > 0  # Assert that it visited at least one node
+    assert not res[0]
+
+
+def test_zero_heuristic():
+    assert zero_heuristic() == 0
+    
