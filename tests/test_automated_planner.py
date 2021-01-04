@@ -81,4 +81,3 @@ def test_astar():
     plan = apla.get_actions_from_path(path)
     plan_state = apla.get_state_def_from_path(path)
     assert plan and plan_state
-
