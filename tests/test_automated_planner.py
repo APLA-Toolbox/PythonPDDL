@@ -45,6 +45,7 @@ def test_state_assertion():
     )
     assert not apla.satisfies(apla.problem.goal, apla.initial_state)
 
+
 def test_bfs():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
@@ -54,6 +55,7 @@ def test_bfs():
     plan_state = apla.get_state_def_from_path(path)
     assert plan and plan_state
 
+
 def test_dfs():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
@@ -62,6 +64,7 @@ def test_dfs():
     plan = apla.get_actions_from_path(path)
     plan_state = apla.get_state_def_from_path(path)
     assert plan and plan_state
+
 
 def test_dij():
     apla = AutomatedPlanner(

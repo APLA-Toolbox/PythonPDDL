@@ -87,4 +87,3 @@ def test_search_astar_basic_no_path():
 
 def test_zero_heuristic():
     assert zero_heuristic() == 0
-    

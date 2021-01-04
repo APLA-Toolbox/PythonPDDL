@@ -367,7 +367,10 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted, times_y, "-o", label=h,
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=h,
             )
 
         plt.title("A* heuristics complexity comparison")
@@ -439,7 +442,10 @@ class DataAnalyst:
             for node_opened in nodes_sorted:
                 times_y.append(data[node_opened])
             ax.plot(
-                nodes_sorted, times_y, "-o", label=planner,
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=planner,
             )
         plt.title("Planners complexity comparison")
         plt.legend(loc="upper left")
