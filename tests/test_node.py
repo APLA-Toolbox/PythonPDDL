@@ -45,7 +45,7 @@ def test_stringified_node():
     for act in actions:
         next_state = apla.transition(apla.initial_state, act)
         next_node = Node(next_state, apla, heuristic_based=True)
-        assert not "<PyCall.jlwrap PDDL.State" in str(next_node) and not "Set(Julog.Term" in str(next_node)
+        assert "<PyCall.jlwrap PDDL.State" not in str(next_node) and "Set(Julog.Term" not in str(next_node)
 
 def test_stringified_path():
     apla = AutomatedPlanner(
@@ -57,4 +57,4 @@ def test_stringified_path():
         next_state = apla.transition(apla.initial_state, act)
         path.append(Node(next_state, apla, heuristic_based=True))
     
-    assert not "<PyCall.jlwrap PDDL.State" in str(Path(path)) and not "Set(Julog.Term" in str(Path(path))
+    assert "<PyCall.jlwrap PDDL.State" not in str(Path(path)) and "Set(Julog.Term" not in str(Path(path))
