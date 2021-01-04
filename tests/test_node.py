@@ -13,9 +13,6 @@ def test_node_equality_cost():
         "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
     )
     actions = apla.available_actions(apla.initial_state)
-    if not actions:
-        assert 0 == 1
-        return
     next_state = apla.transition(apla.initial_state, actions[0])
     next_node = Node(next_state, apla, heuristic_based=True)
     next_node_v2 = Node(next_state, apla)
@@ -31,9 +28,6 @@ def test_node_equality_no_cost():
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     actions = apla.available_actions(apla.initial_state)
-    if not actions:
-        assert 0 == 1
-        return
     next_state = apla.transition(apla.initial_state, actions[0])
     next_node = Node(next_state, apla, heuristic_based=True)
     next_node_v2 = Node(next_state, apla)
