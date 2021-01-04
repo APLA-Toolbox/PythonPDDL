@@ -87,27 +87,4 @@ def test_search_astar_basic_no_path():
 
 def test_zero_heuristic():
     assert zero_heuristic() == 0
-
-
-def test_search_getter_costs():
-    apla = AutomatedPlanner(
-        "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
-    )
-    bfs = BreadthFirstSearch(apla)
-    path, _, _ = bfs.search()  # Path, computation time, opened nodes
-    plan = apla.get_actions_from_path(path)
-    state_plan = apla.get_state_def_from_path(path)
-
-    assert path and plan and state_plan
-
-
-def test_search_getter_no_costs():
-    apla = AutomatedPlanner(
-        "pddl-examples/cargo/domain.pddl", "pddl-examples/cargo/problem.pddl"
-    )
-    bfs = BreadthFirstSearch(apla)
-    path, _, _ = bfs.search()  # Path, computation time, opened nodes
-    plan = apla.get_actions_from_path(path)
-    state_plan = apla.get_state_def_from_path(path)
-
-    assert path and plan and state_plan
+    
