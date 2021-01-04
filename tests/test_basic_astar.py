@@ -34,3 +34,17 @@ def test_astar_path_length():
     )
     path, _, _ = apla.astar_best_first_search()
     assert len(path) > 0
+
+def test_astar_path_no_path():
+    apla = AutomatedPlanner(
+        "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
+    )
+    path, _, _ = apla.astar_best_first_search()
+    assert len(path) == 0
+
+def test_astar_path_no_heuristic():
+    apla = AutomatedPlanner(
+        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+    )
+    p, t, c = apla.astar_best_first_search(heuristic_key="idontexist")
+    assert not p and not t and not c

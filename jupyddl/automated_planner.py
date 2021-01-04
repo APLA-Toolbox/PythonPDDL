@@ -69,9 +69,6 @@ class AutomatedPlanner:
         except (RuntimeError, TypeError, NameError):
             self.logger.warning("Runtime, Type or Name error occured when fetching available action from state" + str(state))
             return []
-        else:
-            self.logger.warning("An error occured when fetching available action from state" + str(state))
-            return []
 
     def satisfies(self, asserted_state, state):
         return self.pddl.satisfy(asserted_state, state, self.domain)[0]
@@ -144,7 +141,7 @@ class AutomatedPlanner:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
         else:
             logging.fatal("Not yet implemented")
-            exit()
+            return [], 0, 0
         astar = AStarBestFirstSearch(self, heuristic.compute)
         last_node, total_time, opened_nodes = astar.search()
         path = self.__retrace_path(last_node)

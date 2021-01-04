@@ -57,3 +57,28 @@ def test_search_astar_delete_relaxation():
     res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
     assert res[1] != 0  # Assert that it took time to compute
     assert res[-1] > 0  # Assert that it visited at least one node
+
+def test_search_getter_costs():
+    apla = AutomatedPlanner(
+        "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
+    )
+    bfs = BreadthFirstSearch(apla)
+    path, _, _ = bfs.search()  # Path, computation time, opened nodes
+    plan = apla.get_actions_from_path(path)
+    state_plan = apla.get_state_def_from_path(path)
+
+    assert path and plan and state_plan
+
+def test_search_getter_no_costs():
+    apla = AutomatedPlanner(
+        "pddl-examples/cargo/domain.pddl", "pddl-examples/cargo/problem.pddl"
+    )
+    bfs = BreadthFirstSearch(apla)
+    path, _, _ = bfs.search()  # Path, computation time, opened nodes
+    plan = apla.get_actions_from_path(path)
+    state_plan = apla.get_state_def_from_path(path)
+
+    assert path and plan and state_plan
+
+
+
