@@ -100,12 +100,21 @@ class AutomatedPlanner:
             return []
         actions = []
         for node in path:
-            actions.append((node.parent_action, node.g_cost))
+            if not node.parent_action:
+                break
+            act = str(node.parent_action).replace("<PyCall.jlwrap ", "")
+            cost = "total-cost = " + str(node.g_cost)
+            actions.append((act, cost))
 
-        cost = self.pddl.get_value(path[-1].state, "total-cost")
-        if not cost:
-            return actions
-        return (actions, cost)
+        return actions
+
+    def __stringify_state(self, state):
+        state_str = str(state).replace("<PyCall.jlwrap PDDL.State(", "")
+        state_str = state_str.replace("Set(Julog.Term[", "")
+        state_str = state_str.replace("])", "")
+        state_str = state_str.replace('Dict{Symbol,Any}(Symbol("total-cost") =>', "total-cost =")
+        state_str = state_str.replace("))>", "")
+        return state_str
 
     def get_state_def_from_path(self, path):
         if not path:
@@ -113,7 +122,8 @@ class AutomatedPlanner:
             return []
         trimmed_path = []
         for node in path:
-            trimmed_path.append(node.state)
+            state = self.__stringify_state(node.state)
+            trimmed_path.append(state)
         return trimmed_path
 
     def breadth_first_search(self):
