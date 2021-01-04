@@ -64,10 +64,7 @@ class DeleteRelaxationHeuristic:
         types = state.types
         facts = state.facts
         fact_costs = self.automated_planner.pddl.init_facts_costs(facts)
-        while not (
-            len(fact_costs) == self.automated_planner.pddl.length(facts)
-            and self.__facts_eq(fact_costs, facts)
-        ):
+        while True:
             facts, state = self.automated_planner.pddl.get_facts_and_state(
                 fact_costs, types
             )
@@ -88,12 +85,14 @@ class DeleteRelaxationHeuristic:
                 )
 
             actions = self.automated_planner.available_actions(state)
-            if not actions:
-                break
             for act in actions:
                 fact_costs = self.automated_planner.pddl.compute_cost_action_effect(
                     fact_costs, act, domain, self.cache.additions, self.current_h
                 )
+
+            if len(fact_costs) == self.automated_planner.pddl.length(facts) and self.__facts_eq(fact_costs, facts):
+                break
+
         return float("inf")
 
     def __pre_compute(self):
@@ -121,7 +120,8 @@ class DeleteRelaxationHeuristic:
         return max(costs)
 
     def __facts_eq(self, facts_dict, facts_set):
+        fact_costs_str = dict([(str(k), val) for k, val in facts_dict.items()])
         for f in facts_set:
-            if not (f in facts_dict.keys()):
+            if not (str(f) in fact_costs_str.keys()):
                 return False
         return True

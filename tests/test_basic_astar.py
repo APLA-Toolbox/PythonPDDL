@@ -6,7 +6,7 @@ from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from jupyddl.automated_planner import AutomatedPlanner
 from jupyddl.a_star import AStarBestFirstSearch
-from jupyddl.heuristics import DeleteRelaxationHeuristic, BasicHeuristic
+from jupyddl.heuristics import BasicHeuristic
 
 
 def test_astar_basic():
@@ -14,15 +14,6 @@ def test_astar_basic():
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
-    astar = AStarBestFirstSearch(apla, heuristic.compute)
-    assert astar.init.h_cost == heuristic.compute(apla.initial_state)
-
-
-def test_astar_delete_relaxation():
-    apla = AutomatedPlanner(
-        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
-    )
-    heuristic = DeleteRelaxationHeuristic(apla, "delete_relaxation/h_max")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
     assert astar.init.h_cost == heuristic.compute(apla.initial_state)
 
