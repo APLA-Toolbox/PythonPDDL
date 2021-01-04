@@ -64,7 +64,14 @@ class AutomatedPlanner:
         return self.pddl.transition(self.domain, state, action, check=False)
 
     def available_actions(self, state):
-        return self.pddl.available(state, self.domain)
+        try:
+            return self.pddl.available(state, self.domain)
+        except (RuntimeError, TypeError, NameError):
+            self.logger.warning("Runtime, Type or Name error occured when fetching available action from state" + str(state))
+            return []
+        else:
+            self.logger.warning("An error occured when fetching available action from state" + str(state))
+            return []
 
     def satisfies(self, asserted_state, state):
         return self.pddl.satisfy(asserted_state, state, self.domain)[0]
