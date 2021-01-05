@@ -71,6 +71,9 @@ You should have a `pddl-examples` folder containing PDDL instances.
 from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
 apl = AutomatedPlanner("pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl)
 
+apl.available_heuristics
+["basic/zero", "basic/goal_count", "delete_relaxation/h_max", "delete_relaxation/h_add"]
+
 apl.initial_state
 <PyCall.jlwrap PDDL.State(Set(Julog.Term[row(r1), column(c3), row(r3), row(r2), column(c2), column(c1)]), Set(Julog.Term[white(r2, c1), white(r1, c2), white(r3, c2), white(r2, c3)]), Dict{Symbol,Any}())>
 
@@ -115,6 +118,8 @@ da.comparative_data_plot(astar=False) # Exclude astar from the comparative plot
 da.comparative_data_plot(heuristic_key="basic/zero") # use zero heuristic for h based planners
 
 da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the data
+
+da.comparative_astar_heuristic_plot() # compare results of astar with all available heuristics
 ```
 
 
