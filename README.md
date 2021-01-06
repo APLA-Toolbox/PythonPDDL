@@ -20,6 +20,7 @@ A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing i
 - Dijkstra
 - A*
     - Goal Count Heuristic
+    - Delete Relaxation Heuristics (Hmax, Hadd)
 
 # Dependencies
 
