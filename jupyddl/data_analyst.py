@@ -86,6 +86,7 @@ class DataAnalyst:
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
+            costs = []
             for problem, domain in self.__get_all_pddl_from_data(
                 max_pddl_instances=max_pddl_instances
             ):
@@ -105,15 +106,17 @@ class DataAnalyst:
                     logging.critical(
                         "Heuristic is not implemented! (Key not found in registered heuristics dict)"
                     )
-                    return [0], [0], has_multiple_files_tested
+                    return [0], [0], [0], has_multiple_files_tested
                 if path:
                     metrics[total_time] = opened_nodes
+                    costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
+                    costs.append(0)
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
-            return times, total_nodes, has_multiple_files_tested
+            return costs, times, total_nodes, has_multiple_files_tested
         has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
@@ -127,10 +130,10 @@ class DataAnalyst:
             logging.critical(
                 "Heuristic is not implemented! (Key not found in registered heuristics dict)"
             )
-            return [0], [0], has_multiple_files_tested
+            return [0], [0], [0], has_multiple_files_tested
         if path:
-            return [total_time], [opened_nodes], has_multiple_files_tested
-        return [0], [0], has_multiple_files_tested
+            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+        return [0], [0], [0], has_multiple_files_tested
 
     def plot_astar(
         self,
@@ -144,7 +147,7 @@ class DataAnalyst:
                 "Either problem or domain wasn't provided, testing all files in data folder"
             )
             problem = domain = ""
-        times, total_nodes, has_multiple_files_tested = self.__gather_data_astar(
+        _, times, total_nodes, has_multiple_files_tested = self.__gather_data_astar(
             heuristic_key=heuristic_key,
             problem_path=problem,
             domain_path=domain,
@@ -160,6 +163,7 @@ class DataAnalyst:
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
+            costs = []
             for problem, domain in self.__get_all_pddl_from_data(
                 max_pddl_instances=max_pddl_instances
             ):
@@ -170,12 +174,14 @@ class DataAnalyst:
                 path, total_time, opened_nodes = apla.breadth_first_search()
                 if path:
                     metrics[total_time] = opened_nodes
+                    costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
+                    costs.append(0)
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
-            return times, total_nodes, has_multiple_files_tested
+            return costs, times, total_nodes, has_multiple_files_tested
         has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
@@ -183,8 +189,8 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         path, total_time, opened_nodes = apla.breadth_first_search()
         if path:
-            return [total_time], [opened_nodes], has_multiple_files_tested
-        return [0], [0], has_multiple_files_tested
+            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+        return [0], [0], [0], has_multiple_files_tested
 
     def plot_bfs(self, domain="", problem="", max_pddl_instances=-1):
         title = "BFS Statistics"
@@ -193,7 +199,7 @@ class DataAnalyst:
                 "Either problem or domain wasn't provided, testing all files in data folder"
             )
             problem = domain = ""
-        times, total_nodes, has_multiple_files_tested = self.__gather_data_bfs(
+        _, times, total_nodes, has_multiple_files_tested = self.__gather_data_bfs(
             problem_path=problem,
             domain_path=domain,
             max_pddl_instances=max_pddl_instances,
@@ -207,6 +213,7 @@ class DataAnalyst:
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
+            costs = []
             for problem, domain in self.__get_all_pddl_from_data(
                 max_pddl_instances=max_pddl_instances
             ):
@@ -217,12 +224,14 @@ class DataAnalyst:
                 path, total_time, opened_nodes = apla.depth_first_search()
                 if path:
                     metrics[total_time] = opened_nodes
+                    costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
+                    costs.append(0)
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
-            return times, total_nodes, has_multiple_files_tested
+            return costs, times, total_nodes, has_multiple_files_tested
         has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
@@ -230,8 +239,8 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         path, total_time, opened_nodes = apla.depth_first_search()
         if path:
-            return [total_time], [opened_nodes], has_multiple_files_tested
-        return [0], [0], has_multiple_files_tested
+            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+        return [0], [0], [0], has_multiple_files_tested
 
     def plot_dfs(self, problem="", domain="", max_pddl_instances=-1):
         title = "DFS Statistics"
@@ -240,7 +249,7 @@ class DataAnalyst:
                 "Either problem or domain wasn't provided, testing all files in data folder"
             )
             problem = domain = ""
-        times, total_nodes, has_multiple_files_tested = self.__gather_data_dfs(
+        _, times, total_nodes, has_multiple_files_tested = self.__gather_data_dfs(
             problem_path=problem,
             domain_path=domain,
             max_pddl_instances=max_pddl_instances,
@@ -256,6 +265,7 @@ class DataAnalyst:
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
             metrics = dict()
+            costs = []
             for problem, domain in self.__get_all_pddl_from_data(
                 max_pddl_instances=max_pddl_instances
             ):
@@ -266,12 +276,14 @@ class DataAnalyst:
                 path, total_time, opened_nodes = apla.dijktra_best_first_search()
                 if path:
                     metrics[total_time] = opened_nodes
+                    costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
+                    costs.append(0)
 
             total_nodes = list(metrics.values())
             times = list(metrics.keys())
-            return times, total_nodes, has_multiple_files_tested
+            return costs, times, total_nodes, has_multiple_files_tested
         has_multiple_files_tested = False
         logging.debug("Loading new PDDL instance...")
         logging.debug("Domain: " + domain_path)
@@ -279,8 +291,8 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         path, total_time, opened_nodes = apla.dijktra_best_first_search()
         if path:
-            return [total_time], [opened_nodes], has_multiple_files_tested
-        return [0], [0], has_multiple_files_tested
+            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+        return [0], [0], [0], has_multiple_files_tested
 
     def plot_dijkstra(self, problem="", domain="", max_pddl_instances=-1):
         title = "Dijkstra Statistics"
@@ -289,7 +301,7 @@ class DataAnalyst:
                 "Either problem or domain wasn't provided, testing all files in data folder"
             )
             problem = domain = ""
-        times, total_nodes, has_multiple_files_tested = self.__gather_data_dijkstra(
+        _, times, total_nodes, has_multiple_files_tested = self.__gather_data_dijkstra(
             problem_path=problem,
             domain_path=domain,
             max_pddl_instances=max_pddl_instances,
@@ -323,19 +335,19 @@ class DataAnalyst:
         if astar:
             gatherers.append(("A*", self.__gather_data_astar))
 
-        _, _, _ = self.__gather_data_bfs(
+        _, _, _, _ = self.__gather_data_bfs(
             domain_path=domain, problem_path=problem
         )  # Dummy line to do first parsing and get rid of static loading
         for name, g in gatherers:
             if g == self.__gather_data_astar:
-                times, nodes, _ = self.__gather_data_astar(
+                _, times, nodes, _ = self.__gather_data_astar(
                     domain_path=domain,
                     problem_path=problem,
                     heuristic_key=heuristic_key,
                     max_pddl_instances=max_pddl_instances,
                 )
             else:
-                times, nodes, _ = g(
+                _, times, nodes, _ = g(
                     domain_path=domain,
                     problem_path=problem,
                     max_pddl_instances=max_pddl_instances,
@@ -352,7 +364,7 @@ class DataAnalyst:
         plt.ylabel("Planning computation time (s)")
 
         for h in self.available_heuristics:
-            times, nodes, _ = self.__gather_data_astar(
+            _, times, nodes, _ = self.__gather_data_astar(
                 domain_path=domain,
                 problem_path=problem,
                 heuristic_key=h,
@@ -453,3 +465,42 @@ class DataAnalyst:
         plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
+
+    def compute_planners_efficiency(self):
+        costs = dict()
+        costs["A* [Goal_Count]"], _, n_goal_count, _ = self.__gather_data_astar()
+        costs["A* [H_Max]"], _, n_hmax, _ = self.__gather_data_astar(heuristic_key="delete_relaxation/h_max")
+        costs["A* [H_Add]"], _, n_hadd, _ = self.__gather_data_astar(heuristic_key="delete_relaxation/h_add")
+        costs["DFS"], _, n_dfs, _ = self.__gather_data_dfs()
+        costs["BFS"], _, n_bfs, _ = self.__gather_data_bfs()
+        costs["Dijkstra"], _, n_dij, _ = self.__gather_data_dijkstra()
+
+        p_gc = (len(n_goal_count) - n_goal_count.count(0)) / len(n_goal_count) * 100
+        p_hmax = (len(n_hmax) - n_hmax.count(0)) / len(n_hmax) * 100
+        p_hadd = (len(n_hadd) - n_hadd.count(0)) / len(n_hadd) * 100
+        p_dfs = (len(n_dfs) - n_dfs.count(0)) / len(n_dfs) * 100
+        p_bfs = (len(n_bfs) - n_bfs.count(0)) / len(n_bfs) * 100
+        p_dij = (len(n_dij) - n_dij.count(0)) / len(n_dij) * 100
+
+        logging.info("DFS succeeded to build a plan with a %.2f%% rate" % p_dfs)
+        logging.info("BFS succeeded to build a plan with a %.2f%% rate" % p_bfs)
+        logging.info("Dijkstra succeeded to build a plan with a %.2f%% rate" % p_dij)
+        logging.info("A* [Goal_Count] succeeded to build a plan with a %.2f%% rate" % p_gc)
+        logging.info("A* [H_Max] succeeded to build a plan with a %.2f%% rate" % p_hmax)
+        logging.info("A* [H_Add] succeeded to build a plan with a %.2f%% rate" % p_hadd)
+
+        _, ax = plt.subplots()
+        plt.xlabel("Domain evaluated")
+        plt.ylabel("Cost to goal")
+        for key, val in costs.items():
+            ax.plot(
+                val,
+                "-o",
+                label=key,
+            )
+        plt.title("Planners efficiency (costs)")
+        plt.legend(loc="upper left")
+        plt.grid(True)
+        plt.show(block=False)
+
+        
