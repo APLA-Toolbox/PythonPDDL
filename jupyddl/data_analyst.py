@@ -132,7 +132,12 @@ class DataAnalyst:
             )
             return [0], [0], [0], has_multiple_files_tested
         if path:
-            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+            return (
+                [path[-1].g_cost],
+                [total_time],
+                [opened_nodes],
+                has_multiple_files_tested,
+            )
         return [0], [0], [0], has_multiple_files_tested
 
     def plot_astar(
@@ -189,7 +194,12 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         path, total_time, opened_nodes = apla.breadth_first_search()
         if path:
-            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+            return (
+                [path[-1].g_cost],
+                [total_time],
+                [opened_nodes],
+                has_multiple_files_tested,
+            )
         return [0], [0], [0], has_multiple_files_tested
 
     def plot_bfs(self, domain="", problem="", max_pddl_instances=-1):
@@ -239,7 +249,12 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         path, total_time, opened_nodes = apla.depth_first_search()
         if path:
-            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+            return (
+                [path[-1].g_cost],
+                [total_time],
+                [opened_nodes],
+                has_multiple_files_tested,
+            )
         return [0], [0], [0], has_multiple_files_tested
 
     def plot_dfs(self, problem="", domain="", max_pddl_instances=-1):
@@ -291,7 +306,12 @@ class DataAnalyst:
         apla = AutomatedPlanner(domain_path, problem_path)
         path, total_time, opened_nodes = apla.dijktra_best_first_search()
         if path:
-            return [path[-1].g_cost], [total_time], [opened_nodes], has_multiple_files_tested
+            return (
+                [path[-1].g_cost],
+                [total_time],
+                [opened_nodes],
+                has_multiple_files_tested,
+            )
         return [0], [0], [0], has_multiple_files_tested
 
     def plot_dijkstra(self, problem="", domain="", max_pddl_instances=-1):
@@ -469,8 +489,12 @@ class DataAnalyst:
     def compute_planners_efficiency(self):
         costs = dict()
         costs["A* [Goal_Count]"], _, n_goal_count, _ = self.__gather_data_astar()
-        costs["A* [H_Max]"], _, n_hmax, _ = self.__gather_data_astar(heuristic_key="delete_relaxation/h_max")
-        costs["A* [H_Add]"], _, n_hadd, _ = self.__gather_data_astar(heuristic_key="delete_relaxation/h_add")
+        costs["A* [H_Max]"], _, n_hmax, _ = self.__gather_data_astar(
+            heuristic_key="delete_relaxation/h_max"
+        )
+        costs["A* [H_Add]"], _, n_hadd, _ = self.__gather_data_astar(
+            heuristic_key="delete_relaxation/h_add"
+        )
         costs["DFS"], _, n_dfs, _ = self.__gather_data_dfs()
         costs["BFS"], _, n_bfs, _ = self.__gather_data_bfs()
         costs["Dijkstra"], _, n_dij, _ = self.__gather_data_dijkstra()
@@ -485,7 +509,9 @@ class DataAnalyst:
         logging.info("DFS succeeded to build a plan with a %.2f%% rate" % p_dfs)
         logging.info("BFS succeeded to build a plan with a %.2f%% rate" % p_bfs)
         logging.info("Dijkstra succeeded to build a plan with a %.2f%% rate" % p_dij)
-        logging.info("A* [Goal_Count] succeeded to build a plan with a %.2f%% rate" % p_gc)
+        logging.info(
+            "A* [Goal_Count] succeeded to build a plan with a %.2f%% rate" % p_gc
+        )
         logging.info("A* [H_Max] succeeded to build a plan with a %.2f%% rate" % p_hmax)
         logging.info("A* [H_Add] succeeded to build a plan with a %.2f%% rate" % p_hadd)
 
@@ -502,5 +528,3 @@ class DataAnalyst:
         plt.legend(loc="upper left")
         plt.grid(True)
         plt.show(block=False)
-
-        

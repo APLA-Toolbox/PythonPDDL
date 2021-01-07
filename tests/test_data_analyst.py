@@ -175,6 +175,7 @@ def test_comparative_zero_h():
     )
     assert True
 
+
 def test_success_rate():
     da = DataAnalyst()
     da.compute_planners_efficiency()
