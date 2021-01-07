@@ -240,13 +240,20 @@ class DataAnalyst:
                 "Either problem or domain wasn't provided, testing all files in data folder"
             )
             problem = domain = ""
-        _, times, total_nodes, has_multiple_files_tested = self.__gather_data_greedy_bfs(
+        (
+            _,
+            times,
+            total_nodes,
+            has_multiple_files_tested,
+        ) = self.__gather_data_greedy_bfs(
             heuristic_key=heuristic_key,
             problem_path=problem,
             domain_path=domain,
             max_pddl_instances=max_pddl_instances,
         )
-        title = "Greedy Best First Search Statistics" + "[Heuristic: " + heuristic_key + "]"
+        title = (
+            "Greedy Best First Search Statistics" + "[Heuristic: " + heuristic_key + "]"
+        )
         if has_multiple_files_tested:
             self.__plot_data(times, total_nodes, title)
         else:
@@ -624,26 +631,42 @@ class DataAnalyst:
         costs["A* [H_Add]"], _, n_hadd, _ = self.__gather_data_astar(
             heuristic_key="delete_relaxation/h_add"
         )
-        costs["Greedy Best First [Goal_Count]"], _, n_greed_goal_count, _ = self.__gather_data_greedy_bfs(
-            heuristic_key="basic/goal_count"
-        )
-        costs["Greedy Best First [H_Max]"], _, n_greed_hmax, _ = self.__gather_data_greedy_bfs(
-            heuristic_key="delete_relaxation/h_max"
-        )
-        costs["Greedy Best First [H_Add]"], _, n_greed_hadd, _ = self.__gather_data_greedy_bfs(
-            heuristic_key="delete_relaxation/h_add"
-        )
+        (
+            costs["Greedy Best First [Goal_Count]"],
+            _,
+            n_greed_goal_count,
+            _,
+        ) = self.__gather_data_greedy_bfs(heuristic_key="basic/goal_count")
+        (
+            costs["Greedy Best First [H_Max]"],
+            _,
+            n_greed_hmax,
+            _,
+        ) = self.__gather_data_greedy_bfs(heuristic_key="delete_relaxation/h_max")
+        (
+            costs["Greedy Best First [H_Add]"],
+            _,
+            n_greed_hadd,
+            _,
+        ) = self.__gather_data_greedy_bfs(heuristic_key="delete_relaxation/h_add")
         costs["DFS"], _, n_dfs, _ = self.__gather_data_dfs()
         costs["BFS"], _, n_bfs, _ = self.__gather_data_bfs()
         costs["Dijkstra"], _, n_dij, _ = self.__gather_data_dijkstra()
-        
 
         p_gc = (len(n_goal_count) - n_goal_count.count(0)) / len(n_goal_count) * 100
         p_hmax = (len(n_hmax) - n_hmax.count(0)) / len(n_hmax) * 100
         p_hadd = (len(n_hadd) - n_hadd.count(0)) / len(n_hadd) * 100
-        p_greedy_gc = (len(n_greed_goal_count) - n_greed_goal_count.count(0)) / len(n_greed_goal_count) * 100
-        p_greedy_hmax = (len(n_greed_hmax) - n_greed_hmax.count(0)) / len(n_greed_hmax) * 100
-        p_greedy_hadd = (len(n_greed_hadd) - n_greed_hadd.count(0)) / len(n_greed_hadd) * 100
+        p_greedy_gc = (
+            (len(n_greed_goal_count) - n_greed_goal_count.count(0))
+            / len(n_greed_goal_count)
+            * 100
+        )
+        p_greedy_hmax = (
+            (len(n_greed_hmax) - n_greed_hmax.count(0)) / len(n_greed_hmax) * 100
+        )
+        p_greedy_hadd = (
+            (len(n_greed_hadd) - n_greed_hadd.count(0)) / len(n_greed_hadd) * 100
+        )
         p_dfs = (len(n_dfs) - n_dfs.count(0)) / len(n_dfs) * 100
         p_bfs = (len(n_bfs) - n_bfs.count(0)) / len(n_bfs) * 100
         p_dij = (len(n_dij) - n_dij.count(0)) / len(n_dij) * 100
@@ -663,17 +686,51 @@ class DataAnalyst:
         plt.grid(True)
         plt.show(block=False)
 
-
-        logging.info("DFS succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_dfs, sum(costs["DFS"])/len(costs["DFS"])))
-        logging.info("BFS succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_bfs, sum(costs["BFS"])/len(costs["BFS"])))
-        logging.info("Dijkstra succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_dij, sum(costs["Dijkstra"])/len(costs["Dijkstra"])))
         logging.info(
-            "A* [Goal_Count] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_gc, sum(costs["A* [Goal_Count]"])/len(costs["A* [Goal_Count]"]))
+            "DFS succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (p_dfs, sum(costs["DFS"]) / len(costs["DFS"]))
         )
-        logging.info("A* [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_hmax, sum(costs["A* [H_Max]"])/len(costs["A* [H_Max]"])))
-        logging.info("A* [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_hadd, sum(costs["A* [H_Add]"])/len(costs["A* [H_Add]"])))
         logging.info(
-            "Greedy Best First [Goal_Count] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_gc, sum(costs["Greedy Best First [Goal_Count]"])/len(costs["Greedy Best First [Goal_Count]"]))
+            "BFS succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (p_bfs, sum(costs["BFS"]) / len(costs["BFS"]))
         )
-        logging.info("Greedy Best First [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_hmax, sum(costs["Greedy Best First [H_Max]"])/len(costs["Greedy Best First [H_Max]"])))
-        logging.info("Greedy Best First [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_hadd, sum(costs["Greedy Best First [H_Add]"])/len(costs["Greedy Best First [H_Add]"])))
+        logging.info(
+            "Dijkstra succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (p_dij, sum(costs["Dijkstra"]) / len(costs["Dijkstra"]))
+        )
+        logging.info(
+            "A* [Goal_Count] succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (p_gc, sum(costs["A* [Goal_Count]"]) / len(costs["A* [Goal_Count]"]))
+        )
+        logging.info(
+            "A* [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (p_hmax, sum(costs["A* [H_Max]"]) / len(costs["A* [H_Max]"]))
+        )
+        logging.info(
+            "A* [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (p_hadd, sum(costs["A* [H_Add]"]) / len(costs["A* [H_Add]"]))
+        )
+        logging.info(
+            "Greedy Best First [Goal_Count] succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (
+                p_greedy_gc,
+                sum(costs["Greedy Best First [Goal_Count]"])
+                / len(costs["Greedy Best First [Goal_Count]"]),
+            )
+        )
+        logging.info(
+            "Greedy Best First [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (
+                p_greedy_hmax,
+                sum(costs["Greedy Best First [H_Max]"])
+                / len(costs["Greedy Best First [H_Max]"]),
+            )
+        )
+        logging.info(
+            "Greedy Best First [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average"
+            % (
+                p_greedy_hadd,
+                sum(costs["Greedy Best First [H_Add]"])
+                / len(costs["Greedy Best First [H_Add]"]),
+            )
+        )

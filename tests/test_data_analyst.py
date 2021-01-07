@@ -115,7 +115,6 @@ def test_data_analyst_plot_astar_h_max():
     assert True
 
 
-
 def test_data_analyst_plot_greedy_h_goal_count_restricted():
     da = DataAnalyst()
     da.plot_greedy_bfs(max_pddl_instances=2)
