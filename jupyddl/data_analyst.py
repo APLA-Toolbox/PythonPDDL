@@ -677,4 +677,3 @@ class DataAnalyst:
         )
         logging.info("Greedy Best First [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_hmax, sum(costs["Greedy Best First [H_Max]"])/len(costs["Greedy Best First [H_Max]"])))
         logging.info("Greedy Best First [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_hadd, sum(costs["Greedy Best First [H_Add]"])/len(costs["Greedy Best First [H_Add]"])))
-
