@@ -174,3 +174,8 @@ def test_comparative_zero_h():
         heuristic_key="zero",
     )
     assert True
+
+def test_success_rate():
+    da = DataAnalyst()
+    da.compute_planners_efficiency()
+    assert True
