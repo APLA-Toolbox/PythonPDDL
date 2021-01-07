@@ -175,6 +175,7 @@ def test_comparative_use_data_json():
     da.comparative_data_plot(
         domain="pddl-examples/dinner/domain.pddl",
         problem="pddl-examples/dinner/problem.pddl",
+        greedy_bfs=True,
         collect_new_data=False,
     )
     assert True
@@ -185,6 +186,7 @@ def test_comparative_zero_h():
     da.comparative_data_plot(
         domain="pddl-examples/dinner/domain.pddl",
         problem="pddl-examples/dinner/problem.pddl",
+        greedy_bfs=True,
         heuristic_key="zero",
     )
     assert True
