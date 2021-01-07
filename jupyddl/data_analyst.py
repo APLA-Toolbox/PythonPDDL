@@ -164,6 +164,94 @@ class DataAnalyst:
         else:
             self.__scatter_data(times, total_nodes, title)
 
+    def __gather_data_greedy_bfs(
+        self,
+        domain_path="",
+        problem_path="",
+        heuristic_key="basic/goal_count",
+        max_pddl_instances=-1,
+    ):
+        has_multiple_files_tested = True
+        if not domain_path or not problem_path:
+            metrics = dict()
+            costs = []
+            for problem, domain in self.__get_all_pddl_from_data(
+                max_pddl_instances=max_pddl_instances
+            ):
+                logging.debug(
+                    "Loading new PDDL instance planned with A* [ "
+                    + heuristic_key
+                    + " ]"
+                )
+                logging.debug("Domain: " + domain)
+                logging.debug("Problem: " + problem)
+                apla = AutomatedPlanner(domain, problem)
+                if heuristic_key in apla.available_heuristics:
+                    path, total_time, opened_nodes = apla.greedy_best_first_search(
+                        heuristic_key=heuristic_key
+                    )
+                else:
+                    logging.critical(
+                        "Heuristic is not implemented! (Key not found in registered heuristics dict)"
+                    )
+                    return [0], [0], [0], has_multiple_files_tested
+                if path:
+                    metrics[total_time] = opened_nodes
+                    costs.append(path[-1].g_cost)
+                else:
+                    metrics[0] = 0
+                    costs.append(0)
+
+            total_nodes = list(metrics.values())
+            times = list(metrics.keys())
+            return costs, times, total_nodes, has_multiple_files_tested
+        has_multiple_files_tested = False
+        logging.debug("Loading new PDDL instance...")
+        logging.debug("Domain: " + domain_path)
+        logging.debug("Problem: " + problem_path)
+        apla = AutomatedPlanner(domain_path, problem_path)
+        if heuristic_key in apla.available_heuristics:
+            path, total_time, opened_nodes = apla.greedy_best_first_search(
+                heuristic_key=heuristic_key
+            )
+        else:
+            logging.critical(
+                "Heuristic is not implemented! (Key not found in registered heuristics dict)"
+            )
+            return [0], [0], [0], has_multiple_files_tested
+        if path:
+            return (
+                [path[-1].g_cost],
+                [total_time],
+                [opened_nodes],
+                has_multiple_files_tested,
+            )
+        return [0], [0], [0], has_multiple_files_tested
+
+    def plot_greedy_bfs(
+        self,
+        heuristic_key="basic/goal_count",
+        domain="",
+        problem="",
+        max_pddl_instances=-1,
+    ):
+        if bool(not problem) != bool(not domain):
+            logging.warning(
+                "Either problem or domain wasn't provided, testing all files in data folder"
+            )
+            problem = domain = ""
+        _, times, total_nodes, has_multiple_files_tested = self.__gather_data_greedy_bfs(
+            heuristic_key=heuristic_key,
+            problem_path=problem,
+            domain_path=domain,
+            max_pddl_instances=max_pddl_instances,
+        )
+        title = "Greedy Best First Search Statistics" + "[Heuristic: " + heuristic_key + "]"
+        if has_multiple_files_tested:
+            self.__plot_data(times, total_nodes, title)
+        else:
+            self.__scatter_data(times, total_nodes, title)
+
     def __gather_data_bfs(self, domain_path="", problem_path="", max_pddl_instances=-1):
         has_multiple_files_tested = True
         if not domain_path or not problem_path:
@@ -338,6 +426,7 @@ class DataAnalyst:
         bfs=True,
         dfs=True,
         dijkstra=True,
+        greedy_bfs=False,
         domain="",
         problem="",
         max_pddl_instances=-1,
@@ -354,13 +443,15 @@ class DataAnalyst:
             gatherers.append(("Dijkstra", self.__gather_data_dijkstra))
         if astar:
             gatherers.append(("A*", self.__gather_data_astar))
+        if greedy_bfs:
+            gatherers.append(("Greedy Best First", self.__gather_data_greedy_bfs))
 
         _, _, _, _ = self.__gather_data_bfs(
             domain_path=domain, problem_path=problem
         )  # Dummy line to do first parsing and get rid of static loading
         for name, g in gatherers:
-            if g == self.__gather_data_astar:
-                _, times, nodes, _ = self.__gather_data_astar(
+            if g == self.__gather_data_astar or g == self.__gather_data_greedy_bfs:
+                _, times, nodes, _ = g(
                     domain_path=domain,
                     problem_path=problem,
                     heuristic_key=heuristic_key,
@@ -411,12 +502,48 @@ class DataAnalyst:
         plt.grid(True)
         plt.show(block=False)
 
+    def comparative_greedy_bfs_heuristic_plot(
+        self, domain="", problem="", max_pddl_instances=-1
+    ):
+        _, ax = plt.subplots()
+        plt.xlabel("Number of opened nodes")
+        plt.ylabel("Planning computation time (s)")
+
+        for h in self.available_heuristics:
+            _, times, nodes, _ = self.__gather_data_greedy_bfs(
+                domain_path=domain,
+                problem_path=problem,
+                heuristic_key=h,
+                max_pddl_instances=max_pddl_instances,
+            )
+            data = dict()
+            for i, val in enumerate(nodes):
+                data[val] = times[i]
+            nodes_sorted = sorted(list(data.keys()))
+            times_y = []
+            for node_opened in nodes_sorted:
+                times_y.append(data[node_opened])
+
+            ax.plot(
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=h,
+            )
+
+        plt.title("Greedy Best First heuristics complexity comparison")
+        plt.legend(loc="upper left")
+        plt.xscale("symlog")
+        plt.grid(True)
+        plt.show(block=False)
+
     def comparative_data_plot(
         self,
         astar=True,
         bfs=True,
         dfs=True,
         dijkstra=True,
+        greedy_bfs=False,
         domain="",
         problem="",
         heuristic_key="basic/goal_count",
@@ -431,6 +558,7 @@ class DataAnalyst:
                 dfs=dfs,
                 bfs=bfs,
                 dijkstra=dijkstra,
+                greedy_bfs=greedy_bfs,
                 domain=domain,
                 problem=problem,
                 max_pddl_instances=max_pddl_instances,
@@ -449,6 +577,7 @@ class DataAnalyst:
                     astar=astar,
                     dfs=dfs,
                     bfs=bfs,
+                    greedy_bfs=greedy_bfs,
                     dijkstra=dijkstra,
                     domain=domain,
                     problem=problem,
@@ -495,25 +624,29 @@ class DataAnalyst:
         costs["A* [H_Add]"], _, n_hadd, _ = self.__gather_data_astar(
             heuristic_key="delete_relaxation/h_add"
         )
+        costs["Greedy Best First [Goal_Count]"], _, n_greed_goal_count, _ = self.__gather_data_greedy_bfs(
+            heuristic_key="basic/goal_count"
+        )
+        costs["Greedy Best First [H_Max]"], _, n_greed_hmax, _ = self.__gather_data_greedy_bfs(
+            heuristic_key="delete_relaxation/h_max"
+        )
+        costs["Greedy Best First [H_Add]"], _, n_greed_hadd, _ = self.__gather_data_greedy_bfs(
+            heuristic_key="delete_relaxation/h_add"
+        )
         costs["DFS"], _, n_dfs, _ = self.__gather_data_dfs()
         costs["BFS"], _, n_bfs, _ = self.__gather_data_bfs()
         costs["Dijkstra"], _, n_dij, _ = self.__gather_data_dijkstra()
+        
 
         p_gc = (len(n_goal_count) - n_goal_count.count(0)) / len(n_goal_count) * 100
         p_hmax = (len(n_hmax) - n_hmax.count(0)) / len(n_hmax) * 100
         p_hadd = (len(n_hadd) - n_hadd.count(0)) / len(n_hadd) * 100
+        p_greedy_gc = (len(n_greed_goal_count) - n_greed_goal_count.count(0)) / len(n_greed_goal_count) * 100
+        p_greedy_hmax = (len(n_greed_hmax) - n_greed_hmax.count(0)) / len(n_greed_hmax) * 100
+        p_greedy_hadd = (len(n_greed_hadd) - n_greed_hadd.count(0)) / len(n_greed_hadd) * 100
         p_dfs = (len(n_dfs) - n_dfs.count(0)) / len(n_dfs) * 100
         p_bfs = (len(n_bfs) - n_bfs.count(0)) / len(n_bfs) * 100
         p_dij = (len(n_dij) - n_dij.count(0)) / len(n_dij) * 100
-
-        logging.info("DFS succeeded to build a plan with a %.2f%% rate" % p_dfs)
-        logging.info("BFS succeeded to build a plan with a %.2f%% rate" % p_bfs)
-        logging.info("Dijkstra succeeded to build a plan with a %.2f%% rate" % p_dij)
-        logging.info(
-            "A* [Goal_Count] succeeded to build a plan with a %.2f%% rate" % p_gc
-        )
-        logging.info("A* [H_Max] succeeded to build a plan with a %.2f%% rate" % p_hmax)
-        logging.info("A* [H_Add] succeeded to build a plan with a %.2f%% rate" % p_hadd)
 
         _, ax = plt.subplots()
         plt.xlabel("Domain evaluated")
@@ -524,7 +657,23 @@ class DataAnalyst:
                 "-o",
                 label=key,
             )
+            costs[key] = [i for i in costs[key] if i != 0]
         plt.title("Planners efficiency (costs)")
         plt.legend(loc="upper left")
         plt.grid(True)
         plt.show(block=False)
+
+
+        logging.info("DFS succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_dfs, sum(costs["DFS"])/len(costs["DFS"])))
+        logging.info("BFS succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_bfs, sum(costs["BFS"])/len(costs["BFS"])))
+        logging.info("Dijkstra succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_dij, sum(costs["Dijkstra"])/len(costs["Dijkstra"])))
+        logging.info(
+            "A* [Goal_Count] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_gc, sum(costs["A* [Goal_Count]"])/len(costs["A* [Goal_Count]"]))
+        )
+        logging.info("A* [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_hmax, sum(costs["A* [H_Max]"])/len(costs["A* [H_Max]"])))
+        logging.info("A* [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_hadd, sum(costs["A* [H_Add]"])/len(costs["A* [H_Add]"])))
+        logging.info(
+            "Greedy Best First [Goal_Count] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_gc, sum(costs["Greedy Best First [Goal_Count]"])/len(costs["Greedy Best First [Goal_Count]"]))
+        )
+        logging.info("Greedy Best First [H_Max] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_hmax, sum(costs["Greedy Best First [H_Max]"])/len(costs["Greedy Best First [H_Max]"])))
+        logging.info("Greedy Best First [H_Add] succeeded to build a plan with a %.2f%% rate and a %.2f cost average" % (p_greedy_hadd, sum(costs["Greedy Best First [H_Add]"])/len(costs["Greedy Best First [H_Add]"])))

@@ -109,9 +109,22 @@ def test_data_analyst_plot_astar_h_goal_count_restricted():
     assert True
 
 
-def test_data_analyst_plot_astar_h_zero():
+def test_data_analyst_plot_astar_h_max():
     da = DataAnalyst()
-    da.plot_astar(heuristic_key="zero")
+    da.plot_astar(heuristic_key="delete_relaxation/h_max")
+    assert True
+
+
+
+def test_data_analyst_plot_greedy_h_goal_count_restricted():
+    da = DataAnalyst()
+    da.plot_greedy_bfs(max_pddl_instances=2)
+    assert True
+
+
+def test_data_analyst_plot_greedy_hmax():
+    da = DataAnalyst()
+    da.plot_greedy_bfs(heuristic_key="delete_relaxation/h_max")
     assert True
 
 
@@ -150,6 +163,7 @@ def test_comparative_one_pddl():
     da.comparative_data_plot(
         dfs=False,
         bfs=False,
+        greedy_bfs=True,
         domain="pddl-examples/dinner/domain.pddl",
         problem="pddl-examples/dinner/problem.pddl",
     )
@@ -161,6 +175,7 @@ def test_comparative_use_data_json():
     da.comparative_data_plot(
         domain="pddl-examples/dinner/domain.pddl",
         problem="pddl-examples/dinner/problem.pddl",
+        greedy_bfs=True,
         collect_new_data=False,
     )
     assert True
@@ -171,6 +186,7 @@ def test_comparative_zero_h():
     da.comparative_data_plot(
         domain="pddl-examples/dinner/domain.pddl",
         problem="pddl-examples/dinner/problem.pddl",
+        greedy_bfs=True,
         heuristic_key="zero",
     )
     assert True
