@@ -6,7 +6,7 @@ from os import path
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from jupyddl.automated_planner import AutomatedPlanner
 from jupyddl.greedy_best_first import GreedyBestFirstSearch
-from jupyddl.heuristics import BasicHeuristic
+from jupyddl.heuristics import BasicHeuristic, DeleteRelaxationHeuristic
 
 
 def test_greedy_best_first_basic():
@@ -50,7 +50,6 @@ def test_greedy_best_first_path_no_heuristic():
     )
     p, t, c = apla.greedy_best_first_search(heuristic_key="idontexist")
     assert not p and not t and not c
-
 
 
 def test_greedy_best_first_hmax():

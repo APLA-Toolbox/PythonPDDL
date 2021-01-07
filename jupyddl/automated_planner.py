@@ -167,7 +167,9 @@ class AutomatedPlanner:
     def greedy_best_first_search(self, heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
             if "zero" in heuristic_key:
-                self.logger.warning("Forced heuristic to goal_count. Zero isn't a proper heuristic for Greedy Best First.")
+                self.logger.warning(
+                    "Forced heuristic to goal_count. Zero isn't a proper heuristic for Greedy Best First."
+                )
             heuristic = BasicHeuristic(self, "basic/goal_count")
         elif "delete_relaxation" in heuristic_key:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)

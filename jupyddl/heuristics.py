@@ -78,10 +78,8 @@ class DeleteRelaxationHeuristic:
                 return self.heuristic_keys[self.current_h](costs)
 
             for ax in self.cache.axioms:
-                fact_costs = (
-                    self.automated_planner.pddl.compute_costs_one_step_derivation(
-                        facts, fact_costs, ax, self.current_h
-                    )
+                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivation(
+                    facts, fact_costs, ax, self.current_h
                 )
 
             actions = self.automated_planner.available_actions(state)
