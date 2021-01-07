@@ -2,6 +2,7 @@ from .bfs import BreadthFirstSearch
 from .dfs import DepthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 from .a_star import AStarBestFirstSearch
+from .greedy_best_first import GreedyBestFirstSearch
 from .heuristics import BasicHeuristic, DeleteRelaxationHeuristic
 import coloredlogs
 import logging
@@ -159,6 +160,22 @@ class AutomatedPlanner:
             return [], 0, 0
         astar = AStarBestFirstSearch(self, heuristic.compute)
         last_node, total_time, opened_nodes = astar.search()
+        path = self.__retrace_path(last_node)
+
+        return path, total_time, opened_nodes
+
+    def greedy_best_first_search(self, heuristic_key="basic/goal_count"):
+        if "basic" in heuristic_key:
+            if "zero" in heuristic_key:
+                self.logger.warning("Forced heuristic to goal_count. Zero isn't a proper heuristic for Greedy Best First.")
+            heuristic = BasicHeuristic(self, "basic/goal_count")
+        elif "delete_relaxation" in heuristic_key:
+            heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
+        else:
+            logging.fatal("Not yet implemented")
+            return [], 0, 0
+        greedy = GreedyBestFirstSearch(self, heuristic.compute)
+        last_node, total_time, opened_nodes = greedy.search()
         path = self.__retrace_path(last_node)
 
         return path, total_time, opened_nodes
