@@ -163,7 +163,7 @@ def test_comparative_one_pddl():
     da.comparative_data_plot(
         dfs=False,
         bfs=False,
-        greedy_bfs=True
+        greedy_bfs=True,
         domain="pddl-examples/dinner/domain.pddl",
         problem="pddl-examples/dinner/problem.pddl",
     )
