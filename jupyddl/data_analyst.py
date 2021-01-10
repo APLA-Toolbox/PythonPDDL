@@ -147,7 +147,7 @@ class DataAnalyst:
             return (
                 [path[-1].g_cost],
                 [metrics_obj.runtime],
-                [metrics_obj.opened_nodes],
+                [metrics_obj.n_opened],
                 has_multiple_files_tested,
             )
         return [0], [0], [0], has_multiple_files_tested

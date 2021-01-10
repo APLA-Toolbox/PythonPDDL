@@ -24,7 +24,7 @@ def test_greedy_best_first_goal():
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     gbfs = GreedyBestFirstSearch(apla, heuristic.compute)
-    lastnode, _, _ = gbfs.search()
+    lastnode, _ = gbfs.search()
     assert lastnode and lastnode.parent
 
 
@@ -32,7 +32,7 @@ def test_greedy_best_first_path_length():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
-    path, _, _ = apla.greedy_best_first_search()
+    path, _ = apla.greedy_best_first_search()
     assert len(path) > 0
 
 
@@ -41,7 +41,7 @@ def test_greedy_best_first_path_no_path():
         "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
     path, metrics = apla.greedy_best_first_search()
-    assert path and metrics.n_evaluated > 0
+    assert not path and metrics.n_evaluated > 0
 
 
 def test_greedy_best_first_path_no_heuristic():

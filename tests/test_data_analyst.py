@@ -24,7 +24,6 @@ def test_heuristics_comparer_single():
         problem="pddl-examples/dinner/problem.pddl",
     )
 
-
 def test_data_analyst_plot_dfs_one_pddl():
     da = DataAnalyst()
     da.plot_dfs(
