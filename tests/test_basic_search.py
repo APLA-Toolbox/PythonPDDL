@@ -17,6 +17,13 @@ def test_search_dfs():
     path, metrics = dfs.search()
     assert path and metrics.n_evaluated > 0
 
+def test_search_dfs_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
+    dfs = DepthFirstSearch(apla)
+    path, _ = dfs.search(node_bound=1)
+    assert not path
 
 def test_search_bfs():
     apla = AutomatedPlanner(
@@ -26,6 +33,13 @@ def test_search_bfs():
     path, metrics = bfs.search()  # Path, computation time, opened nodes
     assert path and metrics.n_evaluated > 0
 
+def test_search_bfs_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
+    bfs = BreadthFirstSearch(apla)
+    path, _ = bfs.search(node_bound=1)  # Path, computation time, opened nodes
+    assert not path
 
 def test_search_dijkstra():
     apla = AutomatedPlanner(
@@ -35,6 +49,13 @@ def test_search_dijkstra():
     path, metrics = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
     assert path and metrics.n_evaluated > 0  # Assert that it took some time to compute
 
+def test_search_dijkstra_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
+    dijk = DijkstraBestFirstSearch(apla)
+    path, _ = dijk.search(node_bound=1)  # Goal, computation_time, opened_nodes(in this order)
+    assert not path
 
 def test_search_dijkstra_no_path():
     apla = AutomatedPlanner(

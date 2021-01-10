@@ -50,3 +50,10 @@ def test_astar_path_no_heuristic():
     )
     p, _ = apla.astar_best_first_search(heuristic_key="idontexist")
     assert not p
+
+def test_astar_path_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
+    )
+    p, _ = apla.astar_best_first_search(heuristic_key="idontexist", node_bound=1)
+    assert not p
