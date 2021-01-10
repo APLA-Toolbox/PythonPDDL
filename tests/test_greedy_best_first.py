@@ -37,7 +37,7 @@ def test_greedy_best_first_path_length():
 
 def test_greedy_best_first_bounded():
     apla = AutomatedPlanner(
-        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+        "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
     )
     path, _ = apla.greedy_best_first_search(node_bound=1)
     assert not path
