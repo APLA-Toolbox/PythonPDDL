@@ -135,3 +135,5 @@ logs/*
 data.json
 pddl-examples/*
 data/*
+scripts/*
+!scripts/ipc.py

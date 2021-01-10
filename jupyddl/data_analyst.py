@@ -66,6 +66,18 @@ class DataAnalyst:
         plt.title(plot_title)
         plt.grid(True)
         plt.show(block=False)
+    
+    def __plot_data_generic(self, data, name):
+        _, ax = plt.subplots()
+        plt.xlabel("Domain")
+        plt.ylabel(name)
+        for key, val in data.items():
+            ax.plot(val[name], "-o", label=key)
+
+        plt.title("Planners metric comparison")
+        plt.legend(loc="upper left")
+        plt.grid(True)
+        plt.show(block=False)
 
     def __scatter_data(self, times, total_nodes, plot_title):
         plt.scatter(total_nodes, times)
@@ -108,7 +120,7 @@ class DataAnalyst:
                     )
                     return [0], [0], [0], has_multiple_files_tested
                 if path:
-                    metrics[metrics_obj.runtime] = metrics_obj.n_opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -196,7 +208,7 @@ class DataAnalyst:
                     )
                     return [0], [0], [0], has_multiple_files_tested
                 if path:
-                    metrics[metrics_obj.runtime] = metrics_obj.n_opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -612,6 +624,51 @@ class DataAnalyst:
         plt.yscale("log")
         plt.grid(True)
         plt.show(block=False)
+
+    def plot_metrics(self):
+        metrics_dict = dict()
+        metrics_dict["A* [Zero]"] = []
+        metrics_dict["DFS"] = []
+        metrics_dict["BFS"] = []
+        metrics_dict["A* [Goal_Count]"] = []
+        metrics_dict["A* [H_Add]"] = []
+        metrics_dict["A* [H_Max]"] = []
+        logging.debug("Computation of all metrics for all domains registered...")
+        for problem, domain in self.__get_all_pddl_from_data():
+            logging.debug("Loading new PDDL instance planned with Dijkstra...")
+            logging.debug("Domain: " + domain)
+            logging.debug("Problem: " + problem)
+            apla = AutomatedPlanner(domain, problem)
+            _, metrics_bfs = apla.breadth_first_search()
+            _, metrics_agc = apla.astar_best_first_search()
+            _, metrics_ahadd = apla.astar_best_first_search(heuristic_key="delete_relaxation/h_add")
+            _, metrics_ahmax = apla.astar_best_first_search(heuristic_key="delete_relaxation/h_max")
+            _, metrics_dij = apla.astar_best_first_search(heuristic_key="basic/zero")
+            _, metrics_dfs = apla.depth_first_search(node_bound=metrics_bfs.n_opened*2)
+            metrics_dict["A* [Zero]"].append(metrics_dij)
+            metrics_dict["DFS"].append(metrics_dfs)
+            metrics_dict["BFS"].append(metrics_bfs)
+            metrics_dict["A* [Goal_Count]"].append(metrics_agc)
+            metrics_dict["A* [H_Add]"].append(metrics_ahadd)
+            metrics_dict["A* [H_Max]"].append(metrics_ahmax)
+
+        plot_dict = dict()
+
+        for key, val in metrics_dict.items():
+            plot_dict[key] = dict()
+            plot_dict[key]["Search Runtime (s)"] = [m.runtime for m in val]
+            plot_dict[key]["Heuristics Average Runtime (s)"] = [m.get_average_heuristic_runtime() for m in val]
+            plot_dict[key]["Number of Expanded Nodes"] = [m.n_expended for m in val]
+            plot_dict[key]["Number of Opened Nodes"] = [m.n_opened for m in val]
+            plot_dict[key]["Number of Reopened Nodes"] = [m.n_reopened for m in val]
+            plot_dict[key]["Number of Evaluated Nodes"] = [m.n_evaluated for m in val]
+            plot_dict[key]["Number of Generated Nodes"] = [m.n_generated for m in val]
+            plot_dict[key]["Number of Deadend States (No Actions from State)"] = [m.deadend_states for m in val]
+            
+        metrics_keys = list(plot_dict["DFS"].keys())
+
+        for key in metrics_keys:
+            self.__plot_data_generic(plot_dict, key)
 
     def compute_planners_efficiency(self):
         costs = dict()

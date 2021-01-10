@@ -11,7 +11,9 @@ class Metrics:
         self.total_cost = 0
 
     def get_average_heuristic_runtime(self):
-        return sum(self.heuristic_runtimes) / len(self.heuristic_runtimes)
+        if self.heuristic_runtimes:
+            return sum(self.heuristic_runtimes) / len(self.heuristic_runtimes)
+        return 0
 
     def __str__(self):
         if self.heuristic_runtimes:

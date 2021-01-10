@@ -29,7 +29,7 @@ class GreedyBestFirstSearch:
         string = str(node.state)
         return string.split(sep, 1)[0] + ")"
 
-    def search(self):
+    def search(self, node_bound=float("inf")):
         time_start = now()
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
@@ -55,6 +55,9 @@ class GreedyBestFirstSearch:
             current_node.is_closed = True
             current_node.is_open = False
             self.open_nodes_n -= 1
+
+            if self.metrics.n_opened > node_bound:
+                break
 
             actions = self.automated_planner.available_actions(current_node.state)
             if actions:

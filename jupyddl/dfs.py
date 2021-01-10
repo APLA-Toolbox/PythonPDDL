@@ -12,7 +12,7 @@ class DepthFirstSearch:
         self.stack = [self.init]
         self.metrics = Metrics()
 
-    def search(self):
+    def search(self, node_bound=float("inf")):
         time_start = now()
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
@@ -31,6 +31,9 @@ class DepthFirstSearch:
                     )
                     self.metrics.total_cost = current_node.g_cost
                     return current_node, self.metrics
+
+                if self.metrics.n_opened > node_bound:
+                    break
 
                 actions = self.automated_planner.available_actions(current_node.state)
                 if not actions:
