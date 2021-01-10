@@ -3,6 +3,7 @@ from .dfs import DepthFirstSearch
 from .dijkstra import DijkstraBestFirstSearch
 from .a_star import AStarBestFirstSearch
 from .greedy_best_first import GreedyBestFirstSearch
+from .metrics import Metrics
 from .heuristics import BasicHeuristic, DeleteRelaxationHeuristic
 import coloredlogs
 import logging
@@ -129,42 +130,42 @@ class AutomatedPlanner:
             trimmed_path.append(state)
         return trimmed_path
 
-    def breadth_first_search(self):
+    def breadth_first_search(self, node_bound=float("inf")):
         bfs = BreadthFirstSearch(self)
-        last_node, total_time, opened_nodes = bfs.search()
+        last_node, metrics = bfs.search(node_bound=node_bound)
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
-    def depth_first_search(self):
+    def depth_first_search(self, node_bound=float("inf")):
         dfs = DepthFirstSearch(self)
-        last_node, total_time, opened_nodes = dfs.search()
+        last_node, metrics = dfs.search(node_bound=node_bound)
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
-    def dijktra_best_first_search(self):
+    def dijktra_best_first_search(self, node_bound=float("inf")):
         dijkstra = DijkstraBestFirstSearch(self)
-        last_node, total_time, opened_nodes = dijkstra.search()
+        last_node, metrics = dijkstra.search(node_bound=node_bound)
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
-    def astar_best_first_search(self, heuristic_key="basic/goal_count"):
+    def astar_best_first_search(self, node_bound=float("inf"), heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
             heuristic = BasicHeuristic(self, heuristic_key)
         elif "delete_relaxation" in heuristic_key:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
         else:
             logging.fatal("Not yet implemented")
-            return [], 0, 0
+            return [], Metrics()
         astar = AStarBestFirstSearch(self, heuristic.compute)
-        last_node, total_time, opened_nodes = astar.search()
+        last_node, metrics = astar.search(node_bound=node_bound)
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
-    def greedy_best_first_search(self, heuristic_key="basic/goal_count"):
+    def greedy_best_first_search(self, node_bound=float("inf"), heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
             if "zero" in heuristic_key:
                 self.logger.warning(
@@ -175,9 +176,9 @@ class AutomatedPlanner:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
         else:
             logging.fatal("Not yet implemented")
-            return [], 0, 0
+            return [], Metrics()
         greedy = GreedyBestFirstSearch(self, heuristic.compute)
-        last_node, total_time, opened_nodes = greedy.search()
+        last_node, metrics = greedy.search(node_bound=node_bound)
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics

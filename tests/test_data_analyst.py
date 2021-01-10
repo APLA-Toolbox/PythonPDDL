@@ -24,7 +24,6 @@ def test_heuristics_comparer_single():
         problem="pddl-examples/dinner/problem.pddl",
     )
 
-
 def test_data_analyst_plot_dfs_one_pddl():
     da = DataAnalyst()
     da.plot_dfs(
@@ -190,8 +189,12 @@ def test_comparative_zero_h():
     )
     assert True
 
-
 def test_success_rate():
     da = DataAnalyst()
     da.compute_planners_efficiency()
+    assert True
+
+def test_metrics():
+    da = DataAnalyst()
+    da.plot_metrics()
     assert True

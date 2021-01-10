@@ -24,7 +24,7 @@ def test_greedy_best_first_goal():
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     gbfs = GreedyBestFirstSearch(apla, heuristic.compute)
-    lastnode, _, _ = gbfs.search()
+    lastnode, _ = gbfs.search()
     assert lastnode and lastnode.parent
 
 
@@ -32,24 +32,30 @@ def test_greedy_best_first_path_length():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
-    path, _, _ = apla.greedy_best_first_search()
+    path, _ = apla.greedy_best_first_search()
     assert len(path) > 0
 
+def test_greedy_best_first_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
+    )
+    path, _ = apla.greedy_best_first_search(node_bound=1)
+    assert not path
 
 def test_greedy_best_first_path_no_path():
     apla = AutomatedPlanner(
         "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
-    path, _, _ = apla.greedy_best_first_search()
-    assert len(path) == 0
+    path, metrics = apla.greedy_best_first_search()
+    assert not path and metrics.n_evaluated > 0
 
 
 def test_greedy_best_first_path_no_heuristic():
     apla = AutomatedPlanner(
         "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
     )
-    p, t, c = apla.greedy_best_first_search(heuristic_key="idontexist")
-    assert not p and not t and not c
+    p, _ = apla.greedy_best_first_search(heuristic_key="idontexist")
+    assert not p 
 
 
 def test_greedy_best_first_hmax():

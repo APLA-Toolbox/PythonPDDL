@@ -1,4 +1,5 @@
 import logging
+import time
 
 
 class Node:
@@ -13,6 +14,7 @@ class Node:
         g_cost=0,
         heuristic=None,
         heuristic_based=False,
+        metric=None,
     ):
         self.state = state
         self.parent_action = parent_action
@@ -23,7 +25,10 @@ class Node:
             self.g_cost = temp_cost
             if heuristic_based:
                 if heuristic:
+                    clock = time.time()
                     self.h_cost = heuristic(state)
+                    if metric:
+                        metric.heuristic_runtimes.append(time.time() - clock)
                 else:
                     automated_planner.logger.warning(
                         "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
@@ -39,7 +44,10 @@ class Node:
                 self.g_cost = g_cost
             if heuristic_based:
                 if heuristic:
+                    clock = time.time()
                     self.h_cost = heuristic(state)
+                    if metric:
+                        metric.heuristic_runtimes.append(time.time() - clock)
                 else:
                     automated_planner.logger.warning(
                         "Heuristic function wasn't found, forcing it to return zero [Best practice: use the zero_heuristic function]"
@@ -58,6 +66,12 @@ class Node:
         state_str = state_str.replace("])", "")
         state_str = state_str.replace(
             'Dict{Symbol,Any}(Symbol("total-cost") =>', "total-cost ="
+        )
+        state_str = state_str.replace(
+            "Dict{Symbol,Any}(", ""
+        )
+        state_str = state_str.replace(
+            " , ", ""
         )
         state_str = state_str.replace("))>", "")
         return state_str

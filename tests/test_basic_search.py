@@ -14,36 +14,56 @@ def test_search_dfs():
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     dfs = DepthFirstSearch(apla)
-    res = dfs.search()
-    assert res[1] != 0  # Path, computation time, opened nodes
+    path, metrics = dfs.search()
+    assert path and metrics.n_evaluated > 0
 
+def test_search_dfs_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
+    dfs = DepthFirstSearch(apla)
+    path, _ = dfs.search(node_bound=1)
+    assert not path
 
 def test_search_bfs():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     bfs = BreadthFirstSearch(apla)
-    res = bfs.search()  # Path, computation time, opened nodes
-    assert res[1] != 0
+    path, metrics = bfs.search()  # Path, computation time, opened nodes
+    assert path and metrics.n_evaluated > 0
 
+def test_search_bfs_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
+    bfs = BreadthFirstSearch(apla)
+    path, _ = bfs.search(node_bound=1)  # Path, computation time, opened nodes
+    assert not path
 
 def test_search_dijkstra():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
     dijk = DijkstraBestFirstSearch(apla)
-    res = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert res[1] != 0  # Assert that it took some time to compute
-    assert res[-1] > 0  # Assert that it visited some nodes
+    path, metrics = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert path and metrics.n_evaluated > 0  # Assert that it took some time to compute
 
+def test_search_dijkstra_bounded():
+    apla = AutomatedPlanner(
+        "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
+    )
+    dijk = DijkstraBestFirstSearch(apla)
+    path, _ = dijk.search(node_bound=1)  # Goal, computation_time, opened_nodes(in this order)
+    assert not path
 
 def test_search_dijkstra_no_path():
     apla = AutomatedPlanner(
         "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
     dijk = DijkstraBestFirstSearch(apla)
-    res = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert not res[0]
+    path, metrics = dijk.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not path and metrics.n_evaluated > 0
 
 
 def test_search_dfs_no_path():
@@ -51,8 +71,8 @@ def test_search_dfs_no_path():
         "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
     dfs = DepthFirstSearch(apla)
-    res = dfs.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert not res[0]
+    path, metrics = dfs.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not path and metrics.n_evaluated > 0
 
 
 def test_search_bfs_no_path():
@@ -60,8 +80,8 @@ def test_search_bfs_no_path():
         "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
     bfs = BreadthFirstSearch(apla)
-    res = bfs.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert not res[0]
+    path, metrics = bfs.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not path and metrics.n_evaluated > 0
 
 
 def test_search_astar_basic():
@@ -70,9 +90,8 @@ def test_search_astar_basic():
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
-    res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert res[1] != 0  # Assert that it took time to compute
-    assert res[-1] > 0  # Assert that it visited at least one node
+    path, metrics = astar.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert path and metrics.n_evaluated > 0 
 
 
 def test_search_astar_basic_no_path():
@@ -81,8 +100,8 @@ def test_search_astar_basic_no_path():
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
-    res = astar.search()  # Goal, computation_time, opened_nodes(in this order)
-    assert not res[0]
+    path, metrics = astar.search()  # Goal, computation_time, opened_nodes(in this order)
+    assert not path and metrics.n_evaluated > 0
 
 
 def test_zero_heuristic():
