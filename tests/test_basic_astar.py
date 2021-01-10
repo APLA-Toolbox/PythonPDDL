@@ -24,15 +24,15 @@ def test_astar_goal():
     )
     heuristic = BasicHeuristic(apla, "basic/goal_count")
     astar = AStarBestFirstSearch(apla, heuristic.compute)
-    lastnode, _, _ = astar.search()
-    assert lastnode and lastnode.parent
+    lastnode, metrics = astar.search()
+    assert lastnode and lastnode.parent and metrics.n_evaluated > 0
 
 
 def test_astar_path_length():
     apla = AutomatedPlanner(
         "pddl-examples/dinner/domain.pddl", "pddl-examples/dinner/problem.pddl"
     )
-    path, _, _ = apla.astar_best_first_search()
+    path, _= apla.astar_best_first_search()
     assert len(path) > 0
 
 
@@ -40,7 +40,7 @@ def test_astar_path_no_path():
     apla = AutomatedPlanner(
         "pddl-examples/vehicle/domain.pddl", "pddl-examples/vehicle/problem.pddl"
     )
-    path, _, _ = apla.astar_best_first_search()
+    path, _= apla.astar_best_first_search()
     assert len(path) == 0
 
 
