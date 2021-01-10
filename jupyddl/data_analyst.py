@@ -99,7 +99,7 @@ class DataAnalyst:
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
                 if heuristic_key in apla.available_heuristics:
-                    path, total_time, opened_nodes = apla.astar_best_first_search(
+                    path, metrics_obj = apla.astar_best_first_search(
                         heuristic_key=heuristic_key
                     )
                 else:
@@ -108,7 +108,7 @@ class DataAnalyst:
                     )
                     return [0], [0], [0], has_multiple_files_tested
                 if path:
-                    metrics[total_time] = opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened_nodes
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -123,7 +123,7 @@ class DataAnalyst:
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
         if heuristic_key in apla.available_heuristics:
-            path, total_time, opened_nodes = apla.astar_best_first_search(
+            path, metrics_obj = apla.astar_best_first_search(
                 heuristic_key=heuristic_key
             )
         else:
@@ -134,8 +134,8 @@ class DataAnalyst:
         if path:
             return (
                 [path[-1].g_cost],
-                [total_time],
-                [opened_nodes],
+                [metrics_obj.runtime],
+                [metrics_obj.opened_nodes],
                 has_multiple_files_tested,
             )
         return [0], [0], [0], has_multiple_files_tested
@@ -187,7 +187,7 @@ class DataAnalyst:
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
                 if heuristic_key in apla.available_heuristics:
-                    path, total_time, opened_nodes = apla.greedy_best_first_search(
+                    path, metrics_obj = apla.greedy_best_first_search(
                         heuristic_key=heuristic_key
                     )
                 else:
@@ -196,7 +196,7 @@ class DataAnalyst:
                     )
                     return [0], [0], [0], has_multiple_files_tested
                 if path:
-                    metrics[total_time] = opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened_nodes
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -211,7 +211,7 @@ class DataAnalyst:
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
         if heuristic_key in apla.available_heuristics:
-            path, total_time, opened_nodes = apla.greedy_best_first_search(
+            path, metrics_obj = apla.greedy_best_first_search(
                 heuristic_key=heuristic_key
             )
         else:
@@ -222,8 +222,8 @@ class DataAnalyst:
         if path:
             return (
                 [path[-1].g_cost],
-                [total_time],
-                [opened_nodes],
+                [metrics_obj.runtime],
+                [metrics_obj.n_opened],
                 has_multiple_files_tested,
             )
         return [0], [0], [0], has_multiple_files_tested
@@ -271,9 +271,9 @@ class DataAnalyst:
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
-                path, total_time, opened_nodes = apla.breadth_first_search()
+                path, metrics_obj = apla.breadth_first_search()
                 if path:
-                    metrics[total_time] = opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -287,12 +287,12 @@ class DataAnalyst:
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
-        path, total_time, opened_nodes = apla.breadth_first_search()
+        path, metrics_obj = apla.breadth_first_search()
         if path:
             return (
                 [path[-1].g_cost],
-                [total_time],
-                [opened_nodes],
+                [metrics_obj.runtime],
+                [metrics_obj.n_opened],
                 has_multiple_files_tested,
             )
         return [0], [0], [0], has_multiple_files_tested
@@ -326,9 +326,9 @@ class DataAnalyst:
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
-                path, total_time, opened_nodes = apla.depth_first_search()
+                path, metrics_obj = apla.depth_first_search()
                 if path:
-                    metrics[total_time] = opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -342,12 +342,12 @@ class DataAnalyst:
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
-        path, total_time, opened_nodes = apla.depth_first_search()
+        path, metrics_obj = apla.depth_first_search()
         if path:
             return (
                 [path[-1].g_cost],
-                [total_time],
-                [opened_nodes],
+                [metrics_obj.runtime],
+                [metrics_obj.n_opened],
                 has_multiple_files_tested,
             )
         return [0], [0], [0], has_multiple_files_tested
@@ -383,9 +383,9 @@ class DataAnalyst:
                 logging.debug("Domain: " + domain)
                 logging.debug("Problem: " + problem)
                 apla = AutomatedPlanner(domain, problem)
-                path, total_time, opened_nodes = apla.dijktra_best_first_search()
+                path, metrics_obj = apla.dijktra_best_first_search()
                 if path:
-                    metrics[total_time] = opened_nodes
+                    metrics[metrics_obj.runtime] = metrics_obj.n_opened
                     costs.append(path[-1].g_cost)
                 else:
                     metrics[0] = 0
@@ -399,12 +399,12 @@ class DataAnalyst:
         logging.debug("Domain: " + domain_path)
         logging.debug("Problem: " + problem_path)
         apla = AutomatedPlanner(domain_path, problem_path)
-        path, total_time, opened_nodes = apla.dijktra_best_first_search()
+        path, metrics_obj = apla.dijktra_best_first_search()
         if path:
             return (
                 [path[-1].g_cost],
-                [total_time],
-                [opened_nodes],
+                [metrics_obj.runtime],
+                [metrics_obj.n_opened],
                 has_multiple_files_tested,
             )
         return [0], [0], [0], has_multiple_files_tested
@@ -497,10 +497,7 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=h,
+                nodes_sorted, times_y, "-o", label=h,
             )
 
         plt.title("A* heuristics complexity comparison")
@@ -532,10 +529,7 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=h,
+                nodes_sorted, times_y, "-o", label=h,
             )
 
         plt.title("Greedy Best First heuristics complexity comparison")
@@ -610,10 +604,7 @@ class DataAnalyst:
             for node_opened in nodes_sorted:
                 times_y.append(data[node_opened])
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=planner,
+                nodes_sorted, times_y, "-o", label=planner,
             )
         plt.title("Planners complexity comparison")
         plt.legend(loc="upper left")
@@ -676,9 +667,7 @@ class DataAnalyst:
         plt.ylabel("Cost to goal")
         for key, val in costs.items():
             ax.plot(
-                val,
-                "-o",
-                label=key,
+                val, "-o", label=key,
             )
             costs[key] = [i for i in costs[key] if i != 0]
         plt.title("Planners efficiency (costs)")

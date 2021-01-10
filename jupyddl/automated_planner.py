@@ -131,24 +131,24 @@ class AutomatedPlanner:
 
     def breadth_first_search(self):
         bfs = BreadthFirstSearch(self)
-        last_node, total_time, opened_nodes = bfs.search()
+        last_node, metrics = bfs.search()
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
     def depth_first_search(self):
         dfs = DepthFirstSearch(self)
-        last_node, total_time, opened_nodes = dfs.search()
+        last_node, metrics = dfs.search()
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
     def dijktra_best_first_search(self):
         dijkstra = DijkstraBestFirstSearch(self)
-        last_node, total_time, opened_nodes = dijkstra.search()
+        last_node, metrics = dijkstra.search()
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
     def astar_best_first_search(self, heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
@@ -159,10 +159,10 @@ class AutomatedPlanner:
             logging.fatal("Not yet implemented")
             return [], 0, 0
         astar = AStarBestFirstSearch(self, heuristic.compute)
-        last_node, total_time, opened_nodes = astar.search()
+        last_node, metrics = astar.search()
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
 
     def greedy_best_first_search(self, heuristic_key="basic/goal_count"):
         if "basic" in heuristic_key:
@@ -177,7 +177,7 @@ class AutomatedPlanner:
             logging.fatal("Not yet implemented")
             return [], 0, 0
         greedy = GreedyBestFirstSearch(self, heuristic.compute)
-        last_node, total_time, opened_nodes = greedy.search()
+        last_node, metrics = greedy.search()
         path = self.__retrace_path(last_node)
 
-        return path, total_time, opened_nodes
+        return path, metrics
