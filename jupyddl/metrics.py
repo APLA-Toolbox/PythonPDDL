@@ -22,17 +22,14 @@ class Metrics:
         else:
             av = 0
             w = 0
-        return (
-            "Expanded %d state(s).\nOpened %d state(s).\nReopened %d state(s).\nEvaluated %d state(s).\nGenerated %d state(s).\nDead ends: %d state(s).\nRuntime: %.2fs.\nAverage heuristic runtime: %.2fs\nComputational weight of heuristic in the search: %.2f%%"
-            % (
-                self.n_expended,
-                self.n_opened,
-                self.n_reopened,
-                self.n_evaluated,
-                self.n_generated,
-                self.deadend_states,
-                self.runtime,
-                av,
-                w,
-            )
+        return "Expanded %d state(s).\nOpened %d state(s).\nReopened %d state(s).\nEvaluated %d state(s).\nGenerated %d state(s).\nDead ends: %d state(s).\nRuntime: %.2fs.\nAverage heuristic runtime: %.2fs\nComputational weight of heuristic in the search: %.2f%%" % (
+            self.n_expended,
+            self.n_opened,
+            self.n_reopened,
+            self.n_evaluated,
+            self.n_generated,
+            self.deadend_states,
+            self.runtime,
+            av,
+            w,
         )

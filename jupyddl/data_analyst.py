@@ -66,7 +66,7 @@ class DataAnalyst:
         plt.title(plot_title)
         plt.grid(True)
         plt.show(block=False)
-    
+
     def __plot_data_generic(self, data, name):
         _, ax = plt.subplots()
         plt.xlabel("Domain")
@@ -509,7 +509,10 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted, times_y, "-o", label=h,
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=h,
             )
 
         plt.title("A* heuristics complexity comparison")
@@ -541,7 +544,10 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted, times_y, "-o", label=h,
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=h,
             )
 
         plt.title("Greedy Best First heuristics complexity comparison")
@@ -616,7 +622,10 @@ class DataAnalyst:
             for node_opened in nodes_sorted:
                 times_y.append(data[node_opened])
             ax.plot(
-                nodes_sorted, times_y, "-o", label=planner,
+                nodes_sorted,
+                times_y,
+                "-o",
+                label=planner,
             )
         plt.title("Planners complexity comparison")
         plt.legend(loc="upper left")
@@ -641,10 +650,16 @@ class DataAnalyst:
             apla = AutomatedPlanner(domain, problem)
             _, metrics_bfs = apla.breadth_first_search()
             _, metrics_agc = apla.astar_best_first_search()
-            _, metrics_ahadd = apla.astar_best_first_search(heuristic_key="delete_relaxation/h_add")
-            _, metrics_ahmax = apla.astar_best_first_search(heuristic_key="delete_relaxation/h_max")
+            _, metrics_ahadd = apla.astar_best_first_search(
+                heuristic_key="delete_relaxation/h_add"
+            )
+            _, metrics_ahmax = apla.astar_best_first_search(
+                heuristic_key="delete_relaxation/h_max"
+            )
             _, metrics_dij = apla.astar_best_first_search(heuristic_key="basic/zero")
-            _, metrics_dfs = apla.depth_first_search(node_bound=metrics_bfs.n_opened*2)
+            _, metrics_dfs = apla.depth_first_search(
+                node_bound=metrics_bfs.n_opened * 2
+            )
             metrics_dict["A* [Zero]"].append(metrics_dij)
             metrics_dict["DFS"].append(metrics_dfs)
             metrics_dict["BFS"].append(metrics_bfs)
@@ -657,14 +672,18 @@ class DataAnalyst:
         for key, val in metrics_dict.items():
             plot_dict[key] = dict()
             plot_dict[key]["Search Runtime (s)"] = [m.runtime for m in val]
-            plot_dict[key]["Heuristics Average Runtime (s)"] = [m.get_average_heuristic_runtime() for m in val]
+            plot_dict[key]["Heuristics Average Runtime (s)"] = [
+                m.get_average_heuristic_runtime() for m in val
+            ]
             plot_dict[key]["Number of Expanded Nodes"] = [m.n_expended for m in val]
             plot_dict[key]["Number of Opened Nodes"] = [m.n_opened for m in val]
             plot_dict[key]["Number of Reopened Nodes"] = [m.n_reopened for m in val]
             plot_dict[key]["Number of Evaluated Nodes"] = [m.n_evaluated for m in val]
             plot_dict[key]["Number of Generated Nodes"] = [m.n_generated for m in val]
-            plot_dict[key]["Number of Deadend States (No Actions from State)"] = [m.deadend_states for m in val]
-            
+            plot_dict[key]["Number of Deadend States (No Actions from State)"] = [
+                m.deadend_states for m in val
+            ]
+
         metrics_keys = list(plot_dict["DFS"].keys())
 
         for key in metrics_keys:
@@ -724,7 +743,9 @@ class DataAnalyst:
         plt.ylabel("Cost to goal")
         for key, val in costs.items():
             ax.plot(
-                val, "-o", label=key,
+                val,
+                "-o",
+                label=key,
             )
             costs[key] = [i for i in costs[key] if i != 0]
         plt.title("Planners efficiency (costs)")

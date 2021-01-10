@@ -151,7 +151,9 @@ class AutomatedPlanner:
 
         return path, metrics
 
-    def astar_best_first_search(self, node_bound=float("inf"), heuristic_key="basic/goal_count"):
+    def astar_best_first_search(
+        self, node_bound=float("inf"), heuristic_key="basic/goal_count"
+    ):
         if "basic" in heuristic_key:
             heuristic = BasicHeuristic(self, heuristic_key)
         elif "delete_relaxation" in heuristic_key:
@@ -165,7 +167,9 @@ class AutomatedPlanner:
 
         return path, metrics
 
-    def greedy_best_first_search(self, node_bound=float("inf"), heuristic_key="basic/goal_count"):
+    def greedy_best_first_search(
+        self, node_bound=float("inf"), heuristic_key="basic/goal_count"
+    ):
         if "basic" in heuristic_key:
             if "zero" in heuristic_key:
                 self.logger.warning(

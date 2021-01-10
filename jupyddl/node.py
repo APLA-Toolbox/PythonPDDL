@@ -67,12 +67,8 @@ class Node:
         state_str = state_str.replace(
             'Dict{Symbol,Any}(Symbol("total-cost") =>', "total-cost ="
         )
-        state_str = state_str.replace(
-            "Dict{Symbol,Any}(", ""
-        )
-        state_str = state_str.replace(
-            " , ", ""
-        )
+        state_str = state_str.replace("Dict{Symbol,Any}(", "")
+        state_str = state_str.replace(" , ", "")
         state_str = state_str.replace("))>", "")
         return state_str
 

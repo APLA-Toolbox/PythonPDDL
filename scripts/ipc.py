@@ -1,6 +1,7 @@
 import sys
 import logging
 from os import path
+
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from jupyddl.automated_planner import AutomatedPlanner
 from jupyddl.node import Path
@@ -32,14 +33,17 @@ actions_str2 = ""
 for a in actions2:
     actions_str2 += str(a) + "\n"
 
-dump = "A* - Delete Relaxation - H_Max\n\
+dump = (
+    "A* - Delete Relaxation - H_Max\n\
         ======PLAN (Nodes)=======\n%s\n\
         ======PLAN (Actions)=======\n%s\n\
         ======METRICS=======\n%s\n\n\
         A* - Delete Relaxation - H_Add\n\
         ======PLAN (Nodes)=======\n%s\n\
         ======PLAN (Actions)=======\n%s\n\
-        ======METRICS=======\n%s\n\n" % (str(path), actions_str, str(metrics), str(path2), actions_str2, str(metrics2))
+        ======METRICS=======\n%s\n\n"
+    % (str(path), actions_str, str(metrics), str(path2), actions_str2, str(metrics2))
+)
 
 f = open(output, "w")
 f.write(dump)

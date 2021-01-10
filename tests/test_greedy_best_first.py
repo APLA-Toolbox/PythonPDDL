@@ -35,12 +35,14 @@ def test_greedy_best_first_path_length():
     path, _ = apla.greedy_best_first_search()
     assert len(path) > 0
 
+
 def test_greedy_best_first_bounded():
     apla = AutomatedPlanner(
         "pddl-examples/tsp/domain.pddl", "pddl-examples/tsp/problem.pddl"
     )
     path, _ = apla.greedy_best_first_search(node_bound=1)
     assert not path
+
 
 def test_greedy_best_first_path_no_path():
     apla = AutomatedPlanner(
@@ -55,7 +57,7 @@ def test_greedy_best_first_path_no_heuristic():
         "pddl-examples/flip/domain.pddl", "pddl-examples/flip/problem.pddl"
     )
     p, _ = apla.greedy_best_first_search(heuristic_key="idontexist")
-    assert not p 
+    assert not p
 
 
 def test_greedy_best_first_hmax():
