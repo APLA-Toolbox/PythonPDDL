@@ -130,7 +130,7 @@ da.comparative_astar_heuristic_plot() # compare results of astar with all availa
 $ git clone https://github.com/APLA-Toolbox/PythonPDDL
 $ cd PythonPDDL
 $ python3 -m pip install -r requirements.txt
-$ git submodule update --init
+$ git submodule update --init // Only if you need PDDL files for testing
 ```
 
 - Run the script :
