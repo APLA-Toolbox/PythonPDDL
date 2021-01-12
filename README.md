@@ -49,7 +49,25 @@ $ python3 -m pip install --upgrade pip
 $ python3 -m pip install jupyddl
 ```
 
-# Usage
+## IPC Script
+
+- Clone the project :
+```shell
+$ git clone https://github.com/APLA-Toolbox/PythonPDDL
+$ cd PythonPDDL
+$ python3 -m pip install -r requirements.txt
+$ git submodule update --init // Only if you need PDDL files for testing
+```
+
+- Run the script :
+```shell
+$ cd scripts/
+$ python ipc.py "path_to_domain.pddl" "path_to_problem.pddl" "path_to_desired_output_file"
+```
+
+The output file will show the path with a list of state, the path with a list of action and the metrics proposed by IPC2018.
+
+# Library Usage
 
 If using the jupyddl pip package:
 
@@ -122,24 +140,6 @@ da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the da
 
 da.comparative_astar_heuristic_plot() # compare results of astar with all available heuristics
 ```
-
-## IPC Script
-
-- Clone the project :
-```shell
-$ git clone https://github.com/APLA-Toolbox/PythonPDDL
-$ cd PythonPDDL
-$ python3 -m pip install -r requirements.txt
-$ git submodule update --init // Only if you need PDDL files for testing
-```
-
-- Run the script :
-```shell
-$ cd scripts/
-$ python ipc.py "path_to_domain.pddl" "path_to_problem.pddl" "path_to_desired_output_file"
-```
-
-The output file will show the path with a list of state, the path with a list of action and the metrics proposed by IPC2018.
 
 # Contribute
 
