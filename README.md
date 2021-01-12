@@ -42,7 +42,7 @@ $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.
 $ julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(path="https://github.com/JuliaPy/PyCall.jl"))'
 ```
 
-- Package installation
+- Package installation (only if used as library, not needed to run the scripts)
 
 ```bash
 $ python3 -m pip install --upgrade pip
