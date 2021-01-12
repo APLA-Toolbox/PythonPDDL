@@ -1,13 +1,18 @@
 import sys
 import logging
+import coloredlogs
 from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from jupyddl.automated_planner import AutomatedPlanner
 from jupyddl.node import Path
 
-if "ipc.py" in sys.argv:
-    sys.argv.remove("ipc.py")
+coloredlogs.install(level="WARNING")
+
+for a in sys.argv:
+    if "ipc.py" in a:
+        sys.argv.remove(a)
+        break
 
 if len(sys.argv) != 3:
     logging.fatal("Binary should be ran with 3 arguments")
