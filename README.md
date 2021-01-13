@@ -12,7 +12,7 @@
 
 A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing its own planners.
 
-# Features
+## Features
 
 - Easy to use API for exploring new states
 - Depth First Search
@@ -21,8 +21,12 @@ A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing i
 - A*
     - Goal Count Heuristic
     - Delete Relaxation Heuristics (Hmax, Hadd)
+    
+## Docker
 
-# Dependencies
+You can also use the project in a docker container using [docker-pythonpddl](https://github.com/APLA-Toolbox/docker-pythonpddl)
+
+## Dependencies
 
 - Install Python (3.7.5 is the tested version)
 
@@ -67,7 +71,7 @@ $ python ipc.py "path_to_domain.pddl" "path_to_problem.pddl" "path_to_desired_ou
 
 The output file will show the path with a list of state, the path with a list of action and the metrics proposed by IPC2018.
 
-# Library Usage
+## Library Usage
 
 If using the jupyddl pip package:
 
@@ -84,7 +88,7 @@ $ git submodule update --init
 
 You should have a `pddl-examples` folder containing PDDL instances.
 
-## [AutomatedPlanner]
+### [AutomatedPlanner]
 
 ```python
 from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
@@ -114,7 +118,7 @@ print(apl.get_actions_from_path(path))
 [<PyCall.jlwrap flip_row(r1)>, <PyCall.jlwrap flip_row(r3)>, <PyCall.jlwrap flip_column(c2)>]
 ```
 
-## [Data Analyst]
+### [Data Analyst]
 
 Make sure you have a pddl-examples folder where you run your environment that contains independent folders with "domain.pddl" and "problem.pddl" files, with those standard names. ( if you didn't generate with git submodule update )
 
@@ -141,11 +145,11 @@ da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the da
 da.comparative_astar_heuristic_plot() # compare results of astar with all available heuristics
 ```
 
-# Contribute
+## Contribute
 
 Open an issue to state clearly the contribution you want to make. Upon aproval send in a PR with the Issue referenced. (Implement Issue #No / Fix Issue #No).
 
-# Maintainers
+## Maintainers
 
 - Erwin Lejeune
 - Sampreet Sarkar
