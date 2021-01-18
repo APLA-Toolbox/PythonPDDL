@@ -4,7 +4,7 @@ from .dijkstra import DijkstraBestFirstSearch
 from .a_star import AStarBestFirstSearch
 from .greedy_best_first import GreedyBestFirstSearch
 from .metrics import Metrics
-from .heuristics import BasicHeuristic, DeleteRelaxationHeuristic
+from .heuristics import BasicHeuristic, DeleteRelaxationHeuristic, CriticalPathHeuristic
 import coloredlogs
 import logging
 import julia
@@ -27,10 +27,9 @@ class AutomatedPlanner:
         self.initial_state = self.pddl.initialize(self.problem)
         self.goals = self.__flatten_goal()
         self.available_heuristics = [
-            "basic/zero",
-            "basic/goal_count",
-            "delete_relaxation/h_add",
-            "delete_relaxation/h_max",
+            "basic/zero", "basic/goal_count",
+            "delete_relaxation/h_add", "delete_relaxation/h_max",
+            "critical_path/1", "critical_path/2", "critical_path/3",
         ]
 
         # Logger
@@ -158,6 +157,8 @@ class AutomatedPlanner:
             heuristic = BasicHeuristic(self, heuristic_key)
         elif "delete_relaxation" in heuristic_key:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
+        elif "critical_path" in heuristic_key:
+            heuristic = CriticalPathHeuristic(self, int(heuristic_key[-1]))
         else:
             logging.fatal("Not yet implemented")
             return [], Metrics()
@@ -178,6 +179,8 @@ class AutomatedPlanner:
             heuristic = BasicHeuristic(self, "basic/goal_count")
         elif "delete_relaxation" in heuristic_key:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
+        elif "critical_path" in heuristic_key:
+            heuristic = CriticalPathHeuristic(self, int(heuristic_key[-1]))
         else:
             logging.fatal("Not yet implemented")
             return [], Metrics()
