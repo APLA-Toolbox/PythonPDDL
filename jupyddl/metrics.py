@@ -17,12 +17,12 @@ class Metrics:
 
     def __str__(self):
         if self.heuristic_runtimes:
-            av = self.get_average_heuristic_runtime()
-            w = av / sum(self.heuristic_runtimes) * 100
+            av = sum(self.heuristic_runtimes)
+            w = sum(self.heuristic_runtimes) / self.runtime * 100
         else:
             av = 0
             w = 0
-        return "Expanded %d state(s).\nOpened %d state(s).\nReopened %d state(s).\nEvaluated %d state(s).\nGenerated %d state(s).\nDead ends: %d state(s).\nRuntime: %.2fs.\nAverage heuristic runtime: %.2fs\nComputational weight of heuristic in the search: %.2f%%" % (
+        return "Expanded %d state(s).\nOpened %d state(s).\nReopened %d state(s).\nEvaluated %d state(s).\nGenerated %d state(s).\nDead ends: %d state(s).\nRuntime: %.2fs.\nTotal heuristic runtime: %.2fs\nComputational weight of heuristic in the search: %.2f%%" % (
             self.n_expended,
             self.n_opened,
             self.n_reopened,

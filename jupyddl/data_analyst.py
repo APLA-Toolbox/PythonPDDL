@@ -642,6 +642,8 @@ class DataAnalyst:
         metrics_dict["A* [Goal_Count]"] = []
         metrics_dict["A* [H_Add]"] = []
         metrics_dict["A* [H_Max]"] = []
+        metrics_dict["A* [Critical_Path (H2)]"] = []
+        metrics_dict["A* [Critical_Path (H3)]"] = []
         logging.debug("Computation of all metrics for all domains registered...")
         for problem, domain in self.__get_all_pddl_from_data():
             logging.debug("Loading new PDDL instance planned with Dijkstra...")
@@ -660,20 +662,28 @@ class DataAnalyst:
             _, metrics_dfs = apla.depth_first_search(
                 node_bound=metrics_bfs.n_opened * 2
             )
+            _, metrics_cp2 = apla.astar_best_first_search(
+                heuristic_key="critical_path/2"
+            )
+            _, metrics_cp3 = apla.astar_best_first_search(
+                heuristic_key="critical_path/3"
+            )
             metrics_dict["A* [Zero]"].append(metrics_dij)
             metrics_dict["DFS"].append(metrics_dfs)
             metrics_dict["BFS"].append(metrics_bfs)
             metrics_dict["A* [Goal_Count]"].append(metrics_agc)
             metrics_dict["A* [H_Add]"].append(metrics_ahadd)
             metrics_dict["A* [H_Max]"].append(metrics_ahmax)
+            metrics_dict["A* [Critical_Path (H2)]"].append(metrics_cp2)
+            metrics_dict["A* [Critical_Path (H3)]"].append(metrics_cp3)
 
         plot_dict = dict()
 
         for key, val in metrics_dict.items():
             plot_dict[key] = dict()
             plot_dict[key]["Search Runtime (s)"] = [m.runtime for m in val]
-            plot_dict[key]["Heuristics Average Runtime (s)"] = [
-                m.get_average_heuristic_runtime() for m in val
+            plot_dict[key]["Total Heuristics Runtime (s)"] = [
+                sum(m.heuristic_runtimes) for m in val
             ]
             plot_dict[key]["Number of Expanded Nodes"] = [m.n_expended for m in val]
             plot_dict[key]["Number of Opened Nodes"] = [m.n_opened for m in val]

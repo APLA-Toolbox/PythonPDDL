@@ -21,6 +21,7 @@ A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing i
 - A*
     - Goal Count Heuristic
     - Delete Relaxation Heuristics (Hmax, Hadd)
+    - Critical Path Heuristic
 
 # Dependencies
 
