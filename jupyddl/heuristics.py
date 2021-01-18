@@ -127,6 +127,10 @@ class DeleteRelaxationHeuristic:
                 return False
         return True
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b0a6f7114bd56e8d05402ea32199a4ae7bd498bd
 class CriticalPathHeuristic:
     def __init__(self, automated_planner, critical_path_level=1):
         class CPCache:
@@ -170,6 +174,7 @@ class CriticalPathHeuristic:
                         if str(g) in fact_costs_str:
                             costs.append(fact_costs_str[str(g)])
                 if self.critical_path_level == 2:
+<<<<<<< HEAD
                     pairs_of_goals = [(g1, g2) for g1 in goals for g2 in goals if g1 != g2]
                     for gs in pairs_of_goals:
                         if str(gs[0]) in fact_costs_str and str(gs[1]) in fact_costs_str:
@@ -179,6 +184,38 @@ class CriticalPathHeuristic:
                     for gs in triplets_of_goals:
                         if str(gs[0]) in fact_costs_str and str(gs[1]) in fact_costs_str and str(gs[2]) in fact_costs_str:
                             costs.append(fact_costs_str[str(gs[0])] + fact_costs_str[str(gs[1])] + fact_costs_str[str(gs[2])])
+=======
+                    pairs_of_goals = [
+                        (g1, g2) for g1 in goals for g2 in goals if g1 != g2
+                    ]
+                    for gs in pairs_of_goals:
+                        if (
+                            str(gs[0]) in fact_costs_str
+                            and str(gs[1]) in fact_costs_str
+                        ):
+                            costs.append(
+                                fact_costs_str[str(gs[0])] + fact_costs_str[str(gs[1])]
+                            )
+                if self.critical_path_level == 3:
+                    triplets_of_goals = [
+                        (g1, g2, g3)
+                        for g1 in goals
+                        for g2 in goals
+                        for g3 in goals
+                        if g1 != g2 and g1 != g3 and g2 != g3
+                    ]
+                    for gs in triplets_of_goals:
+                        if (
+                            str(gs[0]) in fact_costs_str
+                            and str(gs[1]) in fact_costs_str
+                            and str(gs[2]) in fact_costs_str
+                        ):
+                            costs.append(
+                                fact_costs_str[str(gs[0])]
+                                + fact_costs_str[str(gs[1])]
+                                + fact_costs_str[str(gs[2])]
+                            )
+>>>>>>> b0a6f7114bd56e8d05402ea32199a4ae7bd498bd
                 costs.insert(0, 0)
                 return max(costs)
 
