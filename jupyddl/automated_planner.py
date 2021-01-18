@@ -44,7 +44,10 @@ class AutomatedPlanner:
         self.satisfies(self.problem.goal, self.initial_state)
         self.state_has_term(self.initial_state, self.goals[0])
         actions = self.available_actions(self.initial_state)
-        self.transition(self.initial_state, actions[0])
+        if actions:
+            self.transition(self.initial_state, actions[0])
+            return
+        logging.warning("No actions from initial state, a path probably (definitely) won't be found")
 
     def __init_logger(self, log_level):
         import os
