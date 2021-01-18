@@ -27,9 +27,13 @@ class AutomatedPlanner:
         self.initial_state = self.pddl.initialize(self.problem)
         self.goals = self.__flatten_goal()
         self.available_heuristics = [
-            "basic/zero", "basic/goal_count",
-            "delete_relaxation/h_add", "delete_relaxation/h_max",
-            "critical_path/1", "critical_path/2", "critical_path/3",
+            "basic/zero",
+            "basic/goal_count",
+            "delete_relaxation/h_add",
+            "delete_relaxation/h_max",
+            "critical_path/1",
+            "critical_path/2",
+            "critical_path/3",
         ]
 
         # Logger
