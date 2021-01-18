@@ -509,10 +509,7 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=h,
+                nodes_sorted, times_y, "-o", label=h,
             )
 
         plt.title("A* heuristics complexity comparison")
@@ -544,10 +541,7 @@ class DataAnalyst:
                 times_y.append(data[node_opened])
 
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=h,
+                nodes_sorted, times_y, "-o", label=h,
             )
 
         plt.title("Greedy Best First heuristics complexity comparison")
@@ -622,10 +616,7 @@ class DataAnalyst:
             for node_opened in nodes_sorted:
                 times_y.append(data[node_opened])
             ax.plot(
-                nodes_sorted,
-                times_y,
-                "-o",
-                label=planner,
+                nodes_sorted, times_y, "-o", label=planner,
             )
         plt.title("Planners complexity comparison")
         plt.legend(loc="upper left")
@@ -753,9 +744,7 @@ class DataAnalyst:
         plt.ylabel("Cost to goal")
         for key, val in costs.items():
             ax.plot(
-                val,
-                "-o",
-                label=key,
+                val, "-o", label=key,
             )
             costs[key] = [i for i in costs[key] if i != 0]
         plt.title("Planners efficiency (costs)")

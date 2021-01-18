@@ -2,6 +2,7 @@
 
 import sys
 from os import path
+
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 from jupyddl.automated_planner import AutomatedPlanner
 

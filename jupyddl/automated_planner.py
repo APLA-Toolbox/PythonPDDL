@@ -27,9 +27,13 @@ class AutomatedPlanner:
         self.initial_state = self.pddl.initialize(self.problem)
         self.goals = self.__flatten_goal()
         self.available_heuristics = [
-            "basic/zero", "basic/goal_count",
-            "delete_relaxation/h_add", "delete_relaxation/h_max",
-            "critical_path/1", "critical_path/2", "critical_path/3",
+            "basic/zero",
+            "basic/goal_count",
+            "delete_relaxation/h_add",
+            "delete_relaxation/h_max",
+            "critical_path/1",
+            "critical_path/2",
+            "critical_path/3",
         ]
 
         # Logger
@@ -47,7 +51,9 @@ class AutomatedPlanner:
         if actions:
             self.transition(self.initial_state, actions[0])
             return
-        logging.warning("No actions from initial state, a path probably (definitely) won't be found")
+        logging.warning(
+            "No actions from initial state, a path probably (definitely) won't be found"
+        )
 
     def __init_logger(self, log_level):
         import os
