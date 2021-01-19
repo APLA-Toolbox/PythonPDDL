@@ -1,3 +1,19 @@
+<div align="center">
+    
+<img src="https://svgshare.com/i/TGq.svg" alt="Logo" width="580" height="400">     
+    
+</div>
+
+<div align="center">
+
+# Python PDDL
+
+✨ A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing its own planners. ✨
+
+</div>
+
+<div align="center">
+    
 ![tests](https://github.com/APLA-Toolbox/PythonPDDL/workflows/tests/badge.svg?branch=main)
 ![build](https://github.com/APLA-Toolbox/PythonPDDL/workflows/build/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/APLA-Toolbox/PythonPDDL/branch/main/graph/badge.svg?token=63GHA9JUND)](https://codecov.io/gh/APLA-Toolbox/PythonPDDL)
@@ -5,29 +21,34 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/APLA-Toolbox/PythonPDDL.svg)](http://isitmaintained.com/project/APLA-Toolbox/PythonPDDL "Percentage of issues still open")
 [![GitHub license](https://img.shields.io/github/license/Apla-Toolbox/PythonPDDL.svg)](https://github.com/Apla-Toolbox/PythonPDDL/blob/master/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/Apla-Toolbox/PythonPDDL.svg)](https://GitHub.com/Apla-Toolbox/PythonPDDL/graphs/contributors/)
+![PipPerMonths](https://img.shields.io/pypi/dm/jupyddl.svg)
+[![Pip version fury.io](https://badge.fury.io/py/jupyddl.svg)](https://pypi.python.org/pypi/jupyddl/)
 
+</div>
 
+<div align="center">
+    
+[Report Bug](https://github.com/APLA-Toolbox/PythonPDDL/issues) · [Request Feature](https://github.com/APLA-Toolbox/PythonPDDL/issues)
 
-# PyJulia PDDL Planner
+Loved the project? Please consider [donating](https://www.buymeacoffee.com/dq01aOE) to help it improve!
 
-A Python wrapper using JuliaPy for the PDDL.jl parser package and implementing its own planners.
+</div>
 
-## Features
+## Features 🌱
 
-- Easy to use API for exploring new states
-- Depth First Search
-- Breadth First Search
-- Dijkstra
-- A*
-    - Goal Count Heuristic
-    - Delete Relaxation Heuristics (Hmax, Hadd)
-    - Critical Path Heuristic
+- ✨ Built to be expanded: easy to add new planners
+- 🖥️ Supported on MacOS and Ubuntu
+- 🎌 Built with Julia and Python
+- 🔎 Uninformed Planners (DFS, BFS)
+- 🧭 Informed Planners (Dijkstra, A*, Greedy Best First)
+- 📊 Several general purpose heuristics (Goal Count, Delete Relaxation [Hmax, Hadd], Relaxed Critical Path [H1, H2, H3])
+- 🍻 Maintained (Incoming: Critical Path, Landmarks Heuristics...)
 
-## Docker
+## Docker 🐋
 
 You can also use the project in a docker container using [docker-pythonpddl](https://github.com/APLA-Toolbox/docker-pythonpddl)
 
-## Dependencies
+## Install 💾
 
 - Install Python (3.7.5 is the tested version)
 
@@ -54,7 +75,7 @@ $ python3 -m pip install --upgrade pip
 $ python3 -m pip install jupyddl
 ```
 
-## IPC Script
+## IPC Script ⚔️
 
 - Clone the project :
 ```shell
@@ -72,7 +93,7 @@ $ python ipc.py "path_to_domain.pddl" "path_to_problem.pddl" "path_to_desired_ou
 
 The output file will show the path with a list of state, the path with a list of action and the metrics proposed by IPC2018.
 
-## Library Usage
+## Basic Usage 📑
 
 If using the jupyddl pip package:
 
@@ -89,7 +110,7 @@ $ git submodule update --init
 
 You should have a `pddl-examples` folder containing PDDL instances.
 
-### [AutomatedPlanner]
+### AutomatedPlanner Class 🗺️
 
 ```python
 from jupyddl import AutomatedPlanner # takes some time because it has to instantiate the Julia interface
@@ -119,7 +140,7 @@ print(apl.get_actions_from_path(path))
 [<PyCall.jlwrap flip_row(r1)>, <PyCall.jlwrap flip_row(r3)>, <PyCall.jlwrap flip_column(c2)>]
 ```
 
-### [Data Analyst]
+### DataAnalyst (more like Viz) Class 📈
 
 Make sure you have a pddl-examples folder where you run your environment that contains independent folders with "domain.pddl" and "problem.pddl" files, with those standard names. ( if you didn't generate with git submodule update )
 
@@ -146,11 +167,11 @@ da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the da
 da.comparative_astar_heuristic_plot() # compare results of astar with all available heuristics
 ```
 
-## Contribute
+## Contribute 🆘
 
-Open an issue to state clearly the contribution you want to make. Upon aproval send in a PR with the Issue referenced. (Implement Issue #No / Fix Issue #No).
-
-## Maintainers
+Please see `docs/CONTRIBUTING.md` for more details on contributing!
+ 
+## Maintainers Ⓜ️
 
 - Erwin Lejeune
 - Sampreet Sarkar
