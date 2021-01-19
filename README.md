@@ -1,6 +1,6 @@
 <div align="center">
     
-<img src="https://svgshare.com/i/TGq.svg" alt="Logo" width="350" height="400">     
+<img src="https://svgshare.com/i/TGq.svg" alt="Logo" width="200">     
     
 </div>
 
