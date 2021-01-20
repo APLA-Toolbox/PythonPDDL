@@ -98,45 +98,62 @@ for a in actions8:
     actions_str8 += str(a) + "\n"
 
 dump = (
-    "A* - Critical Path - H1\n ======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Critical Path - H2\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Critical Path - H3\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Relaxed Critical Path - H1\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Relaxed Critical Path - H2\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Relaxed Citical Path - H3\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Delete Relaxation - H_Max\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n" \
-        "A* - Delete Relaxation - H_Add\n" \
-        "======PLAN (Nodes)=======\n%s\n" \
-        "======PLAN (Actions)=======\n%s\n" \
-        "======METRICS=======\n%s\n\n"
-    % (str(path), actions_str, str(metrics), 
-       str(path2), actions_str2, str(metrics2), 
-       str(path3), actions_str3, str(metrics3), 
-       str(path4), actions_str4, str(metrics4), 
-       str(path5), actions_str5, str(metrics5), 
-       str(path6), actions_str6, str(metrics6), 
-       str(path7), actions_str7, str(metrics7), 
-       str(path8), actions_str8, str(metrics8)
+    "A* - Critical Path - H1\n ======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Critical Path - H2\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Critical Path - H3\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Relaxed Critical Path - H1\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Relaxed Critical Path - H2\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Relaxed Citical Path - H3\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Delete Relaxation - H_Max\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    "A* - Delete Relaxation - H_Add\n"
+    "======PLAN (Nodes)=======\n%s\n"
+    "======PLAN (Actions)=======\n%s\n"
+    "======METRICS=======\n%s\n\n"
+    % (
+        str(path),
+        actions_str,
+        str(metrics),
+        str(path2),
+        actions_str2,
+        str(metrics2),
+        str(path3),
+        actions_str3,
+        str(metrics3),
+        str(path4),
+        actions_str4,
+        str(metrics4),
+        str(path5),
+        actions_str5,
+        str(metrics5),
+        str(path6),
+        actions_str6,
+        str(metrics6),
+        str(path7),
+        actions_str7,
+        str(metrics7),
+        str(path8),
+        actions_str8,
+        str(metrics8),
     )
 )
 

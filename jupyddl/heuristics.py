@@ -79,8 +79,10 @@ class DeleteRelaxationHeuristic:
                 return self.heuristic_keys[self.current_h](costs)
 
             for ax in self.cache.axioms:
-                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivation(
-                    facts, fact_costs, ax, self.current_h
+                fact_costs = (
+                    self.automated_planner.pddl.compute_costs_one_step_derivation(
+                        facts, fact_costs, ax, self.current_h
+                    )
                 )
 
             actions = self.automated_planner.available_actions(state)
@@ -209,8 +211,10 @@ class RelaxedCriticalPathHeuristic:
                 return max(costs)
 
             for ax in self.cache.axioms:
-                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivation(
-                    facts, fact_costs, ax, "max"
+                fact_costs = (
+                    self.automated_planner.pddl.compute_costs_one_step_derivation(
+                        facts, fact_costs, ax, "max"
+                    )
                 )
 
             actions = self.automated_planner.available_actions(state)
@@ -347,7 +351,8 @@ class CriticalPathHeuristic:
 
         while open_nodes_n > 0:
             current_key = min(
-                [n for n in nodes if nodes[n].is_open], key=(lambda k: nodes[k].f_cost),
+                [n for n in nodes if nodes[n].is_open],
+                key=(lambda k: nodes[k].f_cost),
             )
             current_node = nodes[current_key]
 
