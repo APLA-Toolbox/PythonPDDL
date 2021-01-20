@@ -23,9 +23,11 @@ problem = sys.argv[1]
 output = sys.argv[2]
 
 apla = AutomatedPlanner(domain, problem, log_level="WARNING")
-path, metrics = apla.astar_best_first_search(heuristic_key="critical_path/2")
+path, metrics = apla.astar_best_first_search(heuristic_key="critical_path/1")
 actions = apla.get_actions_from_path(path)
 path = Path(path)
+#What happens when there is only one goal state?
+
 path2, metrics2 = apla.astar_best_first_search(heuristic_key="critical_path/1")
 actions2 = apla.get_actions_from_path(path2)
 path2 = Path(path2)

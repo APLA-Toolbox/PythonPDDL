@@ -284,7 +284,6 @@ class CriticalPathHeuristic:
 
         if self.critical_path_level == 2:
             self.goals = [[g1, g2] for g1 in self.automated_planner.goals for g2 in self.automated_planner.goals if g1 != g2]
-            #create subgoal1, subgoal2
 
         if self.critical_path_level == 3:
             self.goals = [
@@ -297,7 +296,7 @@ class CriticalPathHeuristic:
 
         print (self.goals)
 
-        
+
     def __h_max(self, costs):
         return max(costs)
 
@@ -370,6 +369,4 @@ class CriticalPathHeuristic:
                 else:
                     nodes[child_hash] = child
                     open_nodes_n += 1
-
-            self.automated_planner.logger.warning("!!! No path found !!!")
             return float('inf')
