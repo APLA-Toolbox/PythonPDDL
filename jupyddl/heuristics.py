@@ -1,4 +1,5 @@
 import logging
+from .node import Node
 
 
 class BasicHeuristic:
@@ -129,9 +130,9 @@ class DeleteRelaxationHeuristic:
         return True
 
 
-class CriticalPathHeuristic:
+class RelaxedCriticalPathHeuristic:
     def __init__(self, automated_planner, critical_path_level=1):
-        class CPCache:
+        class RCPCache:
             def __init__(self, domain=None, axioms=None, preconds=None, additions=None):
                 self.domain = domain
                 self.axioms = axioms
@@ -139,7 +140,7 @@ class CriticalPathHeuristic:
                 self.additions = additions
 
         self.automated_planner = automated_planner
-        self.cache = CPCache()
+        self.cache = RCPCache()
         if critical_path_level > 3:
             logging.warning(
                 "Critical Path level is only implemented until 3, forcing it to 3."
@@ -176,9 +177,7 @@ class CriticalPathHeuristic:
                         if str(g) in fact_costs_str:
                             costs.append(fact_costs_str[str(g)])
                 if self.critical_path_level == 2:
-                    pairs_of_goals = [
-                        (g1, g2) for g1 in goals for g2 in goals if g1 != g2
-                    ]
+                    pairs_of_goals = [(g1, g2) for g1 in goals for g2 in goals if g1 != g2]
                     for gs in pairs_of_goals:
                         if (
                             str(gs[0]) in fact_costs_str
@@ -259,3 +258,118 @@ class CriticalPathHeuristic:
             if not (str(f) in fact_costs_str.keys()):
                 return False
         return True
+
+class CriticalPathHeuristic:
+    def __init__(self, automated_planner, critical_path_level=1):
+        self.automated_planner = automated_planner
+
+        if critical_path_level > 3:
+            logging.warning(
+                "Critical Path level is only implemented until 3, forcing it to 3."
+            )
+            self.critical_path_level = 3
+        if critical_path_level < 1:
+            logging.warning(
+                "Critical Path level has to be at least 1, forcing it to 1."
+            )
+            self.critical_path_level = 1
+        else:
+            self.critical_path_level = critical_path_level
+
+        self.goals = []
+
+        if self.critical_path_level == 1:
+            self.goals = self.automated_planner.goals
+            #do a dijkstra search for each goal in the goals
+
+        if self.critical_path_level == 2:
+            self.goals = [[g1, g2] for g1 in self.automated_planner.goals for g2 in self.automated_planner.goals if g1 != g2]
+            #create subgoal1, subgoal2
+
+        if self.critical_path_level == 3:
+            self.goals = [
+                [g1, g2, g3]
+                for g1 in self.automated_planner.goals
+                for g2 in self.automated_planner.goals
+                for g3 in self.automated_planner.goals
+                if g1 != g2 and g1 != g3 and g2 != g3
+            ]
+
+        print (self.goals)
+
+        
+    def __h_max(self, costs):
+        return max(costs)
+
+    def compute(self, state):
+        costs = []
+
+        for subgoal in self.goals:
+            costs.append(self.__dijkstra_search(state, subgoal))
+
+        return self.__h_max(costs)
+
+
+    def __hash(self, node):
+        sep = ", Dict{Symbol,Any}"
+        string = str(node.state)
+        return string.split(sep, 1)[0] + ")"
+
+
+    def __dijkstra_search(self, state, goal):
+        def zero_heuristic():
+            return 0
+
+        init = Node(state, self.automated_planner, is_closed=False, is_open=True, heuristic=zero_heuristic)
+
+        open_nodes_n = 1
+        nodes = dict()
+        nodes[self.__hash(init)] = init
+
+        while open_nodes_n > 0:
+            current_key = min(
+                [n for n in nodes if nodes[n].is_open],
+                key=(lambda k: nodes[k].f_cost),
+            )
+            current_node = nodes[current_key]
+
+            if self.automated_planner.satisfies(goal, current_node.state):
+                return current_node.g_cost
+
+            current_node.is_closed = True
+            current_node.is_open = False
+            open_nodes_n -= 1
+
+            actions = self.automated_planner.available_actions(current_node.state)
+
+            for act in actions:
+                child = Node(
+                        state=self.automated_planner.transition(current_node.state, act),
+                        automated_planner=self.automated_planner,
+                        parent_action=act,
+                        parent=current_node,
+                        heuristic=zero_heuristic,
+                        is_closed=False,
+                        is_open=True)
+
+                child_hash = self.__hash(child)
+
+                if child_hash in nodes:
+                    if nodes[child_hash].is_closed:
+                        continue
+
+                    if not nodes[child_hash].is_open:
+                        nodes[child_hash] = child
+                        open_nodes_n += 1
+
+                    else:
+                        if child.g_cost < nodes[child_hash].g_cost:
+                            nodes[child_hash] = child
+                            open_nodes_n += 1
+
+                else:
+                    nodes[child_hash] = child
+                    open_nodes_n += 1
+
+            self.automated_planner.logger.warning("!!! No path found !!!")
+            return float('inf')
