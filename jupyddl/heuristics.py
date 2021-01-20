@@ -294,8 +294,6 @@ class CriticalPathHeuristic:
                 if g1 != g2 and g1 != g3 and g2 != g3
             ]
 
-        print (self.goals)
-
 
     def __h_max(self, costs):
         return max(costs)
