@@ -4,7 +4,12 @@ from .dijkstra import DijkstraBestFirstSearch
 from .a_star import AStarBestFirstSearch
 from .greedy_best_first import GreedyBestFirstSearch
 from .metrics import Metrics
-from .heuristics import BasicHeuristic, DeleteRelaxationHeuristic, RelaxedCriticalPathHeuristic, CriticalPathHeuristic
+from .heuristics import (
+    BasicHeuristic,
+    DeleteRelaxationHeuristic,
+    RelaxedCriticalPathHeuristic,
+    CriticalPathHeuristic,
+)
 import coloredlogs
 import logging
 import julia
@@ -36,7 +41,7 @@ class AutomatedPlanner:
             "relaxed_critical_path/3",
             "critical_path/1",
             "critical_path/2",
-            "critical_path/3"
+            "critical_path/3",
         ]
 
         # Logger

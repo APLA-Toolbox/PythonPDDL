@@ -12,6 +12,7 @@ def zero_heuristic():
 
 class DijkstraBestFirstSearch:
     def __init__(self, automated_planner):
+        self.time_start = now()
         self.automated_planner = automated_planner
         self.metrics = Metrics()
         self.init = Node(
@@ -35,7 +36,6 @@ class DijkstraBestFirstSearch:
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
         )
-        time_start = now()
         while self.open_nodes_n > 0:
             current_key = min(
                 [n for n in self.nodes if self.nodes[n].is_open],
@@ -46,7 +46,7 @@ class DijkstraBestFirstSearch:
             if self.automated_planner.satisfies(
                 self.automated_planner.problem.goal, current_node.state
             ):
-                self.metrics.runtime = now() - time_start
+                self.metrics.runtime = now() - self.time_start
                 self.automated_planner.logger.debug(
                     "Search finished at: " + str(timestamp.now())
                 )
@@ -96,6 +96,6 @@ class DijkstraBestFirstSearch:
                     self.nodes[child_hash] = child
                     self.metrics.n_opened += 1
                     self.open_nodes_n += 1
-        self.metrics.runtime = now() - time_start
+        self.metrics.runtime = now() - self.time_start
         self.automated_planner.logger.warning("!!! No path found !!!")
         return None, self.metrics

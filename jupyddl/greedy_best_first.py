@@ -8,6 +8,7 @@ from .metrics import Metrics
 
 class GreedyBestFirstSearch:
     def __init__(self, automated_planner, heuristic_function):
+        self.time_start = now()
         self.automated_planner = automated_planner
         self.metrics = Metrics()
         self.init = Node(
@@ -30,7 +31,6 @@ class GreedyBestFirstSearch:
         return string.split(sep, 1)[0] + ")"
 
     def search(self, node_bound=float("inf")):
-        time_start = now()
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
         )
@@ -45,7 +45,7 @@ class GreedyBestFirstSearch:
             if self.automated_planner.satisfies(
                 self.automated_planner.problem.goal, current_node.state
             ):
-                self.metrics.runtime = now() - time_start
+                self.metrics.runtime = now() - self.time_start
                 self.automated_planner.logger.debug(
                     "Search finished at: " + str(timestamp.now())
                 )
@@ -96,6 +96,6 @@ class GreedyBestFirstSearch:
                     self.nodes[child_hash] = child
                     self.open_nodes_n += 1
                     self.metrics.n_opened += 1
-        self.metrics.runtime = now() - time_start
+        self.metrics.runtime = now() - self.time_start
         self.automated_planner.logger.warning("!!! No path found !!!")
         return None, self.metrics

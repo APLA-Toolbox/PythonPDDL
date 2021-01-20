@@ -79,10 +79,8 @@ class DeleteRelaxationHeuristic:
                 return self.heuristic_keys[self.current_h](costs)
 
             for ax in self.cache.axioms:
-                fact_costs = (
-                    self.automated_planner.pddl.compute_costs_one_step_derivation(
-                        facts, fact_costs, ax, self.current_h
-                    )
+                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivation(
+                    facts, fact_costs, ax, self.current_h
                 )
 
             actions = self.automated_planner.available_actions(state)
@@ -177,7 +175,9 @@ class RelaxedCriticalPathHeuristic:
                         if str(g) in fact_costs_str:
                             costs.append(fact_costs_str[str(g)])
                 if self.critical_path_level == 2:
-                    pairs_of_goals = [(g1, g2) for g1 in goals for g2 in goals if g1 != g2]
+                    pairs_of_goals = [
+                        (g1, g2) for g1 in goals for g2 in goals if g1 != g2
+                    ]
                     for gs in pairs_of_goals:
                         if (
                             str(gs[0]) in fact_costs_str
@@ -209,10 +209,8 @@ class RelaxedCriticalPathHeuristic:
                 return max(costs)
 
             for ax in self.cache.axioms:
-                fact_costs = (
-                    self.automated_planner.pddl.compute_costs_one_step_derivation(
-                        facts, fact_costs, ax, "max"
-                    )
+                fact_costs = self.automated_planner.pddl.compute_costs_one_step_derivation(
+                    facts, fact_costs, ax, "max"
                 )
 
             actions = self.automated_planner.available_actions(state)
@@ -259,6 +257,7 @@ class RelaxedCriticalPathHeuristic:
                 return False
         return True
 
+
 class CriticalPathHeuristic:
     def __init__(self, automated_planner, critical_path_level=1):
         self.automated_planner = automated_planner
@@ -280,22 +279,39 @@ class CriticalPathHeuristic:
 
         if self.critical_path_level == 1:
             self.goals = self.automated_planner.goals
-            #do a dijkstra search for each goal in the goals
 
         if self.critical_path_level == 2:
-            self.goals = [[g1, g2] for g1 in self.automated_planner.goals for g2 in self.automated_planner.goals if g1 != g2]
+            if len(self.automated_planner.goals) < 2:
+                logging.warning("Only 1 goal predicate, forcing H2 to H1")
+                self.goals = self.automated_planner.goals
+            else:
+                self.goals = [
+                    [g1, g2]
+                    for g1 in self.automated_planner.goals
+                    for g2 in self.automated_planner.goals
+                    if g1 != g2
+                ]
 
         if self.critical_path_level == 3:
-            self.goals = [
-                [g1, g2, g3]
-                for g1 in self.automated_planner.goals
-                for g2 in self.automated_planner.goals
-                for g3 in self.automated_planner.goals
-                if g1 != g2 and g1 != g3 and g2 != g3
-            ]
-
-        print (self.goals)
-
+            if len(self.automated_planner.goals) < 2:
+                logging.warning("Only 1 goal predicate, forcing H3 to H1")
+                self.goals = self.automated_planner.goals
+            elif len(self.automated_planner.goals) < 3:
+                logging.warning("Only 2 goal predicate, forcing H3 to H2")
+                self.goals = [
+                    [g1, g2]
+                    for g1 in self.automated_planner.goals
+                    for g2 in self.automated_planner.goals
+                    if g1 != g2
+                ]
+            else:
+                self.goals = [
+                    [g1, g2, g3]
+                    for g1 in self.automated_planner.goals
+                    for g2 in self.automated_planner.goals
+                    for g3 in self.automated_planner.goals
+                    if g1 != g2 and g1 != g3 and g2 != g3
+                ]
 
     def __h_max(self, costs):
         return max(costs)
@@ -308,18 +324,22 @@ class CriticalPathHeuristic:
 
         return self.__h_max(costs)
 
-
     def __hash(self, node):
         sep = ", Dict{Symbol,Any}"
         string = str(node.state)
         return string.split(sep, 1)[0] + ")"
 
-
     def __dijkstra_search(self, state, goal):
         def zero_heuristic():
             return 0
 
-        init = Node(state, self.automated_planner, is_closed=False, is_open=True, heuristic=zero_heuristic)
+        init = Node(
+            state,
+            self.automated_planner,
+            is_closed=False,
+            is_open=True,
+            heuristic=zero_heuristic,
+        )
 
         open_nodes_n = 1
         nodes = dict()
@@ -327,8 +347,7 @@ class CriticalPathHeuristic:
 
         while open_nodes_n > 0:
             current_key = min(
-                [n for n in nodes if nodes[n].is_open],
-                key=(lambda k: nodes[k].f_cost),
+                [n for n in nodes if nodes[n].is_open], key=(lambda k: nodes[k].f_cost),
             )
             current_node = nodes[current_key]
 
@@ -343,13 +362,14 @@ class CriticalPathHeuristic:
 
             for act in actions:
                 child = Node(
-                        state=self.automated_planner.transition(current_node.state, act),
-                        automated_planner=self.automated_planner,
-                        parent_action=act,
-                        parent=current_node,
-                        heuristic=zero_heuristic,
-                        is_closed=False,
-                        is_open=True)
+                    state=self.automated_planner.transition(current_node.state, act),
+                    automated_planner=self.automated_planner,
+                    parent_action=act,
+                    parent=current_node,
+                    heuristic=zero_heuristic,
+                    is_closed=False,
+                    is_open=True,
+                )
 
                 child_hash = self.__hash(child)
 
@@ -369,4 +389,4 @@ class CriticalPathHeuristic:
                 else:
                     nodes[child_hash] = child
                     open_nodes_n += 1
-            return float('inf')
+            return float("inf")

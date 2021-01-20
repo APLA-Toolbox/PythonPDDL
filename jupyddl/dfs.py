@@ -6,6 +6,7 @@ from .metrics import Metrics
 
 class DepthFirstSearch:
     def __init__(self, automated_planner):
+        self.time_start = now()
         self.visited = []
         self.automated_planner = automated_planner
         self.init = Node(self.automated_planner.initial_state, automated_planner)
@@ -13,7 +14,6 @@ class DepthFirstSearch:
         self.metrics = Metrics()
 
     def search(self, node_bound=float("inf")):
-        time_start = now()
         self.automated_planner.logger.debug(
             "Search started at: " + str(timestamp.now())
         )
@@ -25,7 +25,7 @@ class DepthFirstSearch:
                 if self.automated_planner.satisfies(
                     self.automated_planner.problem.goal, current_node.state
                 ):
-                    self.metrics.runtime = now() - time_start
+                    self.metrics.runtime = now() - self.time_start
                     self.automated_planner.logger.debug(
                         "Search finished at: " + str(timestamp.now())
                     )
@@ -54,6 +54,6 @@ class DepthFirstSearch:
                         continue
                     self.metrics.n_opened += 1
                     self.stack.append(child)
-        self.metrics.runtime = now() - time_start
+        self.metrics.runtime = now() - self.time_start
         self.automated_planner.logger.warning("!!! No path found !!!")
         return None, self.metrics
