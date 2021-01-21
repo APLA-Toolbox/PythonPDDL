@@ -172,6 +172,7 @@ class RelaxedCriticalPathHeuristic:
             if self.automated_planner.satisfies(goals, state):
                 costs = []
                 fact_costs_str = dict([(str(k), val) for k, val in fact_costs.items()])
+                print(fact_costs_str)
                 if self.critical_path_level == 1:
                     for g in goals:
                         if str(g) in fact_costs_str:

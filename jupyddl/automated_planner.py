@@ -199,6 +199,7 @@ class AutomatedPlanner:
         elif "delete_relaxation" in heuristic_key:
             heuristic = DeleteRelaxationHeuristic(self, heuristic_key)
         elif "relaxed_critical_path" in heuristic_key:
+            logging.warning("Relaxed Critical Path is deficient for H^2 and H^3")
             heuristic = RelaxedCriticalPathHeuristic(self, int(heuristic_key[-1]))
         elif "critical_path" in heuristic_key:
             heuristic = CriticalPathHeuristic(self, int(heuristic_key[-1]))
