@@ -1,6 +1,6 @@
 import logging
 from .node import Node
-
+import multiprocessing
 
 class BasicHeuristic:
     def __init__(self, automated_planner, heuristic_key):
@@ -322,25 +322,42 @@ class CriticalPathHeuristic:
         return max(costs)
 
     def compute(self, state):
-        costs = []
-
+        self.costs = dict()
+        self.processes = dict()
+        logging.warning("Instantiating %d threads..." % len(self.goals))
         for subgoal in self.goals:
-            costs.append(self.__dijkstra_search(state, subgoal))
+            apla = self.automated_planner
+            self.processes[subgoal] = multiprocessing.Process(
+                    target=self.__concurrent_cp,
+                    args=(state, subgoal, apla),
+                )
+            self.processes[subgoal].start()
+        for _, val in self.processes.items():
+            val.join()
+        
+        costs = []
+        logging.warning("Costs: " + str(self.costs))
+        for _, val in self.costs.items():
+            costs = costs + val
 
         return self.__h_max(costs)
+    
+    def __concurrent_cp(self, state, goal, apla):
+        logging.warning("Starting process no %d" % multiprocessing.current_process().ident)
+        self.costs[goal] = self.__dijkstra_search(state, goal, apla)
 
     def __hash(self, node):
         sep = ", Dict{Symbol,Any}"
         string = str(node.state)
         return string.split(sep, 1)[0] + ")"
 
-    def __dijkstra_search(self, state, goal):
+    def __dijkstra_search(self, state, goal, apla):
         def zero_heuristic():
             return 0
 
         init = Node(
             state,
-            self.automated_planner,
+            apla,
             is_closed=False,
             is_open=True,
             heuristic=zero_heuristic,
@@ -357,19 +374,19 @@ class CriticalPathHeuristic:
             )
             current_node = nodes[current_key]
 
-            if self.automated_planner.satisfies(goal, current_node.state):
+            if apla.satisfies(goal, current_node.state):
                 return current_node.g_cost
 
             current_node.is_closed = True
             current_node.is_open = False
             open_nodes_n -= 1
 
-            actions = self.automated_planner.available_actions(current_node.state)
+            actions = apla.available_actions(current_node.state)
 
             for act in actions:
                 child = Node(
-                    state=self.automated_planner.transition(current_node.state, act),
-                    automated_planner=self.automated_planner,
+                    state=apla.transition(current_node.state, act),
+                    automated_planner=apla,
                     parent_action=act,
                     parent=current_node,
                     heuristic=zero_heuristic,
