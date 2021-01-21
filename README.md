@@ -41,8 +41,8 @@ Loved the project? Please consider [donating](https://www.buymeacoffee.com/dq01a
 - 🎌 Built with Julia and Python
 - 🔎 Uninformed Planners (DFS, BFS)
 - 🧭 Informed Planners (Dijkstra, A*, Greedy Best First)
-- 📊 Several general purpose heuristics (Goal Count, Delete Relaxation [Hmax, Hadd], Relaxed Critical Path [H1, H2, H3])
-- 🍻 Maintained (Incoming: Critical Path, Landmarks Heuristics...)
+- 📊 Several general purpose heuristics (Goal Count, Delete Relaxation [Hmax, Hadd], Critical Path [H1, H2, H3], Relaxed Critical Path [H1, H2, H3])
+- 🍻 Maintained (Incoming: Landmarks Heuristics...)
 
 ## Docker 🐋
 
