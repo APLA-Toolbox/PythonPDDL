@@ -9,7 +9,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="jupyddl",  # Replace with your own username
-    version="0.4.0",
+    version="0.4.1",
     author="Erwin Lejeune",
     author_email="erwinlejeune.pro@gmail.com",
     description="Jupyddl is a PDDL planner built on top of a Julia parser",
