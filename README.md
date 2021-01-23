@@ -181,6 +181,10 @@ If you use the project in your work, please consider citing it with:
 }
 ```
 
+List of publications & preprints using `pymapf` (please open a pull request to add missing entries):
+
+* [name](link)
+
 ## Contribute 🆘
 
 Please see `docs/CONTRIBUTING.md` for more details on contributing!
