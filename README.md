@@ -167,6 +167,20 @@ da.comparative_data_plot(collect_new_data=False) # uses data.json to plot the da
 da.comparative_astar_heuristic_plot() # compare results of astar with all available heuristics
 ```
 
+## Cite 📰
+
+If you use the project in your work, please consider citing it with:
+```
+@misc{jupyddl,
+  author = {Erwin Lejeune},
+  title = {JuPyDDL, a python library for PDDL planning and parsing},
+  year = {2021},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/APLA-Toolbox/PythonPDDL}}
+}
+```
+
 ## Contribute 🆘
 
 Please see `docs/CONTRIBUTING.md` for more details on contributing!
