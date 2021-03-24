@@ -171,17 +171,18 @@ da.comparative_astar_heuristic_plot() # compare results of astar with all availa
 
 If you use the project in your work, please consider citing it with:
 ```
-@misc{jupyddl,
+@misc{https://doi.org/10.13140/rg.2.2.22418.89282,
+  doi = {10.13140/RG.2.2.22418.89282},
+  url = {http://rgdoi.net/10.13140/RG.2.2.22418.89282},
   author = {Erwin Lejeune},
-  title = {JuPyDDL, a python library for PDDL planning and parsing},
-  year = {2021},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/APLA-Toolbox/PythonPDDL}}
+  language = {en},
+  title = {Jupyddl,  an extensible python library for PDDL planning and parsing},
+  publisher = {Unpublished},
+  year = {2021}
 }
 ```
 
-List of publications & preprints using `pymapf` (please open a pull request to add missing entries):
+List of publications & preprints using `jupyddl` (please open a pull request to add missing entries):
 
 * [name](link) (month year)
 
