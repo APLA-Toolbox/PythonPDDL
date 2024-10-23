@@ -14,12 +14,12 @@ jobs:
             python-version: 3.8
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python 3.7
       uses: actions/setup-python@v3
       with:
         python-version: 3.7
-    - uses: actions/checkout@v2.4.0
+    - uses: actions/checkout@v4.2.2
     - uses: julia-actions/setup-julia@v1
       with:
         version: '1.4.1'
@@ -54,12 +54,12 @@ jobs:
           - os: macos-latest
             python-version: 3.8
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Python 3.7
         uses: actions/setup-python@v3
         with:
           python-version: 3.7
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v4.2.2
       - uses: julia-actions/setup-julia@v1
         with:
           version: '1.4.1'
