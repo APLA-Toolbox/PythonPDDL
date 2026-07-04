@@ -2,48 +2,37 @@
 
 ## Cursor Cloud specific instructions
 
-`jupyddl` (PythonPDDL) is a Python library + CLI for PDDL automated planning. It is a
-thin wrapper around the Julia `PDDL.jl` parser, bridged through `pyjulia`/`PyCall.jl`.
-There are no servers/databases — "running the app" means parsing PDDL domain/problem
-files and running the planners, either via the library or the `scripts/ipc.py` CLI.
+`jupyddl` is a **pure-Python** PDDL planning framework (parser, grounder,
+planners, heuristics, benchmarking). The Julia/`PDDL.jl`/PyCall integration has
+been removed — there is no Julia, no native build step, and the core has zero
+runtime dependencies.
 
-### Environment layout (baked into the VM snapshot)
-- Julia 1.5.2 in `/opt/julia-1.5.2` (symlinked at `/usr/local/bin/julia`).
-- Python 3.8 venv at `.venv`, built from the **deadsnakes** `/usr/bin/python3.8`.
-- Julia packages `PyCall.jl` + the `APLA-Toolbox/PDDL.jl` fork live in `~/.julia`.
-  `PyCall` is built against `.venv/bin/python`.
-- `.venv`, `logs/*`, and the `pddl-examples` submodule contents are git-ignored.
+### Environment
+- Python ≥ 3.9; a `.venv` (created with `uv`, Python 3.12) with an editable
+  install: `uv pip install -e ".[dev]"` (add `viz` for matplotlib-based
+  benchmark plots). `.venv` and `pddl-examples/` contents are git-ignored.
+- The `pddl-examples` git submodule supplies the domains/problems the tests use;
+  it must be initialised (`git submodule update --init`).
 
-### Running / testing / linting
-Always use the venv interpreter and run from the repo root (relative `pddl-examples/...`
-paths and the auto-created `logs/` dir depend on CWD):
-- Library / hello-world: `.venv/bin/python -c "from jupyddl import AutomatedPlanner; ..."`
-- CLI: `cd scripts && ../.venv/bin/python ipc.py <domain.pddl> <problem.pddl> <output>`
-- Tests: `.venv/bin/python -m pytest --cov=./` (from repo root).
-- Lint (as CI): `.venv/bin/python -m flake8 . --select=E9,F63,F7,F82` is the build-gating
-  check; the second CI `flake8` pass uses `--exit-zero` (style warnings only, non-blocking).
+### Running / testing / linting (use the venv interpreter)
+- Tests: `.venv/bin/python -m pytest` (add `--cov=jupyddl`).
+- Lint (as CI): `flake8 jupyddl tests` (config in `.flake8`, max-line 100).
+- CLI: `.venv/bin/python -m jupyddl.cli solve <domain> <problem> -s astar -H lmcut`
+  or `... benchmark pddl-examples --csv out.csv`. Installed as `jupyddl` too.
 
-### Non-obvious gotchas
-- **pyjulia needs a dynamically-linked Python.** The `.venv` intentionally uses the
-  deadsnakes `python3.8` (dynamically linked). Do **not** rebuild the venv from a
-  `uv`-managed / python-build-standalone interpreter — those are statically linked to
-  libpython and break the in-process Julia bridge.
-- **If the venv is recreated at a different path, rebuild PyCall** so it points at the new
-  interpreter: `PYTHON=/workspace/.venv/bin/python .venv/bin/python -c "import julia; julia.install()"`.
-- **matplotlib backend.** `jupyddl/data_analyst.py` picks `TkAgg` when `DISPLAY` is set and
-  `Agg` otherwise. The VM has a virtual display (`DISPLAY=:1`) and `python3.8-tk` is
-  installed, so the default import works. For a purely headless run, invoke with
-  `env -u DISPLAY ...` (or `MPLBACKEND=Agg` when the import path allows it) to force `Agg`.
-- **`DISPLAY` changes the test outcome.** `DataAnalyst.__get_all_pddl_from_data` only walks
-  the whole `pddl-examples/` folder when `DISPLAY` is set; otherwise it returns a hardcoded
-  `dinner`-only list. Headless (no `DISPLAY`, as in CI) the full suite is green — run tests
-  with `env -u DISPLAY .venv/bin/python -m pytest` to reproduce CI (all 77 pass). With this
-  VM's `DISPLAY=:1`, 19 `DataAnalyst` tests fail with `PyCall.jlwrap ... 'domain' keyword is
-  missing`: the folder walk pairs files from an unsorted `os.walk` assuming `domain.pddl`
-  precedes `problem.pddl`, but the `pallet` example is ordered the other way, so a problem
-  file is parsed as a domain. That is a pre-existing code bug, not an environment issue.
-- **CI (`.github/workflows/*.yml`) is pinned to Python 3.8 on `ubuntu-latest`.** 3.8 is the
-  newest interpreter whose resolved deps keep NumPy at 1.x (matplotlib 3.5.1 breaks on NumPy
-  2.x). macOS runners were dropped: they are arm64, which has no Julia 1.5.2 build and no EOL
-  Python build. CI builds PyCall against the runner Python with `python -c "import julia;
-  julia.install()"` before adding `PDDL.jl`.
+### Non-obvious notes
+- **Example data quirks (external submodule, do not "fix" in this repo):**
+  `grid` uses numeric fluents and is intentionally unsupported (raises
+  `UnsupportedFeatureError`); `vehicle` has typos in its problem file
+  (`struck`/`truck`, `acessible`) so its goal is unreachable and it is correctly
+  reported unsolvable. Tests treat both as expected.
+- **Conditional effects (`flip`)**: the delete-relaxation heuristics (`hadd`,
+  `hff`, `lmcut`, `h^m`) are *not guaranteed admissible* on domains with
+  conditional effects because each conditional effect is relaxed into its own
+  operator. For guaranteed-optimal plans there use `bfs`, `dijkstra`, or
+  `astar`/`idastar` with the `blind` heuristic. Optimality tests use these.
+- **Matplotlib is optional**: only `jupyddl.benchmark.plot_summary` (and
+  `jupyddl solve/benchmark --plot`) need it; run headless with `MPLBACKEND=Agg`
+  if no display. The test suite does not require it.
+- Extend via the registries: `jupyddl.search.PLANNERS` and
+  `jupyddl.heuristics.HEURISTICS`.

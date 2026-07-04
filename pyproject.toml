@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jupyddl"
+version = "1.0.0"
+description = "A pure-Python PDDL planning framework: parser, grounding, classical-to-SOTA planners, heuristics and benchmarking."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Erwin Lejeune" }]
+keywords = ["pddl", "planning", "heuristic-search", "a-star", "lm-cut", "automated-planning"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# The core framework is intentionally dependency-free (stdlib only) so it is
+# trivial to embed and build on top of.
+dependencies = []
+
+[project.optional-dependencies]
+viz = ["matplotlib>=3.5"]
+dev = ["pytest>=7", "pytest-cov>=4", "flake8>=6", "black>=23"]
+
+[project.scripts]
+jupyddl = "jupyddl.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/APLA-Toolbox/PythonPDDL"
+Repository = "https://github.com/APLA-Toolbox/PythonPDDL"
+
+[tool.hatch.build.targets.wheel]
+packages = ["jupyddl"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

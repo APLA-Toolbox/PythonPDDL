@@ -6,13 +6,10 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        # Python 3.8 is the newest interpreter for which the pinned
-        # dependencies (matplotlib==3.5.1, pyjulia==0.5.7) resolve a
-        # compatible NumPy 1.x. Newer interpreters pull NumPy 2.x and break
-        # matplotlib 3.5.1's ABI.
-        python-version: ['3.8']
+        python-version: ['3.9', '3.10', '3.11', '3.12']
 
     steps:
     - uses: actions/checkout@v4
@@ -22,24 +19,11 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: julia-actions/setup-julia@v2
-      with:
-        version: '1.5.2'
-    - name: Install Python dependencies
+    - name: Install package (dev extras)
       run: |
         python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
-    - name: Install Julia dependencies
-      # Build PyCall against *this* Python interpreter (via pyjulia's
-      # installer) so the in-process bridge used by jupyddl works, then add
-      # the PDDL.jl parser fork.
-      run: |
-        python -c "import julia; julia.install()"
-        julia --color=yes -e 'using Pkg; Pkg.add(Pkg.PackageSpec(url="https://github.com/APLA-Toolbox/PDDL.jl"))'
+        python -m pip install -e ".[dev]"
     - name: Lint with flake8
       run: |
-        python -m pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 jupyddl tests --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 jupyddl tests --count --statistics
