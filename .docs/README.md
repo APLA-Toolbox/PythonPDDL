@@ -1,14 +1,23 @@
-# Research notes
+# Documentation
 
-Working notes for the learning-for-planning line in `jupyddl`. These are
-research documents, not user documentation — the user-facing description of
-`jupyddl learn` is in the README and the module docstrings.
+Everything that is not the README lives here: the research notes for the
+learning-for-planning line, the release runbook, and every image, video and
+measurement cache under [`assets/`](assets).
+
+These notes are research documents, not user documentation — the user-facing
+description of `jupyddl learn` is in the README and the module docstrings.
+
+The two files GitHub reads for its own community features,
+`CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`, are in `.github/` instead: GitHub
+only looks for them in the repository root, `.github/` or `docs/`, and would
+not find them here.
 
 | Note | What it covers |
 |---|---|
 | [learned-heuristics.md](learned-heuristics.md) | The imitation stage: prior work, the design we chose, measured results on three domains, and an analysis of the one domain where it loses badly |
 | [rl-for-search.md](rl-for-search.md) | The reinforcement stage: the MDP that "minimise expansions" corresponds to, why the obvious policy gradient is hard here, and what we do instead |
 | [roadmap.md](roadmap.md) | What to build next, ordered by expected value, with the experiment that would settle each |
+| [RELEASING.md](RELEASING.md) | How a release is cut, and the one-time PyPI trusted-publisher setup only a maintainer can do |
 
 ## The one-paragraph version
 
@@ -36,16 +45,16 @@ edited out.
 
 ## The video
 
-[`promo/jupyddl-rl.mp4`](../promo/jupyddl-rl.mp4) is a 97-second tour of this
+[`assets/jupyddl-rl.mp4`](assets/jupyddl-rl.mp4) is a 97-second tour of this
 work. Like the main promo it measures everything at render time — it trains,
 reinforces, and re-runs both failure modes — so it cannot drift from these
 notes. Rebuild it with:
 
 ```bash
-python tools/make_learn_promo.py --cache promo/rl-data.json -o promo/jupyddl-rl.mp4
+python tools/make_learn_promo.py --cache .docs/assets/rl-data.json -o .docs/assets/jupyddl-rl.mp4
 ```
 
-`promo/rl-data.json` is the cached measurement pass; delete it to re-measure.
+`assets/rl-data.json` is the cached measurement pass; delete it to re-measure.
 
 ## Reproducing everything here
 

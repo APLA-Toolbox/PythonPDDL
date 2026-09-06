@@ -119,7 +119,7 @@ def test_capabilities_bundle_agrees_with_the_registries():
 def test_research_bundle_quotes_the_measured_run():
     """The Research view must not invent numbers.
 
-    ``collect_research`` distils ``promo/rl-data.json`` — the cache the RL
+    ``collect_research`` distils ``.docs/assets/rl-data.json`` — the cache the RL
     video renders from — so page and video quote one measured run and cannot
     drift apart. When that file is absent the builder emits ``{}`` and the
     view says so; that is the only other acceptable state.
@@ -130,7 +130,7 @@ def test_research_bundle_quotes_the_measured_run():
     with open(path, encoding="utf-8") as handle:
         research = json.load(handle)
 
-    measured = os.path.join(REPO_ROOT, "promo", "rl-data.json")
+    measured = os.path.join(REPO_ROOT, ".docs", "assets", "rl-data.json")
     if not research:
         assert not os.path.exists(measured)
         return
@@ -210,3 +210,46 @@ def test_bootstrap_is_valid_python():
     path = os.path.join(WEB, "bootstrap.py")
     with open(path, encoding="utf-8") as handle:
         compile(handle.read(), path, "exec")
+
+
+def test_documentation_lives_in_one_directory():
+    """`.docs/` is the only documentation directory.
+
+    It used to be three — `docs/` for contributor files and README charts,
+    `promo/` for videos, `.docs/` for research notes — with no rule saying
+    which took what, so every new file was a guess. The two community files
+    are the deliberate exception: GitHub only recognises `CONTRIBUTING.md`
+    and `CODE_OF_CONDUCT.md` in the root, `.github/` or `docs/`, so filing
+    them under `.docs/` would drop the contributing link on the issue and
+    pull-request forms.
+    """
+    for gone in ("docs", "promo"):
+        assert not os.path.isdir(
+            os.path.join(REPO_ROOT, gone)
+        ), f"{gone}/ is back; documentation belongs in .docs/"
+
+    for name in ("README.md", "RELEASING.md", "learned-heuristics.md"):
+        assert os.path.exists(os.path.join(REPO_ROOT, ".docs", name))
+
+    for name in ("CONTRIBUTING.md", "CODE_OF_CONDUCT.md"):
+        assert os.path.exists(
+            os.path.join(REPO_ROOT, ".github", name)
+        ), f"{name} must stay somewhere GitHub looks for it"
+
+
+def test_the_sdist_keeps_the_data_its_tests_read():
+    """The media is excluded by extension, not by excluding `.docs/assets/`.
+
+    `rl-data.json` sits beside the images and videos, and
+    ``test_research_bundle_quotes_the_measured_run`` opens it. Excluding the
+    directory outright would ship an sdist whose own suite fails on a missing
+    file — which is exactly how the 6.6 MB sdist fix broke two parser tests.
+    """
+    with open(os.path.join(REPO_ROOT, "pyproject.toml"), encoding="utf-8") as handle:
+        pyproject = handle.read()
+    assert '".docs/assets/*.png"' in pyproject
+    assert '".docs/assets/*.mp4"' in pyproject
+    assert '".docs/assets/**"' not in pyproject, (
+        "excluding the whole assets directory drops rl-data.json, "
+        "which the test suite reads"
+    )

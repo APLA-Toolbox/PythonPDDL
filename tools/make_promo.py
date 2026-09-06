@@ -5,7 +5,7 @@ Every number on screen is measured, not written by hand: the script runs the
 real planners on the bundled demo instances first, then animates what came back.
 If a search gets faster or slower, the video changes with it.
 
-    python tools/make_promo.py -o promo/jupyddl.mp4
+    python tools/make_promo.py -o .docs/assets/jupyddl.mp4
 
 Needs the ``viz`` extra plus an ffmpeg binary (``pip install imageio-ffmpeg``
 is enough — matplotlib is pointed at the bundled static build automatically).
@@ -1677,7 +1677,7 @@ def render(data, out: str, screenshot=None, fps: int = FPS, dpi: int = DPI):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Render the jupyddl promo video.")
-    parser.add_argument("-o", "--output", default="promo/jupyddl.mp4")
+    parser.add_argument("-o", "--output", default=".docs/assets/jupyddl.mp4")
     parser.add_argument("--demos", default="demos")
     parser.add_argument("--fps", type=int, default=FPS)
     parser.add_argument("--dpi", type=int, default=DPI)

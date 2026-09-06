@@ -6,6 +6,24 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- **Documentation lives in one place: `.docs/`.** It was spread over three
+  directories — `docs/` for the contributor files and the README charts,
+  `promo/` for the videos and screenshots, `.docs/` for the research notes —
+  with no rule saying which took what, so every new file was a guess. The
+  research notes, the release runbook and every image, video and measurement
+  cache are now under `.docs/`, with binaries in `.docs/assets/`. This also
+  matches `pymapf`, the sibling project.
+
+  Paths quoted in the released sections below are the ones that were correct
+  at the time. `promo/rl-data.json` is now `.docs/assets/rl-data.json`, and
+  `docs/images/` is now `.docs/assets/`.
+
+  `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` moved to `.github/` rather than
+  `.docs/`: GitHub only recognises those two files in the repository root,
+  `.github/` or `docs/`, so filing them under `.docs/` would have silently
+  dropped the contributing link on the issue and pull-request forms.
+
 ## [2.4.0]
 
 ### Added
@@ -15,8 +33,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   measured run: imitation against `hff` and `goalcount`, the per-instance
   spread behind the mean, the logistics loss and why the feature space causes
   it, and the three claims that turned out to be wrong. Its numbers are built
-  from `promo/rl-data.json` — the same cache the RL video renders from — so the
-  page and the video cannot drift apart, and a test pins them together.
+  from `promo/rl-data.json` — the same cache the RL video renders from — so
+  the page and the video cannot drift apart, and a test pins them together.
 
 ### Fixed
 - **Reading the workbench no longer costs a 10 MB download.** `<main>` was
