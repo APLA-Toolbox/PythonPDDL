@@ -204,12 +204,12 @@ def collect_capabilities() -> dict:
 def collect_research() -> dict:
     """Distil the learned-heuristic measurements for the Research view.
 
-    Read from ``promo/rl-data.json`` — the cache the RL promo video renders
+    Read from ``.docs/assets/rl-data.json`` — the cache the RL promo video renders
     from — so the page and the video quote the same measured run and cannot
     drift apart. Returns ``{}`` when that file is absent, and the view then
     says so rather than showing numbers from nowhere.
     """
-    path = os.path.join(ROOT, "promo", "rl-data.json")
+    path = os.path.join(ROOT, ".docs", "assets", "rl-data.json")
     if not os.path.exists(path):
         return {}
     with open(path, encoding="utf-8") as handle:
@@ -307,7 +307,7 @@ def main() -> int:
     print(
         "  learned-heuristic measurements -> web/dist/research.json"
         if research
-        else "  ! no promo/rl-data.json; the Research view will say so"
+        else "  ! no .docs/assets/rl-data.json; the Research view will say so"
     )
     return 0
 

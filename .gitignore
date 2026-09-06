@@ -152,4 +152,4 @@ web/vendor/
 # Generated galleries and animations
 gallery/
 *.mp4
-!promo/*.mp4
+!.docs/assets/*.mp4

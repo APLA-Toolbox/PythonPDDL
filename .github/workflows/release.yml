@@ -8,7 +8,7 @@ name: release
 #
 # Authentication is PyPI **Trusted Publishing** (OIDC), so there is no API
 # token in this repository's secrets to leak or rotate. That requires a
-# one-time setup on PyPI — see `docs/RELEASING.md`. Until it is done the
+# one-time setup on PyPI — see `.docs/RELEASING.md`. Until it is done the
 # `pypi` job fails and everything before it still succeeds, so a tag never
 # leaves you with half a release and no artifacts.
 #

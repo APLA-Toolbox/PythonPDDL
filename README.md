@@ -7,7 +7,7 @@ classical-to-SOTA planners, heuristics, benchmarking — and a search you can
 actually *watch*.
 
 **[▶ Open the workbench](https://openplan-labs.github.io/PythonPDDL/)** ·
-[Watch the 105-second tour](promo/jupyddl-promo.mp4)
+[Watch the 105-second tour](.docs/assets/jupyddl-promo.mp4)
 
 The repository is `PythonPDDL`; the package is `jupyddl`. That is what you
 install and what you import.
@@ -33,8 +33,8 @@ is trivial to install, embed, teach with, and build on.
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/comparison-dark.png">
-  <img src="docs/images/comparison.png" alt="Four planners compared on an 8-block blocksworld instance: nodes expanded on a log scale, runtime, plan cost, and the heuristic estimate along the search." width="880">
+  <source media="(prefers-color-scheme: dark)" srcset=".docs/assets/comparison-dark.png">
+  <img src=".docs/assets/comparison.png" alt="Four planners compared on an 8-block blocksworld instance: nodes expanded on a log scale, runtime, plan cost, and the heuristic estimate along the search." width="880">
 </picture>
 
 </div>
@@ -203,8 +203,8 @@ returns exactly the same plan and statistics as an unobserved one.)
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/search-progress-dark.png">
-  <img src="docs/images/search-progress.png" alt="Four panels showing an A*/LM-cut search on the gripper instance: f/g/h cost estimates, frontier size, expansion depth, and cumulative nodes over time." width="880">
+  <source media="(prefers-color-scheme: dark)" srcset=".docs/assets/search-progress-dark.png">
+  <img src=".docs/assets/search-progress.png" alt="Four panels showing an A*/LM-cut search on the gripper instance: f/g/h cost estimates, frontier size, expansion depth, and cumulative nodes over time." width="880">
 </picture>
 
 </div>
@@ -216,8 +216,8 @@ blind one fills the whole disc:
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/wavefront-dark.png">
-  <img src="docs/images/wavefront.png" alt="Radial chart of a breadth-first search: thousands of expanded nodes arranged in concentric rings by depth, coloured by heuristic value." width="620">
+  <source media="(prefers-color-scheme: dark)" srcset=".docs/assets/wavefront-dark.png">
+  <img src=".docs/assets/wavefront.png" alt="Radial chart of a breadth-first search: thousands of expanded nodes arranged in concentric rings by depth, coloured by heuristic value." width="620">
 </picture>
 
 </div>
@@ -281,7 +281,7 @@ never costs a 10 MB download.
 
 <div align="center">
 
-<img src="promo/workbench-dark.png" alt="The jupyddl workbench: a PDDL editor beside live cost-estimate charts, a radial search wavefront, and the resulting validated plan." width="880">
+<img src=".docs/assets/workbench-dark.png" alt="The jupyddl workbench: a PDDL editor beside live cost-estimate charts, a radial search wavefront, and the resulting validated plan." width="880">
 
 </div>
 
@@ -350,7 +350,7 @@ seen, against greedy best-first search:
 
 Nearly four times fewer expansions than `hff` and about fifteen times faster,
 because the network is a thousand multiply-adds and `hff` is a relaxed-plan
-extraction. These are read from `promo/rl-data.json`, the cache the published
+extraction. These are read from `.docs/assets/rl-data.json`, the cache the published
 [Research view](https://openplan-labs.github.io/PythonPDDL/) renders from, so
 the page and this table cannot drift apart.
 
@@ -359,7 +359,7 @@ exact rather than mysterious: that domain has two predicates, so the feature
 vector cannot tell *which* package is where, only how many are somewhere. That
 result, the RL formulation, and what to build next are written up in
 [`.docs/`](.docs/), and there is a
-[97-second tour of the RL half](promo/jupyddl-rl.mp4) — including the two
+[97-second tour of the RL half](.docs/assets/jupyddl-rl.mp4) — including the two
 measurement mistakes that shaped the design.
 
 Read the 137 as a mean over a heavy tail: nine of the ten held-out instances sit
@@ -420,8 +420,8 @@ jupyddl benchmark demos --planners astar,gbfs,ehc,bfs --heuristic hff \
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/benchmark-dark.png">
-  <img src="docs/images/benchmark.png" alt="Benchmark dashboard: coverage, total nodes expanded on a log scale, total runtime, and a per-instance heatmap of nodes expanded across six demo instances and five planner configurations." width="960">
+  <source media="(prefers-color-scheme: dark)" srcset=".docs/assets/benchmark-dark.png">
+  <img src=".docs/assets/benchmark.png" alt="Benchmark dashboard: coverage, total nodes expanded on a log scale, total runtime, and a per-instance heatmap of nodes expanded across six demo instances and five planner configurations." width="960">
 </picture>
 
 </div>
@@ -588,8 +588,8 @@ Regenerating the media:
 
 ```bash
 python tools/build_web.py                      # playground bundle
-python tools/make_promo.py -o promo/jupyddl-promo.mp4 \
-    --screenshot promo/workbench-dark.png      # the promo video
+python tools/make_promo.py -o .docs/assets/jupyddl-promo.mp4 \
+    --screenshot .docs/assets/workbench-dark.png      # the promo video
 ```
 
 Every number in the promo video is measured at render time by running the real

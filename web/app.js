@@ -640,7 +640,7 @@ function renderResearch(data) {
     $("res-summary").textContent = "measurements unavailable";
     $("res-caption").textContent =
       "This build carries no research.json — run tools/build_web.py with " +
-      "promo/rl-data.json present to populate it.";
+      ".docs/assets/rl-data.json present to populate it.";
     return;
   }
   const trained = (data.train_sizes || []).join("-");

@@ -46,7 +46,7 @@ native build step, and the core has zero runtime dependencies.
   with `pyproject.toml` or a `__version__` that disagrees with either, runs
   `twine check --strict`, installs the wheel clean and plans with it, publishes
   to PyPI over OIDC (no stored token), then cuts the GitHub Release from the
-  changelog section for that version. `docs/RELEASING.md` is the runbook,
+  changelog section for that version. `.docs/RELEASING.md` is the runbook,
   including the one-time PyPI trusted-publisher setup only a maintainer can do.
   **Bump the version in two places** — `pyproject.toml` and
   `jupyddl/__init__.py` — and rebuild `web/dist`, which carries it too.
@@ -77,7 +77,7 @@ native build step, and the core has zero runtime dependencies.
 - `web/` — the Pyodide playground; `tools/build_web.py` bundles the package
   sources and demos into `web/dist` (committed). It also writes
   `capabilities.json` (the registries) and `research.json` (distilled from
-  `promo/rl-data.json`, so the page and the RL video quote one measured run).
+  `.docs/assets/rl-data.json`, so the page and the RL video quote one measured run).
   Those two are rendered **before** Pyodide loads — the app shell is never
   hidden, and only the run controls are gated on `state.ready` — so a stale
   bundle briefly states something untrue rather than merely lagging.
@@ -85,7 +85,18 @@ native build step, and the core has zero runtime dependencies.
 - `tools/make_promo.py` — renders the main promo video from measured runs.
 - `tools/make_learn_promo.py` — the learned-heuristic/RL video. It re-measures
   everything including both failure modes, so it cannot drift from `.docs/`;
-  `promo/rl-data.json` caches the pass, delete it to re-measure.
+  `.docs/assets/rl-data.json` caches the pass, delete it to re-measure.
+- **`.docs/` is the only documentation directory.** Research notes and the
+  release runbook sit at its top level; every image, video and measurement
+  cache goes in `.docs/assets/`. There is no `docs/` or `promo/` — they were
+  merged in because three directories with no rule between them meant every
+  new file was a guess. The two exceptions live in `.github/`:
+  `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`, which GitHub only recognises in
+  the root, `.github/` or `docs/`.
+  The sdist excludes `.docs/assets/*.png` and `*.mp4` **by extension, not by
+  directory**, because `rl-data.json` sits beside them and
+  `tests/test_web_bundle.py` reads it — excluding the directory ships an sdist
+  whose own suite fails.
 
 ### The condition pipeline
 Conditions are a **formula tree in negation normal form**: `parse_condition`

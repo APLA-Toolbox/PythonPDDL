@@ -6,12 +6,12 @@ heuristic, runs the reinforcement stage, reproduces both of the failure modes
 that shaped its design, and animates whatever came back. If the method gets
 better or worse, so does the video.
 
-    python tools/make_learn_promo.py -o promo/jupyddl-rl.mp4
+    python tools/make_learn_promo.py -o .docs/assets/jupyddl-rl.mp4
 
 Collection takes a few minutes, so it is cached::
 
-    python tools/make_learn_promo.py --cache promo/rl-data.json     # measure once
-    python tools/make_learn_promo.py --cache promo/rl-data.json     # reuse
+    python tools/make_learn_promo.py --cache .docs/assets/rl-data.json     # measure once
+    python tools/make_learn_promo.py --cache .docs/assets/rl-data.json     # reuse
 
 Needs the ``viz`` extra plus an ffmpeg binary; ``learn`` (NumPy) makes the
 collection pass much faster but is not required.
@@ -1329,7 +1329,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Render the learned-heuristic / RL promo video."
     )
-    parser.add_argument("-o", "--output", default="promo/jupyddl-rl.mp4")
+    parser.add_argument("-o", "--output", default=".docs/assets/jupyddl-rl.mp4")
     parser.add_argument("--fps", type=int, default=FPS)
     parser.add_argument("--dpi", type=int, default=DPI)
     parser.add_argument(
